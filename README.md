@@ -1,5 +1,5 @@
 # Language Processors
-An undergraduate academic project delving into language processor fundamentals through 3 semester assignments.
+An undergraduate academic project delving into language processor fundamentals through 3 assignments over a semester.
 
 ## Installation
 **1. Install PLY (Python Lex-Yacc)[^1]:**
