@@ -8,7 +8,6 @@ reserved = {
     "NULL": "NULL"
 }
 
-
 tokens = [
     "STRING_NO_QUOTES",
     "STRING_QUOTES",
