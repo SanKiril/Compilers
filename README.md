@@ -13,7 +13,7 @@ git clone https://github.com/SanKiril/acad-langproc
 
 ## Usage
 ### 1<sup>st</sup> Assignment - Lex & Yacc
-The first assignment for the *Language Processors* subject involved designing and implementing a **lexical** and **syntactic** recognizer for AJSON *(Almost a JavaScript Object Notation)* file format using the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
+The first assignment for the *Language Processors* subject involved designing and implementing a **lexical** and **syntactic** recognizer for AJSON *(Almost a JavaScript Object Notation)*, a custom file format based on JSON. The recognizer used the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
 
 **1. Change directory to `ASSIGNMENT-1_Lex-Yacc`:**
 ```bash
