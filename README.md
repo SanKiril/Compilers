@@ -1,5 +1,5 @@
 # Language Processors
-An undergraduate academic project develop during a semester understand the basic of a language processor. The 
+An undergraduate academic project delving into language processor fundamentals through 3 semester assignments.
 
 ## Installation
 **1. Install PLY (Python Lex-Yacc)[^1]:**
@@ -43,9 +43,12 @@ cd ./ASSIGNMENT-3_
 ```bash
 python3 main.py
 ```
-
+---
 ## Authors
 - Santiago Kiril Cenkov Stoyanov
 - Adrián Ruiz Albertos
+
+## License
+This project is licensed under the terms of the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 [^1]: https://github.com/dabeaz/ply
