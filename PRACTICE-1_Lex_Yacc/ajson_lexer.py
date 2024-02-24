@@ -9,15 +9,17 @@ reserved = {
 }
 
 
-tokens = (
-    "NUMBER",
-    "STRING",
-    "BOOL",
-    "NULL"
-    "COMPARION",
-    "DELIMITER"
-) + reserved
+tokens = [
+    "STRING_NO_QUOTES",
+    "STRING_QUOTES",
+    "DELIMITER",
+    "COMPARISION"
+] + list(reserved.values())
 
+
+"""
+    "NUMBER",
+    
 
 def t_NUMBER(token):
     r'\d'
@@ -26,31 +28,24 @@ def t_NUMBER(token):
     else:
         token.value = int(token.value)
     return token
+"""
 
+def t_STRING_NO_QUOTES(t):
+    r'[a-zA-Z_]\w*'
+    t.type = reserved.get(t.value, "STRING_NO_QUOTES")
+    return t
 
-def t_STRING(token):
-    r'\w'
-    return token
+def t_STRING_QUOTES(t):
+    r'\"[^\"\n]*\"'
+    return t
 
+def t_DELIMITER(t):
+    r'\{|\}|\:|\,'
+    return t
 
-def t_BOOL(token):
-    r''
-    return token
-
-
-def t_NULL(token):
-    r''
-    return token
-
-
-def t_COMPARISION(token):
+def t_COMPARISION(t):
     r'\=\=|\>\=|\>|\<\=|\<'
-    return token
-
-
-def t_DELIMITER(token):
-    r'\{|\}|\:|,'
-    return token
+    return t
 
 
 t_ignore = ' \t'
