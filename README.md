@@ -1,5 +1,5 @@
 # Compilers
-Academic project usign python lex & yacc libraries.
+An undergraduate academic project 
 
 ## Installation
 **1. Install [PLY (Python Lex-Yacc)](https://github.com/dabeaz/ply):**
@@ -13,9 +13,9 @@ git clone https://github.com/SanKiril/Compilers
 
 ## Usage
 ### 1<sup>st</sup> Practice - Lex & Yacc:
-**1. Change directory to `PRACTICE-1`:**
+**1. Change directory to `PRACTICE-1_Lex-Yacc`:**
 ```bash
-cd ./PRACTICE-1
+cd ./PRACTICE-1_Lex-Yacc
 ```
 **2. Run `main.py` file:**
 ```bash
@@ -23,9 +23,9 @@ python3 main.py
 ```
 
 ### 2<sup>nd</sup> Practice - :
-**1. Change directory to `PRACTICE-2`:**
+**1. Change directory to `PRACTICE-2_`:**
 ```bash
-cd ./PRACTICE-2
+cd ./PRACTICE-2_
 ```
 **2. Run `main.py` file:**
 ```bash
@@ -34,9 +34,9 @@ python3 main.py
 
 
 ### 3<sup>rd</sup> Practice - :
-**1. Change directory to `PRACTICE-3`:**
+**1. Change directory to `PRACTICE-3_`:**
 ```bash
-cd ./PRACTICE-3
+cd ./PRACTICE-3_
 ```
 **2. Run `main.py` file:**
 ```bash
