@@ -1,14 +1,16 @@
-import sys
 from decimal import Decimal
+from typing import List, TextIO
 import ply.lex as lex
 
 
+# DEFINE RESERVED TOKENS
 reserved = {
     "TR": "TR",
     "FL": "FL",
     "NULL": "NULL"
 }
 
+# DEFINE TOKENS
 tokens = [
     "NUMBER",
     "SCIENTIFIC",
@@ -17,20 +19,22 @@ tokens = [
     "OCTAL",
     "BINARY",
     "INTEGER",
-    "STRING_IMPLICIT",
     "STRING_EXPLICIT",
+    "STRING_IMPLICIT",
     "BLOCK_START",
     "BLOCK_END",
     "SEPARATOR_FIELDS",
     "SEPARATOR_INSTANCES",
-    "COMPARATOR",
+    "COMPARATOR"
 ] + list(reserved.values())
 
 
+# RECOGNIZE TOKENS
 t_BLOCK_START = r'\{'
 t_BLOCK_END = r'\}'
 t_SEPARATOR_FIELDS = r'\:'
 t_SEPARATOR_INSTANCES = r'\,'
+t_COMPARATOR = r'\=\=|\>\=|\>|\<\=|\<'
 
 def t_SCIENTIFIC(t):
     r'\-?([1-9]\d*|0)?(\.\d+)?[eE]\-?([1-9]\d*|0)'
@@ -68,17 +72,13 @@ def t_INTEGER(t):
     t.type = "NUMBER"
     return t
 
-def t_STRING_IMPLICIT(t):
-    r'[a-zA-Z_]\w*'
-    t.type = reserved.get(t.value.upper(), "STRING_IMPLICIT")
-    return t
-
 def t_STRING_EXPLICIT(t):
     r'\"[^\"\n\r]*\"'
     return t
 
-def t_COMPARATOR(t):
-    r'\=\=|\>\=|\>|\<\=|\<'
+def t_STRING_IMPLICIT(t):
+    r'[a-zA-Z_]\w*'
+    t.type = reserved.get(t.value.upper(), "STRING_IMPLICIT")
     return t
 
 
@@ -94,12 +94,11 @@ def t_error(token):
     token.lexer.skip(1)
 
 
-# build the lexer
+# BUILD THE LEXER
 lexer = lex.lex()
 
 
-# execute lexer from a input file
-file = open(sys.argv[1])
-lexer.input(file.read())
-for token in lexer:
-    print(token.type, token.value)
+# RUN THE LEXER
+def tokenize(file: TextIO) -> List[lex.LexToken]:
+    lexer.input(file.read())
+    return [token for token in lexer]

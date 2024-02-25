@@ -1,5 +1,5 @@
 # Language Processors
-An undergraduate academic project delving into language processor fundamentals.
+An undergraduate academic project delving into the fundamentals of language processors from a practical viewpoint.
 
 ## Installation
 **1. Install PLY (Python Lex-Yacc)[^1]:**
@@ -13,7 +13,7 @@ git clone https://github.com/SanKiril/acad-langproc
 
 ## Usage
 ### 1<sup>st</sup> Assignment - Lex & Yacc
-The first assignment for the *Language Processors* subject involved designing and implementing a **lexical** and **syntactic** recognizer for AJSON *(Almost a JavaScript Object Notation)*, a custom file format based on JSON. The recognizer used the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
+The first assignment involved designing and implementing a lexical and syntactic analyzer for AJSON *(Almost a JavaScript Object Notation)*, a custom file format based on JSON. The analyzer uses the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
 
 **1. Change directory to `ASSIGNMENT-1_Lex-Yacc`:**
 ```bash
@@ -21,7 +21,7 @@ cd ./ASSIGNMENT-1_Lex-Yacc
 ```
 **2. Run `main.py` file:**
 ```bash
-python3 main.py
+python3 main.py <file_path>.ajson
 ```
 ---
 ### 2<sup>nd</sup> Assignment - 
