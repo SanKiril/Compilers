@@ -1,5 +1,6 @@
-import ply.lex as lex
 import sys
+from decimal import Decimal
+import ply.lex as lex
 
 
 reserved = {
@@ -9,40 +10,74 @@ reserved = {
 }
 
 tokens = [
-    "STRING_NO_QUOTES",
-    "STRING_QUOTES",
-    "DELIMITER",
-    "COMPARISION"
+    "NUMBER",
+    "SCIENTIFIC",
+    "REAL",
+    "HEXADECIMAL",
+    "OCTAL",
+    "BINARY",
+    "INTEGER",
+    "STRING_IMPLICIT",
+    "STRING_EXPLICIT",
+    "BLOCK_START",
+    "BLOCK_END",
+    "SEPARATOR_FIELDS",
+    "SEPARATOR_INSTANCES",
+    "COMPARATOR",
 ] + list(reserved.values())
 
 
-"""
-    "NUMBER",
-    
+t_BLOCK_START = r'\{'
+t_BLOCK_END = r'\}'
+t_SEPARATOR_FIELDS = r'\:'
+t_SEPARATOR_INSTANCES = r'\,'
 
-def t_NUMBER(token):
-    r'\d'
-    if '.' in token:
-        token.value = float(token.value)
-    else:
-        token.value = int(token.value)
-    return token
-"""
+def t_SCIENTIFIC(t):
+    r'\-?([1-9]\d*|0)?(\.\d+)?[eE]\-?([1-9]\d*|0)'
+    t.value = Decimal(t.value)
+    t.type = "NUMBER"
+    return t
 
-def t_STRING_NO_QUOTES(t):
+def t_REAL(t):
+    r'\-?([1-9]\d*|0)?\.\d+'
+    t.value = float(t.value)
+    t.type = "NUMBER"
+    return t
+
+def t_HEXADECIMAL(t):
+    r'0[xX][0-9a-fA-F]+'
+    t.value = int(t.value, 16)
+    t.type = "NUMBER"
+    return t
+
+def t_OCTAL(t):
+    r'0[0-7]+'
+    t.value = int(t.value, 8)
+    t.type = "NUMBER"
+    return t
+
+def t_BINARY(t):
+    r'0[bB][01]+'
+    t.value = int(t.value, 2)
+    t.type = "NUMBER"
+    return t
+
+def t_INTEGER(t):
+    r'\-?([1-9]\d*|0)'
+    t.value = int(t.value)
+    t.type = "NUMBER"
+    return t
+
+def t_STRING_IMPLICIT(t):
     r'[a-zA-Z_]\w*'
-    t.type = reserved.get(t.value, "STRING_NO_QUOTES")
+    t.type = reserved.get(t.value.upper(), "STRING_IMPLICIT")
     return t
 
-def t_STRING_QUOTES(t):
-    r'\"[^\"\n]*\"'
+def t_STRING_EXPLICIT(t):
+    r'\"[^\"\n\r]*\"'
     return t
 
-def t_DELIMITER(t):
-    r'\{|\}|\:|\,'
-    return t
-
-def t_COMPARISION(t):
+def t_COMPARATOR(t):
     r'\=\=|\>\=|\>|\<\=|\<'
     return t
 
