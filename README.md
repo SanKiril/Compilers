@@ -8,7 +8,7 @@ pip install ply
 ```
 **2. Clone the repository:**
 ```bash
-git clone https://github.com/SanKiril/acad-LP
+git clone https://github.com/SanKiril/acad-Lang_Proc
 ```
 
 ## Usage
