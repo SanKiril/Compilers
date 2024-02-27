@@ -1,6 +1,7 @@
 import sys
-from ajson_lexer import tokenize
-from ajson_parser import parse
+import os
+from ajson_lexer import AJSONLexer
+#from ajson_parser import AJSONParser
 
 
 def main():
@@ -14,8 +15,15 @@ def main():
     except FileNotFoundError:
         raise FileNotFoundError(f"INCORRECT FILE PATH:\n- PROVIDED: {sys.argv[1]}")
     
-    token_list = tokenize(file)  # lexer
-    return parse(token_list)  # parser
+    # LEXER
+    lexer = AJSONLexer()
+    token_list = lexer.tokenize(file)
+
+    # PARSER
+    """
+    parser = AJSONParser()
+    return parser.parse(token_list)
+    """
 
 
 if __name__ == "__main__":
