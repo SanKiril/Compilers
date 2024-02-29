@@ -2,7 +2,7 @@
 An undergraduate academic project delving into the fundamentals of language processors from a practical viewpoint.
 
 ## Installation
-**1. Install PLY (Python Lex-Yacc)[^1]:**
+**1. Install `ply`[^1]:**
 ```bash
 pip install ply
 ```
