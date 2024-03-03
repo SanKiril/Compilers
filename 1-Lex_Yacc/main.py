@@ -1,7 +1,7 @@
 import sys
 import os
 from ajson_lexer import AJSONLexer
-#from ajson_parser import AJSONParser
+from ajson_parser import AJSONParser
 
 
 def main():
@@ -17,13 +17,11 @@ def main():
     
     # LEXER
     lexer = AJSONLexer()
-    token_list = lexer.tokenize(file)
+    token_str = lexer.tokenize(file)
 
     # PARSER
-    """
     parser = AJSONParser()
-    return parser.parse(token_list)
-    """
+    return parser.parse(token_str)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 import os
 from decimal import Decimal
-from typing import List, TextIO
+from typing import TextIO
 import ply.lex as lex
 
 
@@ -94,6 +94,6 @@ class AJSONLexer:
         raise ValueError(f"[ERROR][LEXER]: Illegal character:\n- PROVIDED: {t.value[0]}")
 
     # RUN
-    def tokenize(self, file: TextIO) -> List[lex.LexToken]:
+    def tokenize(self, file: TextIO) -> str:
         self.lexer.input(file.read())
-        return [t.type for t in self.lexer]
+        return " ".join([t.type for t in self.lexer])
