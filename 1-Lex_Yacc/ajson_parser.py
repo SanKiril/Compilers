@@ -1,11 +1,13 @@
 from typing import List
 import ply.yacc as yacc
-from ajson_lexer import tokens
+from ajson_lexer import AJSONLexer
 
 
 class AJSONParser:
     def __init__(self):
         self.parser = yacc.yacc(module=self)
+
+    tokens = AJSONLexer().tokens
 
     # DEFINE PRODUCTION RULES
     def p_file(self):
