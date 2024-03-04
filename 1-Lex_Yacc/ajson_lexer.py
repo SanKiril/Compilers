@@ -1,6 +1,5 @@
 import os
 from decimal import Decimal
-from typing import TextIO
 import ply.lex as lex
 
 
@@ -10,9 +9,9 @@ class AJSONLexer:
     
     # DEFINE RESERVED TOKENS
     reserved = {
-        "TR": "TR",
-        "FL": "FL",
-        "NULL": "NULL"
+        "TR": True,
+        "FL": False,
+        "NULL": None
     }
     
     # DEFINE TOKENS
@@ -32,7 +31,7 @@ class AJSONLexer:
         "SEPARATOR_FIELDS",
         "SEPARATOR_INSTANCES",
         "COMPARATOR"
-    ] + list(reserved.values())
+    ] + list(reserved.keys())
     
     # RECOGNIZE TOKENS
     t_BLOCK_START = r'\{'
@@ -75,11 +74,15 @@ class AJSONLexer:
 
     def t_STRING_EXPLICIT(self, t):
         r'\"[^\"\n\r]*\"'
+        t.value = t.value[1:-1]
         return t
 
     def t_STRING_IMPLICIT(self, t):
         r'[a-zA-Z_]\w*'
-        t.type = self.reserved.get(t.value.upper(), "STRING_IMPLICIT")
+        upper_value = t.value.upper()
+        if upper_value in self.reserved:
+            t.type = upper_value
+            t.value = self.reserved[upper_value]
         return t
 
     # INPUT BEHAVIOR
@@ -94,6 +97,6 @@ class AJSONLexer:
         raise ValueError(f"[ERROR][LEXER]: Illegal character:\n- PROVIDED: {t.value[0]}")
 
     # RUN
-    def tokenize(self, file: TextIO) -> str:
-        self.lexer.input(file.read())
+    def tokenize(self, data: str) -> str:
+        self.lexer.input(data)
         return " ".join([t.type for t in self.lexer])

@@ -1,0 +1,8 @@
+{
+    a: 1,
+    b: 3,
+    string: "str",
+    "str": null,
+    ntrue: Fl,
+    key: {a:1}
+}

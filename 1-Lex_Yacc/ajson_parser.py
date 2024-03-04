@@ -11,26 +11,16 @@ class AJSONParser:
     # DEFINE PRODUCTION RULES
     def p_file(self, p):
         """
-        file : non_empty_file
+        file : object
             | empty
         """
         p[0] = p[1]
-
-    def p_non_empty_file(self, p):
-        """
-        non_empty_file : object
-            | object SEPARATOR_INSTANCES non_empty_file
-        """
-        if len(p) == 4:
-            p[0] = [p[1],p[2],p[3]]
-        else:
-            p[0] = p[1]
 
     def p_object(self, p):
         """
         object : BLOCK_START object_content BLOCK_END
         """
-        p[0] = [p[1],p[2],p[3]]
+        p[0] = p[2]
 
     def p_object_content(self, p):
         """
@@ -44,16 +34,18 @@ class AJSONParser:
         non_empty_object_content : object_instance
             | object_instance SEPARATOR_INSTANCES non_empty_object_content
         """
+        p[0] = f"{{ {p[1]} }}"
         if len(p) == 4:
-            p[0] = [p[1], p[2], p[3]]
-        else:
-            p[0] = p[1]
+            p[0] += f"\n{p[3]}"
+
+
+
 
     def p_object_instance(self, p):
         """
         object_instance : key SEPARATOR_FIELDS value
         """
-        p[0] = [p[1], p[2], p[3]]
+        p[0] = f"{p[1]}{p[2]} {p[3]}"
 
     def p_key(self, p):
         """
@@ -68,17 +60,18 @@ class AJSONParser:
             | comparison
             | object
             | number
-            | bool
+            | TR
+            | FL
             | NULL
             | STRING_EXPLICIT
         """
         p[0] = p[1]
-
+    
     def p_array_object(self, p):
         """
         array_object : ARRAY_START array_content ARRAY_END
         """
-        p[0] = [p[1], p[2], p[3]]
+        p[0] = p[2]
 
     def p_array_content(self, p):
         """
@@ -86,6 +79,9 @@ class AJSONParser:
             | empty
         """
         p[0] = p[1]
+
+
+
 
     def p_non_empty_array_content(self, p):
         """
@@ -97,11 +93,14 @@ class AJSONParser:
         else:
             p[0] = p[1]
 
+
+
+
     def p_comparison(self, p):
         """
         comparison : number COMPARATOR number
         """
-        p[0] = [p[1], p[2], p[3]]
+        p[0] = eval(f"{p[1]} {p[2]} {p[3]}")
 
     def p_number(self, p):
         """
@@ -113,14 +112,10 @@ class AJSONParser:
             | INTEGER
         """
         p[0] = p[1]
-
-    def p_bool(self, p):
-        """
-        bool : TR
-            | FL
-        """
-        p[0] = p[1]
     
+
+
+
     def p_empty(self, p):
         """
         empty :
@@ -128,5 +123,6 @@ class AJSONParser:
         pass
 
     # RUN
-    def parse(self, token_str: str):
-        return self.parser.parse(token_str)
+    def parse(self, data: str):
+        result = self.parser.parse(data)
+        print(result)

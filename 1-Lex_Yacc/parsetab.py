@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ARRAY_END ARRAY_START BINARY BLOCK_END BLOCK_START COMPARATOR FL HEXADECIMAL INTEGER NULL OCTAL REAL SCIENTIFIC SEPARATOR_FIELDS SEPARATOR_INSTANCES STRING_EXPLICIT STRING_IMPLICIT TR\n        file : non_empty_file\n        \n        non_empty_file : object\n            | object SEPARATOR_INSTANCES non_empty_file\n        \n        object : BLOCK_START object_content BLOCK_END\n        \n        object_content : non_empty_object_content\n            | empty\n        \n        non_empty_object_content : object_instance\n            | object_instance SEPARATOR_INSTANCES non_empty_object_content\n        \n        object_instance : key SEPARATOR_FIELDS value\n        \n        key : STRING_EXPLICIT\n            | STRING_IMPLICIT\n        \n        value : array_object\n            | comparison\n            | object\n            | number\n            | bool\n            | NULL\n            | STRING_EXPLICIT\n        \n        array_object : ARRAY_START array_content ARRAY_END\n        \n        array_content : non_empty_array_content\n            | empty\n        \n        non_empty_array_content : object\n            | object SEPARATOR_INSTANCES non_empty_array_content\n        \n        comparison : number COMPARATOR number\n        \n        number : SCIENTIFIC\n            | REAL\n            | HEXADECIMAL\n            | OCTAL\n            | BINARY\n            | INTEGER\n        \n        bool : TR\n            | FL\n        \n        empty :\n        '
+_lr_signature = 'ARRAY_END ARRAY_START BINARY BLOCK_END BLOCK_START COMPARATOR FL HEXADECIMAL INTEGER NULL OCTAL REAL SCIENTIFIC SEPARATOR_FIELDS SEPARATOR_INSTANCES STRING_EXPLICIT STRING_IMPLICIT TR\n        file : object\n            | empty\n        \n        object : BLOCK_START object_content BLOCK_END\n        \n        object_content : non_empty_object_content\n            | empty\n        \n        non_empty_object_content : object_instance\n            | object_instance SEPARATOR_INSTANCES non_empty_object_content\n        \n        object_instance : key SEPARATOR_FIELDS value\n        \n        key : STRING_EXPLICIT\n            | STRING_IMPLICIT\n        \n        value : array_object\n            | comparison\n            | object\n            | number\n            | TR\n            | FL\n            | NULL\n            | STRING_EXPLICIT\n        \n        array_object : ARRAY_START array_content ARRAY_END\n        \n        array_content : non_empty_array_content\n            | empty\n        \n        non_empty_array_content : object\n            | object SEPARATOR_INSTANCES non_empty_array_content\n        \n        comparison : number COMPARATOR number\n        \n        number : SCIENTIFIC\n            | REAL\n            | HEXADECIMAL\n            | OCTAL\n            | BINARY\n            | INTEGER\n        \n        empty :\n        '
     
-_lr_action_items = {'BLOCK_START':([0,5,16,26,42,],[4,4,4,4,4,]),'$end':([1,2,3,13,14,],[0,-1,-2,-3,-4,]),'SEPARATOR_INSTANCES':([3,9,14,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,39,40,41,],[5,15,-4,-9,-12,-13,-14,-15,-16,-17,-18,-25,-26,-27,-28,-29,-30,-31,-32,42,-24,-19,]),'BLOCK_END':([4,6,7,8,9,14,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,40,41,],[-33,14,-5,-6,-7,-4,-8,-9,-12,-13,-14,-15,-16,-17,-18,-25,-26,-27,-28,-29,-30,-31,-32,-24,-19,]),'STRING_EXPLICIT':([4,15,16,],[11,11,25,]),'STRING_IMPLICIT':([4,15,],[12,12,]),'SEPARATOR_FIELDS':([10,11,12,],[16,-10,-11,]),'ARRAY_END':([14,26,36,37,38,39,43,],[-4,-33,41,-20,-21,-22,-23,]),'NULL':([16,],[24,]),'ARRAY_START':([16,],[26,]),'SCIENTIFIC':([16,35,],[27,27,]),'REAL':([16,35,],[28,28,]),'HEXADECIMAL':([16,35,],[29,29,]),'OCTAL':([16,35,],[30,30,]),'BINARY':([16,35,],[31,31,]),'INTEGER':([16,35,],[32,32,]),'TR':([16,],[33,]),'FL':([16,],[34,]),'COMPARATOR':([22,27,28,29,30,31,32,],[35,-25,-26,-27,-28,-29,-30,]),}
+_lr_action_items = {'BLOCK_START':([0,14,25,39,],[4,4,4,4,]),'$end':([0,1,2,3,12,],[-31,0,-1,-2,-3,]),'BLOCK_END':([4,5,6,7,8,12,15,16,17,18,19,20,21,22,23,24,26,27,28,29,30,31,37,38,],[-31,12,-4,-5,-6,-3,-7,-8,-11,-12,-13,-14,-15,-16,-17,-18,-25,-26,-27,-28,-29,-30,-24,-19,]),'STRING_EXPLICIT':([4,13,14,],[10,10,24,]),'STRING_IMPLICIT':([4,13,],[11,11,]),'SEPARATOR_INSTANCES':([8,12,16,17,18,19,20,21,22,23,24,26,27,28,29,30,31,36,37,38,],[13,-3,-8,-11,-12,-13,-14,-15,-16,-17,-18,-25,-26,-27,-28,-29,-30,39,-24,-19,]),'SEPARATOR_FIELDS':([9,10,11,],[14,-9,-10,]),'ARRAY_END':([12,25,33,34,35,36,40,],[-3,-31,38,-20,-21,-22,-23,]),'TR':([14,],[21,]),'FL':([14,],[22,]),'NULL':([14,],[23,]),'ARRAY_START':([14,],[25,]),'SCIENTIFIC':([14,32,],[26,26,]),'REAL':([14,32,],[27,27,]),'HEXADECIMAL':([14,32,],[28,28,]),'OCTAL':([14,32,],[29,29,]),'BINARY':([14,32,],[30,30,]),'INTEGER':([14,32,],[31,31,]),'COMPARATOR':([20,26,27,28,29,30,31,],[32,-25,-26,-27,-28,-29,-30,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'file':([0,],[1,]),'non_empty_file':([0,5,],[2,13,]),'object':([0,5,16,26,42,],[3,3,21,39,39,]),'object_content':([4,],[6,]),'non_empty_object_content':([4,15,],[7,17,]),'empty':([4,26,],[8,38,]),'object_instance':([4,15,],[9,9,]),'key':([4,15,],[10,10,]),'value':([16,],[18,]),'array_object':([16,],[19,]),'comparison':([16,],[20,]),'number':([16,35,],[22,40,]),'bool':([16,],[23,]),'array_content':([26,],[36,]),'non_empty_array_content':([26,42,],[37,43,]),}
+_lr_goto_items = {'file':([0,],[1,]),'object':([0,14,25,39,],[2,19,36,36,]),'empty':([0,4,25,],[3,7,35,]),'object_content':([4,],[5,]),'non_empty_object_content':([4,13,],[6,15,]),'object_instance':([4,13,],[8,8,]),'key':([4,13,],[9,9,]),'value':([14,],[16,]),'array_object':([14,],[17,]),'comparison':([14,],[18,]),'number':([14,32,],[20,37,]),'array_content':([25,],[33,]),'non_empty_array_content':([25,39,],[34,40,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,37 +27,35 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> file","S'",1,None,None,None),
-  ('file -> non_empty_file','file',1,'p_file','ajson_parser.py',14),
-  ('non_empty_file -> object','non_empty_file',1,'p_non_empty_file','ajson_parser.py',21),
-  ('non_empty_file -> object SEPARATOR_INSTANCES non_empty_file','non_empty_file',3,'p_non_empty_file','ajson_parser.py',22),
-  ('object -> BLOCK_START object_content BLOCK_END','object',3,'p_object','ajson_parser.py',32),
-  ('object_content -> non_empty_object_content','object_content',1,'p_object_content','ajson_parser.py',38),
-  ('object_content -> empty','object_content',1,'p_object_content','ajson_parser.py',39),
-  ('non_empty_object_content -> object_instance','non_empty_object_content',1,'p_non_empty_object_content','ajson_parser.py',45),
-  ('non_empty_object_content -> object_instance SEPARATOR_INSTANCES non_empty_object_content','non_empty_object_content',3,'p_non_empty_object_content','ajson_parser.py',46),
-  ('object_instance -> key SEPARATOR_FIELDS value','object_instance',3,'p_object_instance','ajson_parser.py',55),
-  ('key -> STRING_EXPLICIT','key',1,'p_key','ajson_parser.py',61),
-  ('key -> STRING_IMPLICIT','key',1,'p_key','ajson_parser.py',62),
-  ('value -> array_object','value',1,'p_value','ajson_parser.py',68),
-  ('value -> comparison','value',1,'p_value','ajson_parser.py',69),
-  ('value -> object','value',1,'p_value','ajson_parser.py',70),
-  ('value -> number','value',1,'p_value','ajson_parser.py',71),
-  ('value -> bool','value',1,'p_value','ajson_parser.py',72),
-  ('value -> NULL','value',1,'p_value','ajson_parser.py',73),
-  ('value -> STRING_EXPLICIT','value',1,'p_value','ajson_parser.py',74),
-  ('array_object -> ARRAY_START array_content ARRAY_END','array_object',3,'p_array_object','ajson_parser.py',80),
-  ('array_content -> non_empty_array_content','array_content',1,'p_array_content','ajson_parser.py',86),
-  ('array_content -> empty','array_content',1,'p_array_content','ajson_parser.py',87),
-  ('non_empty_array_content -> object','non_empty_array_content',1,'p_non_empty_array_content','ajson_parser.py',93),
-  ('non_empty_array_content -> object SEPARATOR_INSTANCES non_empty_array_content','non_empty_array_content',3,'p_non_empty_array_content','ajson_parser.py',94),
-  ('comparison -> number COMPARATOR number','comparison',3,'p_comparison','ajson_parser.py',103),
-  ('number -> SCIENTIFIC','number',1,'p_number','ajson_parser.py',109),
-  ('number -> REAL','number',1,'p_number','ajson_parser.py',110),
-  ('number -> HEXADECIMAL','number',1,'p_number','ajson_parser.py',111),
-  ('number -> OCTAL','number',1,'p_number','ajson_parser.py',112),
-  ('number -> BINARY','number',1,'p_number','ajson_parser.py',113),
-  ('number -> INTEGER','number',1,'p_number','ajson_parser.py',114),
-  ('bool -> TR','bool',1,'p_bool','ajson_parser.py',120),
-  ('bool -> FL','bool',1,'p_bool','ajson_parser.py',121),
+  ('file -> object','file',1,'p_file','ajson_parser.py',14),
+  ('file -> empty','file',1,'p_file','ajson_parser.py',15),
+  ('object -> BLOCK_START object_content BLOCK_END','object',3,'p_object','ajson_parser.py',21),
+  ('object_content -> non_empty_object_content','object_content',1,'p_object_content','ajson_parser.py',27),
+  ('object_content -> empty','object_content',1,'p_object_content','ajson_parser.py',28),
+  ('non_empty_object_content -> object_instance','non_empty_object_content',1,'p_non_empty_object_content','ajson_parser.py',37),
+  ('non_empty_object_content -> object_instance SEPARATOR_INSTANCES non_empty_object_content','non_empty_object_content',3,'p_non_empty_object_content','ajson_parser.py',38),
+  ('object_instance -> key SEPARATOR_FIELDS value','object_instance',3,'p_object_instance','ajson_parser.py',52),
+  ('key -> STRING_EXPLICIT','key',1,'p_key','ajson_parser.py',58),
+  ('key -> STRING_IMPLICIT','key',1,'p_key','ajson_parser.py',59),
+  ('value -> array_object','value',1,'p_value','ajson_parser.py',65),
+  ('value -> comparison','value',1,'p_value','ajson_parser.py',66),
+  ('value -> object','value',1,'p_value','ajson_parser.py',67),
+  ('value -> number','value',1,'p_value','ajson_parser.py',68),
+  ('value -> TR','value',1,'p_value','ajson_parser.py',69),
+  ('value -> FL','value',1,'p_value','ajson_parser.py',70),
+  ('value -> NULL','value',1,'p_value','ajson_parser.py',71),
+  ('value -> STRING_EXPLICIT','value',1,'p_value','ajson_parser.py',72),
+  ('array_object -> ARRAY_START array_content ARRAY_END','array_object',3,'p_array_object','ajson_parser.py',78),
+  ('array_content -> non_empty_array_content','array_content',1,'p_array_content','ajson_parser.py',84),
+  ('array_content -> empty','array_content',1,'p_array_content','ajson_parser.py',85),
+  ('non_empty_array_content -> object','non_empty_array_content',1,'p_non_empty_array_content','ajson_parser.py',94),
+  ('non_empty_array_content -> object SEPARATOR_INSTANCES non_empty_array_content','non_empty_array_content',3,'p_non_empty_array_content','ajson_parser.py',95),
+  ('comparison -> number COMPARATOR number','comparison',3,'p_comparison','ajson_parser.py',107),
+  ('number -> SCIENTIFIC','number',1,'p_number','ajson_parser.py',113),
+  ('number -> REAL','number',1,'p_number','ajson_parser.py',114),
+  ('number -> HEXADECIMAL','number',1,'p_number','ajson_parser.py',115),
+  ('number -> OCTAL','number',1,'p_number','ajson_parser.py',116),
+  ('number -> BINARY','number',1,'p_number','ajson_parser.py',117),
+  ('number -> INTEGER','number',1,'p_number','ajson_parser.py',118),
   ('empty -> <empty>','empty',0,'p_empty','ajson_parser.py',127),
 ]
