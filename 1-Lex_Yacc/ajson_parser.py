@@ -57,8 +57,8 @@ class AJSONParser:
     def p_value(self, p):
         """
         value : array_object
-            | comparison
             | object
+            | comparison
             | number
             | TR
             | FL
