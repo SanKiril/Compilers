@@ -1,8 +1,16 @@
 {
     a: 1,
     b: 3,
-    string: "str",
+    string: 3 > 3,
     "str": null,
-    ntrue: Fl,
-    key: {a:1}
+    s: {a:1},
+    ntrue: [
+        {c:"here"},
+        {d:{}},
+        {e: {
+            f: [{g:1}],
+            h: []
+            }
+        }
+    ]
 }

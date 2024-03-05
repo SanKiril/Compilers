@@ -5,73 +5,69 @@ Grammar
 Rule 0     S' -> file
 Rule 1     file -> object
 Rule 2     file -> empty
-Rule 3     object -> BLOCK_START object_content BLOCK_END
-Rule 4     object_content -> non_empty_object_content
-Rule 5     object_content -> empty
-Rule 6     non_empty_object_content -> object_instance
-Rule 7     non_empty_object_content -> object_instance SEPARATOR_INSTANCES non_empty_object_content
-Rule 8     object_instance -> key SEPARATOR_FIELDS value
-Rule 9     key -> STRING_EXPLICIT
-Rule 10    key -> STRING_IMPLICIT
-Rule 11    value -> array_object
+Rule 3     object -> { object_content }
+Rule 4     object_content -> object_entry , object_content
+Rule 5     object_content -> object_entry
+Rule 6     object_content -> empty
+Rule 7     object_entry -> key : value
+Rule 8     key -> STRING_EXPLICIT
+Rule 9     key -> STRING_IMPLICIT
+Rule 10    value -> array
+Rule 11    value -> object
 Rule 12    value -> comparison
-Rule 13    value -> object
-Rule 14    value -> number
-Rule 15    value -> TR
-Rule 16    value -> FL
-Rule 17    value -> NULL
-Rule 18    value -> STRING_EXPLICIT
-Rule 19    array_object -> ARRAY_START array_content ARRAY_END
-Rule 20    array_content -> non_empty_array_content
+Rule 13    value -> number
+Rule 14    value -> TR
+Rule 15    value -> FL
+Rule 16    value -> NULL
+Rule 17    value -> STRING_EXPLICIT
+Rule 18    array -> [ array_content ]
+Rule 19    array_content -> object , array_content
+Rule 20    array_content -> object
 Rule 21    array_content -> empty
-Rule 22    non_empty_array_content -> object
-Rule 23    non_empty_array_content -> object SEPARATOR_INSTANCES non_empty_array_content
-Rule 24    comparison -> number COMPARATOR number
-Rule 25    number -> SCIENTIFIC
-Rule 26    number -> REAL
-Rule 27    number -> HEXADECIMAL
-Rule 28    number -> OCTAL
-Rule 29    number -> BINARY
-Rule 30    number -> INTEGER
-Rule 31    empty -> <empty>
+Rule 22    comparison -> number COMPARATOR number
+Rule 23    number -> SCIENTIFIC
+Rule 24    number -> REAL
+Rule 25    number -> HEXADECIMAL
+Rule 26    number -> OCTAL
+Rule 27    number -> BINARY
+Rule 28    number -> INTEGER
+Rule 29    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ARRAY_END            : 19
-ARRAY_START          : 19
-BINARY               : 29
-BLOCK_END            : 3
-BLOCK_START          : 3
-COMPARATOR           : 24
-FL                   : 16
-HEXADECIMAL          : 27
-INTEGER              : 30
-NULL                 : 17
-OCTAL                : 28
-REAL                 : 26
-SCIENTIFIC           : 25
-SEPARATOR_FIELDS     : 8
-SEPARATOR_INSTANCES  : 7 23
-STRING_EXPLICIT      : 9 18
-STRING_IMPLICIT      : 10
-TR                   : 15
+,                    : 4 19
+:                    : 7
+BINARY               : 27
+COMPARATOR           : 22
+FL                   : 15
+HEXADECIMAL          : 25
+INTEGER              : 28
+NULL                 : 16
+OCTAL                : 26
+REAL                 : 24
+SCIENTIFIC           : 23
+STRING_EXPLICIT      : 8 17
+STRING_IMPLICIT      : 9
+TR                   : 14
+[                    : 18
+]                    : 18
 error                : 
+{                    : 3
+}                    : 3
 
 Nonterminals, with rules where they appear
 
-array_content        : 19
-array_object         : 11
+array                : 10
+array_content        : 18 19
 comparison           : 12
-empty                : 2 5 21
+empty                : 2 6 21
 file                 : 0
-key                  : 8
-non_empty_array_content : 20 23
-non_empty_object_content : 4 7
-number               : 14 24 24
-object               : 1 13 22 23
-object_content       : 3
-object_instance      : 6 7
-value                : 8
+key                  : 7
+number               : 13 22 22
+object               : 1 11 19 20
+object_content       : 3 4
+object_entry         : 4 5
+value                : 7
 
 Parsing method: LALR
 
@@ -80,11 +76,11 @@ state 0
     (0) S' -> . file
     (1) file -> . object
     (2) file -> . empty
-    (3) object -> . BLOCK_START object_content BLOCK_END
-    (31) empty -> .
+    (3) object -> . { object_content }
+    (29) empty -> .
 
-    BLOCK_START     shift and go to state 4
-    $end            reduce using rule 31 (empty -> .)
+    {               shift and go to state 4
+    $end            reduce using rule 29 (empty -> .)
 
     file                           shift and go to state 1
     object                         shift and go to state 2
@@ -112,376 +108,366 @@ state 3
 
 state 4
 
-    (3) object -> BLOCK_START . object_content BLOCK_END
-    (4) object_content -> . non_empty_object_content
-    (5) object_content -> . empty
-    (6) non_empty_object_content -> . object_instance
-    (7) non_empty_object_content -> . object_instance SEPARATOR_INSTANCES non_empty_object_content
-    (31) empty -> .
-    (8) object_instance -> . key SEPARATOR_FIELDS value
-    (9) key -> . STRING_EXPLICIT
-    (10) key -> . STRING_IMPLICIT
+    (3) object -> { . object_content }
+    (4) object_content -> . object_entry , object_content
+    (5) object_content -> . object_entry
+    (6) object_content -> . empty
+    (7) object_entry -> . key : value
+    (29) empty -> .
+    (8) key -> . STRING_EXPLICIT
+    (9) key -> . STRING_IMPLICIT
 
-    BLOCK_END       reduce using rule 31 (empty -> .)
-    STRING_EXPLICIT shift and go to state 10
-    STRING_IMPLICIT shift and go to state 11
+    }               reduce using rule 29 (empty -> .)
+    STRING_EXPLICIT shift and go to state 9
+    STRING_IMPLICIT shift and go to state 10
 
     object_content                 shift and go to state 5
-    non_empty_object_content       shift and go to state 6
+    object_entry                   shift and go to state 6
     empty                          shift and go to state 7
-    object_instance                shift and go to state 8
-    key                            shift and go to state 9
+    key                            shift and go to state 8
 
 state 5
 
-    (3) object -> BLOCK_START object_content . BLOCK_END
+    (3) object -> { object_content . }
 
-    BLOCK_END       shift and go to state 12
+    }               shift and go to state 11
 
 
 state 6
 
-    (4) object_content -> non_empty_object_content .
+    (4) object_content -> object_entry . , object_content
+    (5) object_content -> object_entry .
 
-    BLOCK_END       reduce using rule 4 (object_content -> non_empty_object_content .)
+    ,               shift and go to state 12
+    }               reduce using rule 5 (object_content -> object_entry .)
 
 
 state 7
 
-    (5) object_content -> empty .
+    (6) object_content -> empty .
 
-    BLOCK_END       reduce using rule 5 (object_content -> empty .)
+    }               reduce using rule 6 (object_content -> empty .)
 
 
 state 8
 
-    (6) non_empty_object_content -> object_instance .
-    (7) non_empty_object_content -> object_instance . SEPARATOR_INSTANCES non_empty_object_content
+    (7) object_entry -> key . : value
 
-    BLOCK_END       reduce using rule 6 (non_empty_object_content -> object_instance .)
-    SEPARATOR_INSTANCES shift and go to state 13
+    :               shift and go to state 13
 
 
 state 9
 
-    (8) object_instance -> key . SEPARATOR_FIELDS value
+    (8) key -> STRING_EXPLICIT .
 
-    SEPARATOR_FIELDS shift and go to state 14
+    :               reduce using rule 8 (key -> STRING_EXPLICIT .)
 
 
 state 10
 
-    (9) key -> STRING_EXPLICIT .
+    (9) key -> STRING_IMPLICIT .
 
-    SEPARATOR_FIELDS reduce using rule 9 (key -> STRING_EXPLICIT .)
+    :               reduce using rule 9 (key -> STRING_IMPLICIT .)
 
 
 state 11
 
-    (10) key -> STRING_IMPLICIT .
+    (3) object -> { object_content } .
 
-    SEPARATOR_FIELDS reduce using rule 10 (key -> STRING_IMPLICIT .)
+    $end            reduce using rule 3 (object -> { object_content } .)
+    ,               reduce using rule 3 (object -> { object_content } .)
+    }               reduce using rule 3 (object -> { object_content } .)
+    ]               reduce using rule 3 (object -> { object_content } .)
 
 
 state 12
 
-    (3) object -> BLOCK_START object_content BLOCK_END .
+    (4) object_content -> object_entry , . object_content
+    (4) object_content -> . object_entry , object_content
+    (5) object_content -> . object_entry
+    (6) object_content -> . empty
+    (7) object_entry -> . key : value
+    (29) empty -> .
+    (8) key -> . STRING_EXPLICIT
+    (9) key -> . STRING_IMPLICIT
 
-    $end            reduce using rule 3 (object -> BLOCK_START object_content BLOCK_END .)
-    SEPARATOR_INSTANCES reduce using rule 3 (object -> BLOCK_START object_content BLOCK_END .)
-    BLOCK_END       reduce using rule 3 (object -> BLOCK_START object_content BLOCK_END .)
-    ARRAY_END       reduce using rule 3 (object -> BLOCK_START object_content BLOCK_END .)
+    }               reduce using rule 29 (empty -> .)
+    STRING_EXPLICIT shift and go to state 9
+    STRING_IMPLICIT shift and go to state 10
 
+    object_entry                   shift and go to state 6
+    object_content                 shift and go to state 14
+    empty                          shift and go to state 7
+    key                            shift and go to state 8
 
 state 13
 
-    (7) non_empty_object_content -> object_instance SEPARATOR_INSTANCES . non_empty_object_content
-    (6) non_empty_object_content -> . object_instance
-    (7) non_empty_object_content -> . object_instance SEPARATOR_INSTANCES non_empty_object_content
-    (8) object_instance -> . key SEPARATOR_FIELDS value
-    (9) key -> . STRING_EXPLICIT
-    (10) key -> . STRING_IMPLICIT
+    (7) object_entry -> key : . value
+    (10) value -> . array
+    (11) value -> . object
+    (12) value -> . comparison
+    (13) value -> . number
+    (14) value -> . TR
+    (15) value -> . FL
+    (16) value -> . NULL
+    (17) value -> . STRING_EXPLICIT
+    (18) array -> . [ array_content ]
+    (3) object -> . { object_content }
+    (22) comparison -> . number COMPARATOR number
+    (23) number -> . SCIENTIFIC
+    (24) number -> . REAL
+    (25) number -> . HEXADECIMAL
+    (26) number -> . OCTAL
+    (27) number -> . BINARY
+    (28) number -> . INTEGER
 
-    STRING_EXPLICIT shift and go to state 10
-    STRING_IMPLICIT shift and go to state 11
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_EXPLICIT shift and go to state 23
+    [               shift and go to state 24
+    {               shift and go to state 4
+    SCIENTIFIC      shift and go to state 25
+    REAL            shift and go to state 26
+    HEXADECIMAL     shift and go to state 27
+    OCTAL           shift and go to state 28
+    BINARY          shift and go to state 29
+    INTEGER         shift and go to state 30
 
-    object_instance                shift and go to state 8
-    non_empty_object_content       shift and go to state 15
-    key                            shift and go to state 9
+    value                          shift and go to state 15
+    array                          shift and go to state 16
+    object                         shift and go to state 17
+    comparison                     shift and go to state 18
+    number                         shift and go to state 19
 
 state 14
 
-    (8) object_instance -> key SEPARATOR_FIELDS . value
-    (11) value -> . array_object
-    (12) value -> . comparison
-    (13) value -> . object
-    (14) value -> . number
-    (15) value -> . TR
-    (16) value -> . FL
-    (17) value -> . NULL
-    (18) value -> . STRING_EXPLICIT
-    (19) array_object -> . ARRAY_START array_content ARRAY_END
-    (24) comparison -> . number COMPARATOR number
-    (3) object -> . BLOCK_START object_content BLOCK_END
-    (25) number -> . SCIENTIFIC
-    (26) number -> . REAL
-    (27) number -> . HEXADECIMAL
-    (28) number -> . OCTAL
-    (29) number -> . BINARY
-    (30) number -> . INTEGER
+    (4) object_content -> object_entry , object_content .
 
-    TR              shift and go to state 21
-    FL              shift and go to state 22
-    NULL            shift and go to state 23
-    STRING_EXPLICIT shift and go to state 24
-    ARRAY_START     shift and go to state 25
-    BLOCK_START     shift and go to state 4
-    SCIENTIFIC      shift and go to state 26
-    REAL            shift and go to state 27
-    HEXADECIMAL     shift and go to state 28
-    OCTAL           shift and go to state 29
-    BINARY          shift and go to state 30
-    INTEGER         shift and go to state 31
+    }               reduce using rule 4 (object_content -> object_entry , object_content .)
 
-    value                          shift and go to state 16
-    array_object                   shift and go to state 17
-    comparison                     shift and go to state 18
-    object                         shift and go to state 19
-    number                         shift and go to state 20
 
 state 15
 
-    (7) non_empty_object_content -> object_instance SEPARATOR_INSTANCES non_empty_object_content .
+    (7) object_entry -> key : value .
 
-    BLOCK_END       reduce using rule 7 (non_empty_object_content -> object_instance SEPARATOR_INSTANCES non_empty_object_content .)
+    ,               reduce using rule 7 (object_entry -> key : value .)
+    }               reduce using rule 7 (object_entry -> key : value .)
 
 
 state 16
 
-    (8) object_instance -> key SEPARATOR_FIELDS value .
+    (10) value -> array .
 
-    SEPARATOR_INSTANCES reduce using rule 8 (object_instance -> key SEPARATOR_FIELDS value .)
-    BLOCK_END       reduce using rule 8 (object_instance -> key SEPARATOR_FIELDS value .)
+    ,               reduce using rule 10 (value -> array .)
+    }               reduce using rule 10 (value -> array .)
 
 
 state 17
 
-    (11) value -> array_object .
+    (11) value -> object .
 
-    SEPARATOR_INSTANCES reduce using rule 11 (value -> array_object .)
-    BLOCK_END       reduce using rule 11 (value -> array_object .)
+    ,               reduce using rule 11 (value -> object .)
+    }               reduce using rule 11 (value -> object .)
 
 
 state 18
 
     (12) value -> comparison .
 
-    SEPARATOR_INSTANCES reduce using rule 12 (value -> comparison .)
-    BLOCK_END       reduce using rule 12 (value -> comparison .)
+    ,               reduce using rule 12 (value -> comparison .)
+    }               reduce using rule 12 (value -> comparison .)
 
 
 state 19
 
-    (13) value -> object .
+    (13) value -> number .
+    (22) comparison -> number . COMPARATOR number
 
-    SEPARATOR_INSTANCES reduce using rule 13 (value -> object .)
-    BLOCK_END       reduce using rule 13 (value -> object .)
+    ,               reduce using rule 13 (value -> number .)
+    }               reduce using rule 13 (value -> number .)
+    COMPARATOR      shift and go to state 31
 
 
 state 20
 
-    (14) value -> number .
-    (24) comparison -> number . COMPARATOR number
+    (14) value -> TR .
 
-    SEPARATOR_INSTANCES reduce using rule 14 (value -> number .)
-    BLOCK_END       reduce using rule 14 (value -> number .)
-    COMPARATOR      shift and go to state 32
+    ,               reduce using rule 14 (value -> TR .)
+    }               reduce using rule 14 (value -> TR .)
 
 
 state 21
 
-    (15) value -> TR .
+    (15) value -> FL .
 
-    SEPARATOR_INSTANCES reduce using rule 15 (value -> TR .)
-    BLOCK_END       reduce using rule 15 (value -> TR .)
+    ,               reduce using rule 15 (value -> FL .)
+    }               reduce using rule 15 (value -> FL .)
 
 
 state 22
 
-    (16) value -> FL .
+    (16) value -> NULL .
 
-    SEPARATOR_INSTANCES reduce using rule 16 (value -> FL .)
-    BLOCK_END       reduce using rule 16 (value -> FL .)
+    ,               reduce using rule 16 (value -> NULL .)
+    }               reduce using rule 16 (value -> NULL .)
 
 
 state 23
 
-    (17) value -> NULL .
+    (17) value -> STRING_EXPLICIT .
 
-    SEPARATOR_INSTANCES reduce using rule 17 (value -> NULL .)
-    BLOCK_END       reduce using rule 17 (value -> NULL .)
+    ,               reduce using rule 17 (value -> STRING_EXPLICIT .)
+    }               reduce using rule 17 (value -> STRING_EXPLICIT .)
 
 
 state 24
 
-    (18) value -> STRING_EXPLICIT .
+    (18) array -> [ . array_content ]
+    (19) array_content -> . object , array_content
+    (20) array_content -> . object
+    (21) array_content -> . empty
+    (3) object -> . { object_content }
+    (29) empty -> .
 
-    SEPARATOR_INSTANCES reduce using rule 18 (value -> STRING_EXPLICIT .)
-    BLOCK_END       reduce using rule 18 (value -> STRING_EXPLICIT .)
+    {               shift and go to state 4
+    ]               reduce using rule 29 (empty -> .)
 
+    array_content                  shift and go to state 32
+    object                         shift and go to state 33
+    empty                          shift and go to state 34
 
 state 25
 
-    (19) array_object -> ARRAY_START . array_content ARRAY_END
-    (20) array_content -> . non_empty_array_content
-    (21) array_content -> . empty
-    (22) non_empty_array_content -> . object
-    (23) non_empty_array_content -> . object SEPARATOR_INSTANCES non_empty_array_content
-    (31) empty -> .
-    (3) object -> . BLOCK_START object_content BLOCK_END
+    (23) number -> SCIENTIFIC .
 
-    ARRAY_END       reduce using rule 31 (empty -> .)
-    BLOCK_START     shift and go to state 4
+    COMPARATOR      reduce using rule 23 (number -> SCIENTIFIC .)
+    ,               reduce using rule 23 (number -> SCIENTIFIC .)
+    }               reduce using rule 23 (number -> SCIENTIFIC .)
 
-    array_content                  shift and go to state 33
-    non_empty_array_content        shift and go to state 34
-    empty                          shift and go to state 35
-    object                         shift and go to state 36
 
 state 26
 
-    (25) number -> SCIENTIFIC .
+    (24) number -> REAL .
 
-    COMPARATOR      reduce using rule 25 (number -> SCIENTIFIC .)
-    SEPARATOR_INSTANCES reduce using rule 25 (number -> SCIENTIFIC .)
-    BLOCK_END       reduce using rule 25 (number -> SCIENTIFIC .)
+    COMPARATOR      reduce using rule 24 (number -> REAL .)
+    ,               reduce using rule 24 (number -> REAL .)
+    }               reduce using rule 24 (number -> REAL .)
 
 
 state 27
 
-    (26) number -> REAL .
+    (25) number -> HEXADECIMAL .
 
-    COMPARATOR      reduce using rule 26 (number -> REAL .)
-    SEPARATOR_INSTANCES reduce using rule 26 (number -> REAL .)
-    BLOCK_END       reduce using rule 26 (number -> REAL .)
+    COMPARATOR      reduce using rule 25 (number -> HEXADECIMAL .)
+    ,               reduce using rule 25 (number -> HEXADECIMAL .)
+    }               reduce using rule 25 (number -> HEXADECIMAL .)
 
 
 state 28
 
-    (27) number -> HEXADECIMAL .
+    (26) number -> OCTAL .
 
-    COMPARATOR      reduce using rule 27 (number -> HEXADECIMAL .)
-    SEPARATOR_INSTANCES reduce using rule 27 (number -> HEXADECIMAL .)
-    BLOCK_END       reduce using rule 27 (number -> HEXADECIMAL .)
+    COMPARATOR      reduce using rule 26 (number -> OCTAL .)
+    ,               reduce using rule 26 (number -> OCTAL .)
+    }               reduce using rule 26 (number -> OCTAL .)
 
 
 state 29
 
-    (28) number -> OCTAL .
+    (27) number -> BINARY .
 
-    COMPARATOR      reduce using rule 28 (number -> OCTAL .)
-    SEPARATOR_INSTANCES reduce using rule 28 (number -> OCTAL .)
-    BLOCK_END       reduce using rule 28 (number -> OCTAL .)
+    COMPARATOR      reduce using rule 27 (number -> BINARY .)
+    ,               reduce using rule 27 (number -> BINARY .)
+    }               reduce using rule 27 (number -> BINARY .)
 
 
 state 30
 
-    (29) number -> BINARY .
+    (28) number -> INTEGER .
 
-    COMPARATOR      reduce using rule 29 (number -> BINARY .)
-    SEPARATOR_INSTANCES reduce using rule 29 (number -> BINARY .)
-    BLOCK_END       reduce using rule 29 (number -> BINARY .)
+    COMPARATOR      reduce using rule 28 (number -> INTEGER .)
+    ,               reduce using rule 28 (number -> INTEGER .)
+    }               reduce using rule 28 (number -> INTEGER .)
 
 
 state 31
 
-    (30) number -> INTEGER .
+    (22) comparison -> number COMPARATOR . number
+    (23) number -> . SCIENTIFIC
+    (24) number -> . REAL
+    (25) number -> . HEXADECIMAL
+    (26) number -> . OCTAL
+    (27) number -> . BINARY
+    (28) number -> . INTEGER
 
-    COMPARATOR      reduce using rule 30 (number -> INTEGER .)
-    SEPARATOR_INSTANCES reduce using rule 30 (number -> INTEGER .)
-    BLOCK_END       reduce using rule 30 (number -> INTEGER .)
+    SCIENTIFIC      shift and go to state 25
+    REAL            shift and go to state 26
+    HEXADECIMAL     shift and go to state 27
+    OCTAL           shift and go to state 28
+    BINARY          shift and go to state 29
+    INTEGER         shift and go to state 30
 
+    number                         shift and go to state 35
 
 state 32
 
-    (24) comparison -> number COMPARATOR . number
-    (25) number -> . SCIENTIFIC
-    (26) number -> . REAL
-    (27) number -> . HEXADECIMAL
-    (28) number -> . OCTAL
-    (29) number -> . BINARY
-    (30) number -> . INTEGER
+    (18) array -> [ array_content . ]
 
-    SCIENTIFIC      shift and go to state 26
-    REAL            shift and go to state 27
-    HEXADECIMAL     shift and go to state 28
-    OCTAL           shift and go to state 29
-    BINARY          shift and go to state 30
-    INTEGER         shift and go to state 31
+    ]               shift and go to state 36
 
-    number                         shift and go to state 37
 
 state 33
 
-    (19) array_object -> ARRAY_START array_content . ARRAY_END
+    (19) array_content -> object . , array_content
+    (20) array_content -> object .
 
-    ARRAY_END       shift and go to state 38
+    ,               shift and go to state 37
+    ]               reduce using rule 20 (array_content -> object .)
 
 
 state 34
 
-    (20) array_content -> non_empty_array_content .
+    (21) array_content -> empty .
 
-    ARRAY_END       reduce using rule 20 (array_content -> non_empty_array_content .)
+    ]               reduce using rule 21 (array_content -> empty .)
 
 
 state 35
 
-    (21) array_content -> empty .
+    (22) comparison -> number COMPARATOR number .
 
-    ARRAY_END       reduce using rule 21 (array_content -> empty .)
+    ,               reduce using rule 22 (comparison -> number COMPARATOR number .)
+    }               reduce using rule 22 (comparison -> number COMPARATOR number .)
 
 
 state 36
 
-    (22) non_empty_array_content -> object .
-    (23) non_empty_array_content -> object . SEPARATOR_INSTANCES non_empty_array_content
+    (18) array -> [ array_content ] .
 
-    ARRAY_END       reduce using rule 22 (non_empty_array_content -> object .)
-    SEPARATOR_INSTANCES shift and go to state 39
+    ,               reduce using rule 18 (array -> [ array_content ] .)
+    }               reduce using rule 18 (array -> [ array_content ] .)
 
 
 state 37
 
-    (24) comparison -> number COMPARATOR number .
+    (19) array_content -> object , . array_content
+    (19) array_content -> . object , array_content
+    (20) array_content -> . object
+    (21) array_content -> . empty
+    (3) object -> . { object_content }
+    (29) empty -> .
 
-    SEPARATOR_INSTANCES reduce using rule 24 (comparison -> number COMPARATOR number .)
-    BLOCK_END       reduce using rule 24 (comparison -> number COMPARATOR number .)
+    {               shift and go to state 4
+    ]               reduce using rule 29 (empty -> .)
 
+    object                         shift and go to state 33
+    array_content                  shift and go to state 38
+    empty                          shift and go to state 34
 
 state 38
 
-    (19) array_object -> ARRAY_START array_content ARRAY_END .
+    (19) array_content -> object , array_content .
 
-    SEPARATOR_INSTANCES reduce using rule 19 (array_object -> ARRAY_START array_content ARRAY_END .)
-    BLOCK_END       reduce using rule 19 (array_object -> ARRAY_START array_content ARRAY_END .)
-
-
-state 39
-
-    (23) non_empty_array_content -> object SEPARATOR_INSTANCES . non_empty_array_content
-    (22) non_empty_array_content -> . object
-    (23) non_empty_array_content -> . object SEPARATOR_INSTANCES non_empty_array_content
-    (3) object -> . BLOCK_START object_content BLOCK_END
-
-    BLOCK_START     shift and go to state 4
-
-    object                         shift and go to state 36
-    non_empty_array_content        shift and go to state 40
-
-state 40
-
-    (23) non_empty_array_content -> object SEPARATOR_INSTANCES non_empty_array_content .
-
-    ARRAY_END       reduce using rule 23 (non_empty_array_content -> object SEPARATOR_INSTANCES non_empty_array_content .)
+    ]               reduce using rule 19 (array_content -> object , array_content .)
 

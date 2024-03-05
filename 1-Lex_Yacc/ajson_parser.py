@@ -1,3 +1,4 @@
+from typing import Union
 import ply.yacc as yacc
 from ajson_lexer import AJSONLexer
 
@@ -14,38 +15,29 @@ class AJSONParser:
         file : object
             | empty
         """
-        p[0] = p[1]
+        p[0] = None if p[1] is None else p[1]
 
     def p_object(self, p):
         """
-        object : BLOCK_START object_content BLOCK_END
+        object : '{' object_content '}'
         """
         p[0] = p[2]
 
     def p_object_content(self, p):
         """
-        object_content : non_empty_object_content
+        object_content : object_entry ',' object_content
+            | object_entry
             | empty
         """
-        p[0] = p[1]
-
-    def p_non_empty_object_content(self, p):
-        """
-        non_empty_object_content : object_instance
-            | object_instance SEPARATOR_INSTANCES non_empty_object_content
-        """
-        p[0] = f"{{ {p[1]} }}"
+        p[0] = None if p[1] is None else dict([p[1]])
         if len(p) == 4:
-            p[0] += f"\n{p[3]}"
+            p[0].update(p[3])
 
-
-
-
-    def p_object_instance(self, p):
+    def p_object_entry(self, p):
         """
-        object_instance : key SEPARATOR_FIELDS value
+        object_entry : key ':' value
         """
-        p[0] = f"{p[1]}{p[2]} {p[3]}"
+        p[0] = (p[1], p[3])
 
     def p_key(self, p):
         """
@@ -56,7 +48,7 @@ class AJSONParser:
 
     def p_value(self, p):
         """
-        value : array_object
+        value : array
             | object
             | comparison
             | number
@@ -66,35 +58,22 @@ class AJSONParser:
             | STRING_EXPLICIT
         """
         p[0] = p[1]
-    
-    def p_array_object(self, p):
+
+    def p_array(self, p):
         """
-        array_object : ARRAY_START array_content ARRAY_END
+        array : '[' array_content ']'
         """
         p[0] = p[2]
 
     def p_array_content(self, p):
         """
-        array_content : non_empty_array_content
+        array_content : object ',' array_content
+            | object
             | empty
         """
-        p[0] = p[1]
-
-
-
-
-    def p_non_empty_array_content(self, p):
-        """
-        non_empty_array_content : object
-            | object SEPARATOR_INSTANCES non_empty_array_content
-        """
+        p[0] = [] if p[1] is None else [p[1]]
         if len(p) == 4:
-            p[0] = [p[1], p[2], p[3]]
-        else:
-            p[0] = p[1]
-
-
-
+            p[0].extend(p[3])
 
     def p_comparison(self, p):
         """
@@ -112,9 +91,6 @@ class AJSONParser:
             | INTEGER
         """
         p[0] = p[1]
-    
-
-
 
     def p_empty(self, p):
         """
@@ -123,6 +99,24 @@ class AJSONParser:
         pass
 
     # RUN
-    def parse(self, data: str):
-        result = self.parser.parse(data)
-        print(result)
+    def parse(self, data: str) -> str:
+        data = self.parser.parse(data)
+        output = self.output(data)
+        return None if output is None else output[:-1]
+    
+    def output(self, data: Union[dict, None], parent_key=""):
+        if data is None:
+            return None
+        output = ""
+        for key, value in data.items():
+            if isinstance(value, dict):
+                output += self.output(value, f"{parent_key}.{key}" if parent_key else key)
+            elif isinstance(value, list):
+                for index, item in enumerate(value):
+                    output += self.output(item, f"{parent_key}.{key}.{index}" if parent_key else f"{key}.{index}")
+            else:
+                if parent_key:
+                    output += f"{{ {parent_key}.{key}: {value} }}\n"
+                else:
+                    output += f"{{ {key}: {value} }}\n"
+        return output

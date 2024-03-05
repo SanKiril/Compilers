@@ -20,10 +20,11 @@ The first assignment involved designing and implementing a lexical and syntactic
 cd ./1-Lex_Yacc
 ```
 **2. Run `main.py` file:**
-- `<file_path>`: file path to an AJSON file. Examples in [tests](./1-Lex_Yacc/tests).
 ```bash
-python3 main.py <file_path>.ajson
+python3 main.py <file_path>.ajson [--mode=<mode>]
 ```
+- `<file_path>`: file path to an AJSON file. Examples in [tests](./1-Lex_Yacc/tests).
+- `<mode>`: 0 (default) = lexer & parser || 1 = lexer
 ---
 ### 2<sup>nd</sup> Assignment - 
 **1. Change directory to `2-`:**

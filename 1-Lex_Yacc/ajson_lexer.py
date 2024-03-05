@@ -7,6 +7,9 @@ class AJSONLexer:
     def __init__(self):
         self.lexer = lex.lex(module=self)
     
+    # DEFINE LITERALS
+    literals = ['{', '}', '[', ']', ':', ',']
+    
     # DEFINE RESERVED TOKENS
     reserved = {
         "TR": True,
@@ -24,22 +27,10 @@ class AJSONLexer:
         "INTEGER",
         "STRING_EXPLICIT",
         "STRING_IMPLICIT",
-        "BLOCK_START",
-        "BLOCK_END",
-        "ARRAY_START",
-        "ARRAY_END",
-        "SEPARATOR_FIELDS",
-        "SEPARATOR_INSTANCES",
         "COMPARATOR"
     ] + list(reserved.keys())
     
     # RECOGNIZE TOKENS
-    t_BLOCK_START = r'\{'
-    t_BLOCK_END = r'\}'
-    t_ARRAY_START = r'\['
-    t_ARRAY_END = r'\]'
-    t_SEPARATOR_FIELDS = r'\:'
-    t_SEPARATOR_INSTANCES = r'\,'
     t_COMPARATOR = r'\=\=|\>\=|\>|\<\=|\<'
 
     def t_SCIENTIFIC(self, t):
