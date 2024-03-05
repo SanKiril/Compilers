@@ -85,9 +85,10 @@ class AJSONLexer:
 
     # ERROR HANDLING
     def t_error(self, t):
-        raise ValueError(f"[ERROR][LEXER]: Illegal character:\n- PROVIDED: {t.value[0]}")
+        raise ValueError(f"[ERROR][LEXER]: Illegal character:\n"
+            f"# PROVIDED: {t.value[0]}")
 
     # RUN
     def tokenize(self, data: str) -> str:
         self.lexer.input(data)
-        return " ".join([t.type for t in self.lexer])
+        return "\n".join([f"{t.type} {t.value}" for t in self.lexer])

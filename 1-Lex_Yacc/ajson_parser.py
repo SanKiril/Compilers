@@ -98,22 +98,27 @@ class AJSONParser:
         """
         pass
 
+    # ERROR HANDLING
+    def p_error(self, p):
+        raise ValueError(f"[ERROR][PARSER]: Not matching production rule:\n"
+            f"# PROVIDED: {p.value}")
+
     # RUN
     def parse(self, data: str) -> str:
         data = self.parser.parse(data)
-        output = self.output(data)
+        output = self.__output(data)
         return None if output is None else output[:-1]
     
-    def output(self, data: Union[dict, None], parent_key=""):
+    def __output(self, data: Union[dict, None], parent_key=""):
         if data is None:
             return None
         output = ""
         for key, value in data.items():
             if isinstance(value, dict):
-                output += self.output(value, f"{parent_key}.{key}" if parent_key else key)
+                output += self.__output(value, f"{parent_key}.{key}" if parent_key else key)
             elif isinstance(value, list):
                 for index, item in enumerate(value):
-                    output += self.output(item, f"{parent_key}.{key}.{index}" if parent_key else f"{key}.{index}")
+                    output += self.__output(item, f"{parent_key}.{key}.{index}" if parent_key else f"{key}.{index}")
             else:
                 if parent_key:
                     output += f"{{ {parent_key}.{key}: {value} }}\n"
