@@ -30,7 +30,7 @@ class AJSONParser:
             | empty
         """
         p[0] = None if p[1] is None else dict([p[1]])
-        if len(p) == 4:
+        if len(p) == 4 and p[3] is not None:
             p[0].update(p[3])
 
     def p_object_entry(self, p):
@@ -72,7 +72,7 @@ class AJSONParser:
             | empty
         """
         p[0] = [] if p[1] is None else [p[1]]
-        if len(p) == 4:
+        if len(p) == 4 and p[3] is not None:
             p[0].extend(p[3])
 
     def p_comparison(self, p):
