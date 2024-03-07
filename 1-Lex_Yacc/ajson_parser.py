@@ -100,8 +100,9 @@ class AJSONParser:
 
     # ERROR HANDLING
     def p_error(self, p):
+        p_value = None if p is None else p.value
         raise ValueError(f"[ERROR][PARSER]: Not matching production rule:\n"
-            f"# PROVIDED: {p.value}")
+            f"# PROVIDED: {p_value}")
 
     # RUN
     def parse(self, data: str) -> str:

@@ -1,0 +1,5 @@
+{
+    "string explicit": "ok",
+    string_implicit: "ok",
+    ko: string_implicit
+}

@@ -1,0 +1,8 @@
+{
+    integer: -12,
+    real: -12.34,
+    scientific: -12.34e56,
+    binary: 0b110,
+    octal: 061,
+    hexadecimal: 0xF1F
+}
