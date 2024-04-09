@@ -4,19 +4,6 @@
 
 == >= > <= <
 
-0b0
-0B110
-
-00
-061
-
-0x0
-0Xa
-0xF1f
-
-0
-12
-
 0.0
 0.
 .0
@@ -31,9 +18,33 @@
 12.e56
 .34E56
 
+0b0
+0B110
+
+00
+061
+
+0x0
+0Xa
+0xF1f
+
+0
+12
+
+// single-line comment
+
+/*
+ * multi-line comment
+ */
+
+'#'
+'!'
+
 "Hello world!"
 
 Hello_world
+TR
+_
 
 tr
 fl
