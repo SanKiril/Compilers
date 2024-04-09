@@ -31,20 +31,37 @@ class AJSLexer:
     
     # DEFINE TOKENS
     tokens = [
+        "STRING_EXPLICIT",
+        "STRING_IMPLICIT",
+        "CHAR",
         "COMMENT",
         "REAL",
         "INTEGER",
-        "CHAR",
-        "STRING_EXPLICIT",
-        "STRING_IMPLICIT",
         "ARITHMETIC",
         "BOOL",
         "COMPARATOR"
     ] + list(reserved.keys())
     
     # RECOGNIZE TOKENS
+    def t_STRING_EXPLICIT(self, t):
+        r'\"[^\"\n\r]*\"'
+        t.value = t.value[1:-1]
+        return t
+
+    def t_STRING_IMPLICIT(self, t):
+        r'[a-zA-Z_]\w*'
+        if t.value.islower() and t.value.upper() in self.reserved:
+            t.type = t.value.upper()
+            t.value = self.reserved[t.value.upper()]
+        return t
+
+    def t_CHAR(self, t):
+        r'\'[\x00-\x7F]\''
+        t.value = t.value[1:-1]
+        return t
+
     def t_COMMENT(self, t):
-        r'(\/\/.*)|(\/\*(.|\n)*\*\/)'
+        r'(\/\/.*)|(\/\*(?:(?!\*\/).|\n)*\*\/)'
         pass
     
     def t_REAL(self, t):
@@ -67,23 +84,6 @@ class AJSLexer:
             t.value = int(match.group(3), 16)
         else:  # base 10
             t.value = int(match.group(4))
-        return t
-    
-    def t_CHAR(self, t):
-        r'\'[\x00-\x7F]\''
-        t.value = t.value[1:-1]
-        return t
-
-    def t_STRING_EXPLICIT(self, t):
-        r'\"[^\"\n\r]*\"'
-        t.value = t.value[1:-1]
-        return t
-
-    def t_STRING_IMPLICIT(self, t):
-        r'[a-zA-Z_]\w*'
-        if t.value.islower() and t.value.upper() in self.reserved:
-            t.type = t.value.upper()
-            t.value = self.reserved[t.value.upper()]
         return t
 
     t_ARITHMETIC = r'\+|\-|\*|\/'

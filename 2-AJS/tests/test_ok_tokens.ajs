@@ -1,46 +1,16 @@
-+ - * /
-
-&& || !
-
-== >= > <= <
-
-0.0
-0.
-.0
-12.34
-12.
-.34
-
-0.0e0
-0.E0
-.0e0
-12.34E56
-12.e56
-.34E56
-
-0b0
-0B110
-
-00
-061
-
-0x0
-0Xa
-0xF1f
-
-0
-12
-
-// single-line comment
-
-/*
- * multi-line comment
- */
-
-'#'
-'!'
-
 "Hello world!"
+"+"
+"&&"
+"||"
+"!"
+"tr"
+"'#'"
+"12.e56"
+"// fake single-line comment"
+"// /* fake multi-line comment inside a single-line comment */"
+"/* fake single-line written multi-line comment */"
+"/* // fake single-line comment inside a multi-line comment */"
+""
 
 Hello_world
 TR
@@ -60,3 +30,48 @@ type
 if
 else
 null
+
+'#'
+'+'
+'!'
+'''
+
+// single-line comment
+// /* multi-line comment inside a single-line comment */
+
+/*
+ * multi-line comment
+ */
+/* single-line written multi-line comment */
+/* // single-line comment inside a multi-line comment */
+
+0.0
+0.
+.0
+12.34
+12.
+.34
+0.0e0
+0.E0
+.0e0
+12.34E56
+12.e56
+.34E56
+
+0b0
+0B110
+00
+061
+0x0
+0Xa
+0xF1f
+0
+12
+
++ - * /
+
+&& || !
+
+== >= > <= <
+
+{} () [] = : , ;

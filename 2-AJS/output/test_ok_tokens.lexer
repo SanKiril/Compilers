@@ -1,15 +1,37 @@
-ARITHMETIC +
-ARITHMETIC -
-ARITHMETIC *
-ARITHMETIC /
-BOOL &&
-BOOL ||
-BOOL !
-COMPARATOR ==
-COMPARATOR >=
-COMPARATOR >
-COMPARATOR <=
-COMPARATOR <
+STRING_EXPLICIT Hello world!
+STRING_EXPLICIT +
+STRING_EXPLICIT &&
+STRING_EXPLICIT ||
+STRING_EXPLICIT !
+STRING_EXPLICIT tr
+STRING_EXPLICIT '#'
+STRING_EXPLICIT 12.e56
+STRING_EXPLICIT // fake single-line comment
+STRING_EXPLICIT // /* fake multi-line comment inside a single-line comment */
+STRING_EXPLICIT /* fake single-line written multi-line comment */
+STRING_EXPLICIT /* // fake single-line comment inside a multi-line comment */
+STRING_EXPLICIT 
+STRING_IMPLICIT Hello_world
+STRING_IMPLICIT TR
+STRING_IMPLICIT _
+TR True
+FL False
+LET let
+INT int
+FLOAT float
+CHARACTER character
+WHILE while
+BOOLEAN boolean
+FUNCTION function
+RETURN return
+TYPE type
+IF if
+ELSE else
+NULL None
+CHAR #
+CHAR +
+CHAR !
+CHAR '
 REAL 0.0
 REAL 0.0
 REAL 0.0
@@ -31,23 +53,25 @@ INTEGER 10
 INTEGER 3871
 INTEGER 0
 INTEGER 12
-CHAR #
-CHAR !
-STRING_EXPLICIT Hello world!
-STRING_IMPLICIT Hello_world
-STRING_IMPLICIT TR
-STRING_IMPLICIT _
-TR True
-FL False
-LET let
-INT int
-FLOAT float
-CHARACTER character
-WHILE while
-BOOLEAN boolean
-FUNCTION function
-RETURN return
-TYPE type
-IF if
-ELSE else
-NULL None
+ARITHMETIC +
+ARITHMETIC -
+ARITHMETIC *
+ARITHMETIC /
+BOOL &&
+BOOL ||
+BOOL !
+COMPARATOR ==
+COMPARATOR >=
+COMPARATOR >
+COMPARATOR <=
+COMPARATOR <
+{ {
+} }
+( (
+) )
+[ [
+] ]
+= =
+: :
+, ,
+; ;

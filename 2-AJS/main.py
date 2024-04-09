@@ -1,7 +1,7 @@
 import sys
 import os
 from ajs_lexer import AJSLexer
-#from ajs_parser import AJSParser
+from ajs_parser import AJSParser
 
 
 def main():
@@ -29,21 +29,12 @@ def main():
             f"# PROVIDED: {os.path.splitext(sys.argv[1])[1]}\n"
             f"# EXPECTED: .ajs")
     
-    """
     if sys.argv[2] == "-par":  # lexer & parser
-        parser = AJSONParser()
-        output = parser.parse(data)
-        if output is None:
-            output = f">>> EMPTY AJSON FILE {sys.argv[1]}"
-        else:
-            output = f">>> AJSON FILE {sys.argv[1]}\n" + output
-        print(output)
+        parser = AJSNParser()
+        parser.parse(sys.argv[1])
     else:  # lexer
-        lexer = AJSONLexer()
+        lexer = AJSLexer()
         lexer.tokenize(sys.argv[1])
-    """
-    lexer = AJSLexer()
-    lexer.tokenize(sys.argv[1])
 
 
 if __name__ == "__main__":
