@@ -26,25 +26,19 @@ python3 main.py <path>.ajson [--mode=<mode>]
 - `<path>`: path to an AJSON file. Examples in [tests](./1-Lex_Yacc/tests)
 - `<mode>`: 0 (default) = lexer & parser || 1 = lexer
 ---
-### 2<sup>nd</sup> Assignment - 
-**1. Change directory to `2-`:**
+### 2<sup>nd</sup> Assignment - AJS
+The second and final assignment involved designing and implementing a lexical and syntactic analyzer for AJS (Almost JavaScript), a custom file format based on JSON. The analyzer uses the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
+
+**1. Change directory to `2-AJS`:**
 ```bash
-cd ./2-
+cd ./2-AJS
 ```
 **2. Run `main.py` file:**
 ```bash
-python3 main.py
+python3 main.py <path>.ajs <mode>
 ```
----
-### 3<sup>rd</sup> Assignment - 
-**1. Change directory to `3-`:**
-```bash
-cd ./3-
-```
-**2. Run `main.py` file:**
-```bash
-python3 main.py
-```
+- `<path>`: path to an AJS file. Examples in [tests](./2-AJS/tests)
+- `<mode>`: lex = lexer || par = parser
 ---
 ## Authors
 - Santiago Kiril Cenkov Stoyanov ([@SanKiril](https://github.com/SanKiril))
