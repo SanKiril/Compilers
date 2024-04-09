@@ -1,0 +1,51 @@
++ - * /
+
+&& || !
+
+== >= > <= <
+
+0b0
+0B110
+
+00
+061
+
+0x0
+0Xa
+0xF1f
+
+0
+12
+
+0.0
+0.
+.0
+12.34
+12.
+.34
+
+0.0e0
+0.E0
+.0e0
+12.34E56
+12.e56
+.34E56
+
+"Hello world!"
+
+Hello_world
+
+tr
+fl
+let
+int
+float
+character
+while
+boolean
+function
+return
+type
+if
+else
+null

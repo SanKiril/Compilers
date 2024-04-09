@@ -1,4 +1,5 @@
 import os
+import re
 from decimal import Decimal
 import ply.lex as lex
 
@@ -8,70 +9,62 @@ class AJSLexer:
         self.lexer = lex.lex(module=self)
     
     # DEFINE LITERALS
-    literals = ['{', '}', '(', ')', '[', ']', ':', ',', ';']
+    literals = ['{', '}', '(', ')', '[', ']', '=', ':', ',', ';']
     
     # DEFINE RESERVED TOKENS
     reserved = {
-        "tr": True,
-        "fl": False,
-        "let": "let",
-        "int": "int",
-        "float": "float",
-        "character": "character",
-        "while": "while",
-        "boolean": "boolean",
-        "function": "function",
-        "return": "return",
-        "type": "type",
-        "if": "if",
-        "else": "else",
-        "null": None
+        "TR": True,
+        "FL": False,
+        "LET": "let",
+        "INT": "int",
+        "FLOAT": "float",
+        "CHARACTER": "character",
+        "WHILE": "while",
+        "BOOLEAN": "boolean",
+        "FUNCTION": "function",
+        "RETURN": "return",
+        "TYPE": "type",
+        "IF": "if",
+        "ELSE": "else",
+        "NULL": None
     }
     
     # DEFINE TOKENS
     tokens = [
-        "SCIENTIFIC",
+        "ARITHMETIC",
+        "BOOL",
+        "COMPARATOR",
         "REAL",
-        "HEXADECIMAL",
-        "OCTAL",
-        "BINARY",
         "INTEGER",
         "STRING_EXPLICIT",
-        "STRING_IMPLICIT",
-        "COMPARATOR"
+        "STRING_IMPLICIT"
     ] + list(reserved.keys())
     
     # RECOGNIZE TOKENS
+    t_ARITHMETIC = r'\+|\-|\*|\/'
+    t_BOOL = r'\&\&|\|\||\!'
     t_COMPARATOR = r'\=\=|\>\=|\>|\<\=|\<'
 
-    def t_SCIENTIFIC(self, t):
-        r'\-?([1-9]\d*|0)?(\.\d+)?[eE]\-?([1-9]\d*|0)'
-        t.value = Decimal(t.value)
-        return t
-
     def t_REAL(self, t):
-        r'\-?([1-9]\d*|0)?\.\d+'
-        t.value = float(t.value)
-        return t
-
-    def t_HEXADECIMAL(self, t):
-        r'0[xX][0-9a-fA-F]+'
-        t.value = int(t.value, 16)
-        return t
-
-    def t_OCTAL(self, t):
-        r'0[0-7]+'
-        t.value = int(t.value, 8)
-        return t
-
-    def t_BINARY(self, t):
-        r'0[bB][01]+'
-        t.value = int(t.value, 2)
+        r'((?:(?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))[eE](?:[1-9]\d*|0))|((?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))'
+        match = re.match(r'((?:(?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))[eE](?:[1-9]\d*|0))|((?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))', t.value)
+        if match.group(1):  # arbitrary precision
+            t.value = Decimal(match.group(1))
+        else:  # single precision
+            t.value = float(match.group(2))
         return t
 
     def t_INTEGER(self, t):
-        r'\-?([1-9]\d*|0)'
-        t.value = int(t.value)
+        r'(0[bB][01]+)|(0[0-7]+)|(0[xX][0-9a-fA-F]+)|([1-9]\d*|0)'
+        match = re.match(r'(0[bB][01]+)|(0[0-7]+)|(0[xX][0-9a-fA-F]+)|([1-9]\d*|0)', t.value)
+        if match.group(1):  # base 2
+            t.value = int(match.group(1), 2)
+        elif match.group(2):  # base 8
+            t.value = int(match.group(2), 8)
+        elif match.group(3):  # base 16
+            t.value = int(match.group(3), 16)
+        else:  # base 10
+            t.value = int(match.group(4))
         return t
 
     def t_STRING_EXPLICIT(self, t):
@@ -81,10 +74,9 @@ class AJSLexer:
 
     def t_STRING_IMPLICIT(self, t):
         r'[a-zA-Z_]\w*'
-        upper_value = t.value.upper()
-        if upper_value in self.reserved:
-            t.type = upper_value
-            t.value = self.reserved[upper_value]
+        if t.value.islower() and t.value.upper() in self.reserved:
+            t.type = t.value.upper()
+            t.value = self.reserved[t.value.upper()]
         return t
 
     # INPUT BEHAVIOR
@@ -107,7 +99,7 @@ class AJSLexer:
                 data = file.read()
         except FileNotFoundError:
             raise FileNotFoundError(f"FILE PATH NOT EXIST:\n"
-                f"# PROVIDED: {sys.argv[1]}")
+                f"# PROVIDED: {file_path}")
         
         # tokenize
         self.lexer.input(data)
@@ -117,5 +109,5 @@ class AJSLexer:
             os.makedirs("./output/")
 
         # output file
-        with open(os.path.splitext(os.path.basename(sys.argv[1]))[0] + ".lexer", 'w', encoding="UTF-8") as file:
-            file.write(data)
+        with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".lexer", 'w', encoding="UTF-8") as file:
+            file.write("\n".join([f"{t.type} {t.value}" for t in self.lexer]))

@@ -35,7 +35,7 @@ cd ./2-AJS
 ```
 **2. Run `main.py` file:**
 ```bash
-python3 main.py <path>.ajs <mode>
+python3 main.py <path>.ajs -<mode>
 ```
 - `<path>`: path to an AJS file. Examples in [tests](./2-AJS/tests)
 - `<mode>`: lex = lexer || par = parser
