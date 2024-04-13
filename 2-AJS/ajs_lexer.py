@@ -1,6 +1,7 @@
 import os
 import re
 from decimal import Decimal
+from ply.lex import TOKEN
 import ply.lex as lex
 
 
@@ -41,6 +42,16 @@ class AJSLexer:
         "BOOL",
         "COMPARATOR"
     ] + list(reserved.keys())
+
+    # DEFINE COMPLEX PATTERNS
+    binary = r'0[bB][01]+'
+    octal = r'0[0-7]+'
+    hexadecimal = r'0[xX][0-9a-fA-F]+'
+    decimal = r'[1-9]\d*|0'
+    integer = rf'({binary})|({octal})|({hexadecimal})|({decimal})'
+    scientific = rf'(?:(?:(?:{decimal})\.\d*)|(?:\.\d+))[eE](?:{decimal})'
+    floating = rf'(?:(?:{decimal})\.\d*)|(?:\.\d+)'
+    real = rf'({scientific})|({floating})'
     
     # RECOGNIZE TOKENS
     def t_STRING_EXPLICIT(self, t):
@@ -63,19 +74,19 @@ class AJSLexer:
     def t_COMMENT(self, t):
         r'(\/\/.*)|(\/\*(?:(?!\*\/).|\n)*\*\/)'
         pass
-    
+
+    @TOKEN(real)
     def t_REAL(self, t):
-        r'((?:(?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))[eE](?:[1-9]\d*|0))|((?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))'
-        match = re.match(r'((?:(?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))[eE](?:[1-9]\d*|0))|((?:(?:[1-9]\d*|0)\.\d*)|(?:\.\d+))', t.value)
+        match = re.fullmatch(self.real, t.value)
         if match.group(1):  # arbitrary precision
             t.value = Decimal(match.group(1))
         else:  # single precision
             t.value = float(match.group(2))
         return t
 
+    @TOKEN(integer)
     def t_INTEGER(self, t):
-        r'(0[bB][01]+)|(0[0-7]+)|(0[xX][0-9a-fA-F]+)|([1-9]\d*|0)'
-        match = re.match(r'(0[bB][01]+)|(0[0-7]+)|(0[xX][0-9a-fA-F]+)|([1-9]\d*|0)', t.value)
+        match = re.fullmatch(self.integer, t.value)
         if match.group(1):  # base 2
             t.value = int(match.group(1), 2)
         elif match.group(2):  # base 8

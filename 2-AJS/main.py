@@ -30,7 +30,7 @@ def main():
             f"# EXPECTED: .ajs")
     
     if sys.argv[2] == "-par":  # lexer & parser
-        parser = AJSNParser()
+        parser = AJSParser()
         parser.parse(sys.argv[1])
     else:  # lexer
         lexer = AJSLexer()

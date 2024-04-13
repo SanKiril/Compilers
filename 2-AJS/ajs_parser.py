@@ -1,4 +1,4 @@
-from typing import Union
+import os
 import ply.yacc as yacc
 from ajs_lexer import AJSLexer
 
@@ -6,91 +6,156 @@ from ajs_lexer import AJSLexer
 class AJSParser:
     def __init__(self):
         self.parser = yacc.yacc(module=self)
+        self.__symbols = {}
+        self.__registers = {}
 
     tokens = AJSLexer().tokens
 
     # DEFINE PRODUCTION RULES
     def p_file(self, p):
         """
-        file : object
+        file : code
             | empty
         """
-        p[0] = None if p[1] is None else p[1]
-
+        p[0] = {} if p[1] is None else p[1]
+    
+    def p_code(self, p):
+        """
+        code : statement code
+            | block code
+            | statement
+            | block
+        """
+    
+    def p_statement(self, p):
+        """
+        statement : statement_content ';'
+        """
+        p[0] = p[1]
+    
+    def p_statement_content(self, p):
+        """
+        statement_content : declaration
+            | assignment
+            | definition
+            | expression
+        """
+        p[0] = p[1]
+    
+    def p_block(self, p):
+        """
+        block : if_conditional
+            | while_loop
+            | function
+        """
+        p[0] = p[1]
+    
+    def p_block_body(self, p):
+        """
+        block_body : '{' code '}'
+        """
+        p[0] = p[2]
+    
+    def p_declaration(self, p):
+        """
+        declaration : LET declaration_content
+        """
+        p[0] = p[2]
+    
+    def p_declaration_content(self, p):
+        """
+        declaration_content : declaration_item ',' declaration_content
+            | declaration_item
+        """
+    
+    def p_declaration_item(self, p):
+        """
+        declaration_item : STRING_IMPLICIT ':' STRING_IMPLICIT | STRING_IMPLICIT
+        """
+    
+    def p_assignment(self, p):
+        """
+        assignment : declaration '=' expression | STRING_IMPLICIT '=' expression
+        """
+    
+    def p_definition(self, p):
+        """
+        definition : TYPE STRING_IMPLICIT '=' object
+        """
+    
     def p_object(self, p):
         """
         object : '{' object_content '}'
         """
         p[0] = p[2]
-
+    
     def p_object_content(self, p):
         """
-        object_content : object_entry ',' object_content
-            | object_entry
+        object_content : object_item ',' object_content
+            | object_item
             | empty
         """
-        p[0] = None if p[1] is None else dict([p[1]])
-        if len(p) == 4 and p[3] is not None:
-            p[0].update(p[3])
-
-    def p_object_entry(self, p):
+    
+    def p_object_item(self, p):
         """
-        object_entry : key ':' value
+        object_item : key ':' type
         """
-        p[0] = (p[1], p[3])
-
+    
     def p_key(self, p):
         """
         key : STRING_EXPLICIT
             | STRING_IMPLICIT
         """
         p[0] = p[1]
-
-    def p_value(self, p):
+    
+    def p_type(self, p):
         """
-        value : array
-            | object
-            | comparison
-            | number
-            | TR
-            | FL
-            | NULL
-            | STRING_EXPLICIT
+        type : INT
+            | FLOAT
+            | CHARACTER
+            | BOOLEAN
+            | STRING_IMPLICIT
         """
         p[0] = p[1]
-
-    def p_array(self, p):
+    
+    def p_if_conditional(self, p):
         """
-        array : '[' array_content ']'
+        if_conditional : IF condition block_body
+            | IF condition block_body ELSE block_body
         """
-        p[0] = p[2]
-
-    def p_array_content(self, p):
+    
+    def p_while_loop(self, p):
         """
-        array_content : object ',' array_content
-            | object
+        while_loop : WHILE condition block_body
+        """
+    
+    def p_condition(self, p):
+        """
+        condition : '(' expression ')'
+        """
+    
+    def p_function(self, p):
+        """
+        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' code RETURN expression '}'
+        """
+    
+    def p_argument_list(self, p):
+        """
+        argument_list : STRING_IMPLICIT ':' STRING_IMPLICIT ',' argument_list
+            | STRING_IMPLICIT ':' STRING_IMPLICIT
             | empty
         """
-        p[0] = [] if p[1] is None else [p[1]]
-        if len(p) == 4 and p[3] is not None:
-            p[0].extend(p[3])
+    
+    def p_expression(self, p):
+        """
+        expression : expression binary_operator expression
+            | unary_operator expression
+            | 
+        """
 
-    def p_comparison(self, p):
-        """
-        comparison : number COMPARATOR number
-        """
-        p[0] = eval(f"{p[1]} {p[2]} {p[3]}")
 
-    def p_number(self, p):
-        """
-        number : SCIENTIFIC
-            | REAL
-            | HEXADECIMAL
-            | OCTAL
-            | BINARY
-            | INTEGER
-        """
-        p[0] = p[1]
+
+
 
     def p_empty(self, p):
         """
@@ -115,7 +180,7 @@ class AJSParser:
                 f"# PROVIDED: {file_path}")
         
         # parse
-        self.parser.parse(data)
+        print(self.parser.parse(data))
 
         # output directory
         if not os.path.exists("./output/"):
