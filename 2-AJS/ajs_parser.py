@@ -192,6 +192,7 @@ class AJSParser:
             | CHAR
             | TR
             | FL
+            | STRING_IMPLICIT
             | function_call
             | object_call
             | object
