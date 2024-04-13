@@ -10,7 +10,7 @@ class AJSLexer:
         self.lexer = lex.lex(module=self)
     
     # DEFINE LITERALS
-    literals = ['{', '}', '(', ')', '[', ']', '=', ':', ',', ';']
+    literals = ['{', '}', '(', ')', '[', ']', '=', ':', ',', ';', '+', '-', '*', '/', '!', '&', '|', '>', '<']
     
     # DEFINE RESERVED TOKENS
     reserved = {
@@ -37,10 +37,7 @@ class AJSLexer:
         "CHAR",
         "COMMENT",
         "REAL",
-        "INTEGER",
-        "ARITHMETIC",
-        "BOOL",
-        "COMPARATOR"
+        "INTEGER"
     ] + list(reserved.keys())
 
     # DEFINE COMPLEX PATTERNS
@@ -96,10 +93,6 @@ class AJSLexer:
         else:  # base 10
             t.value = int(match.group(4))
         return t
-
-    t_ARITHMETIC = r'\+|\-|\*|\/'
-    t_BOOL = r'\&\&|\|\||\!'
-    t_COMPARATOR = r'\=\=|\>\=|\>|\<\=|\<'
 
     # INPUT BEHAVIOR
     t_ignore = ' \t'

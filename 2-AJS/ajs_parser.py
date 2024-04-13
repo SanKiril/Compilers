@@ -64,18 +64,21 @@ class AJSParser:
     
     def p_declaration_content(self, p):
         """
-        declaration_content : declaration_item ',' declaration_content
-            | declaration_item
+        declaration_content : item ',' declaration_content
+            | item
         """
     
-    def p_declaration_item(self, p):
+    def p_item(self, p):
         """
-        declaration_item : STRING_IMPLICIT ':' STRING_IMPLICIT | STRING_IMPLICIT
+        item : STRING_IMPLICIT ':' STRING_IMPLICIT
+            | STRING_IMPLICIT
         """
+        p[0] = p[1]
     
     def p_assignment(self, p):
         """
-        assignment : declaration '=' expression | STRING_IMPLICIT '=' expression
+        assignment : declaration '=' expression
+            | STRING_IMPLICIT '=' expression
         """
     
     def p_definition(self, p):
@@ -95,10 +98,11 @@ class AJSParser:
             | object_item
             | empty
         """
-    
+
     def p_object_item(self, p):
         """
         object_item : key ':' type
+            | key ':' expression
         """
     
     def p_key(self, p):
@@ -136,26 +140,92 @@ class AJSParser:
     
     def p_function(self, p):
         """
-        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' code RETURN expression '}'
+        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' code RETURN expression ';' '}'
         """
     
     def p_argument_list(self, p):
         """
-        argument_list : STRING_IMPLICIT ':' STRING_IMPLICIT ',' argument_list
-            | STRING_IMPLICIT ':' STRING_IMPLICIT
+        argument_list : argument_list_nonempty
             | empty
+        """
+    
+    def p_argument_list_nonempty(self, p):
+        """
+        argument_list_nonempty : STRING_IMPLICIT ':' type ',' argument_list_nonempty
+            | STRING_IMPLICIT ':' type
         """
     
     def p_expression(self, p):
         """
-        expression : expression binary_operator expression
+        expression : '(' expression ')'
+            | expression binary_operator expression
             | unary_operator expression
-            | 
+            | term
+        """
+    
+    def p_binary_operator(self, p):
+        """
+        binary_operator : '+'
+            | '-'
+            | '*'
+            | '/'
+            | '&' '&'
+            | '|' '|'
+            | '<'
+            | '<' '='
+            | '=' '='
+            | '>' '='
+            | '>'
+        """
+    
+    def p_unary_operator(self, p):
+        """
+        unary_operator : '+'
+            | '-'
+            | '!'
         """
 
-
-
-
+    def p_term(self, p):
+        """
+        binary_operator : INTEGER
+            | REAL
+            | CHAR
+            | TR
+            | FL
+            | function_call
+            | object_call
+            | object
+        """
+    
+    def p_function_call(self, p):
+        """
+        function_call : STRING_IMPLICIT '(' function_call_list ')'
+        """
+    
+    def p_function_call_list(self, p):
+        """
+        function_call_list : function_call_list_nonempty
+            | empty
+        """
+    
+    def p_function_call_list_nonempty(self, p):
+        """
+        function_call_list_nonempty : expression ',' function_call_list_nonempty
+            | expression
+        """
+    
+    def p_object_call(self, p):
+        """
+        object_call : STRING_IMPLICIT object_attribute_list
+        """
+    
+    def p_object_attribute_list(self, p):
+        """
+        object_attribute_list : '[' STRING_EXPLICIT ']' object_attribute_list
+            | '.' STRING_IMPLICIT object_attribute_list
+            | '[' STRING_EXPLICIT ']'
+            | '.' STRING_IMPLICIT
+        """
 
     def p_empty(self, p):
         """
