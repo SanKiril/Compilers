@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "ARITHMETIC BOOL BOOLEAN CHAR CHARACTER COMMENT COMPARATOR ELSE FL FLOAT FUNCTION IF INT INTEGER LET NULL REAL RETURN STRING_EXPLICIT STRING_IMPLICIT TR TYPE WHILE\n        file : expression\n            | empty\n        \n        expression : expression ARITHMETIC term\n            | term\n        \n        term : term ARITHMETIC factor\n            | factor\n        \n        factor : INTEGER\n            | REAL\n            | '(' expression ')'\n        \n        empty :\n        "
+_lr_signature = "BOOLEAN CHAR CHARACTER COMMENT ELSE FL FLOAT FUNCTION IF INT INTEGER LET NULL REAL RETURN STRING_EXPLICIT STRING_IMPLICIT TR TYPE WHILE\n        file : code\n            | empty\n        \n        code : statement code\n            | block code\n            | statement\n            | block\n        \n        statement : statement_content ';'\n        \n        statement_content : declaration\n            | assignment\n            | definition\n            | expression\n        \n        block : if_conditional\n            | while_loop\n            | function\n        \n        block_body : '{' code '}'\n        \n        declaration : LET declaration_content\n        \n        declaration_content : item ',' declaration_content\n            | item\n        \n        item : STRING_IMPLICIT ':' STRING_IMPLICIT\n            | STRING_IMPLICIT\n        \n        assignment : declaration '=' expression\n            | STRING_IMPLICIT '=' expression\n        \n        definition : TYPE STRING_IMPLICIT '=' object\n        \n        object : '{' object_content '}'\n        \n        object_content : object_item ',' object_content\n            | object_item\n            | empty\n        \n        object_item : key ':' type\n            | key ':' expression\n        \n        key : STRING_EXPLICIT\n            | STRING_IMPLICIT\n        \n        type : INT\n            | FLOAT\n            | CHARACTER\n            | BOOLEAN\n            | STRING_IMPLICIT\n        \n        if_conditional : IF condition block_body\n            | IF condition block_body ELSE block_body\n        \n        while_loop : WHILE condition block_body\n        \n        condition : '(' expression ')'\n        \n        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' code RETURN expression ';' '}'\n        \n        argument_list : argument_list_nonempty\n            | empty\n        \n        argument_list_nonempty : STRING_IMPLICIT ':' type ',' argument_list_nonempty\n            | STRING_IMPLICIT ':' type\n        \n        expression : '(' expression ')'\n            | expression binary_operator expression\n            | unary_operator expression\n            | term\n        \n        binary_operator : '+'\n            | '-'\n            | '*'\n            | '/'\n            | '&' '&'\n            | '|' '|'\n            | '<'\n            | '<' '='\n            | '=' '='\n            | '>' '='\n            | '>'\n        \n        unary_operator : '+'\n            | '-'\n            | '!'\n        \n        term : INTEGER\n            | REAL\n            | CHAR\n            | TR\n            | FL\n            | STRING_IMPLICIT\n            | function_call\n            | object_call\n            | object\n        \n        function_call : STRING_IMPLICIT '(' function_call_list ')'\n        \n        function_call_list : function_call_list_nonempty\n            | empty\n        \n        function_call_list_nonempty : expression ',' function_call_list_nonempty\n            | expression\n        \n        object_call : STRING_IMPLICIT object_attribute_list\n        \n        object_attribute_list : '[' STRING_EXPLICIT ']' object_attribute_list\n            | '.' STRING_IMPLICIT object_attribute_list\n            | '[' STRING_EXPLICIT ']'\n            | '.' STRING_IMPLICIT\n        \n        empty :\n        "
     
-_lr_action_items = {'$end':([0,1,2,3,4,5,6,7,12,13,14,],[-10,0,-1,-2,-4,-6,-7,-8,-3,-5,-9,]),'INTEGER':([0,8,9,10,],[6,6,6,6,]),'REAL':([0,8,9,10,],[7,7,7,7,]),'(':([0,8,9,10,],[8,8,8,8,]),'ARITHMETIC':([2,4,5,6,7,11,12,13,14,],[9,10,-6,-7,-8,9,10,-5,-9,]),')':([4,5,6,7,11,12,13,14,],[-4,-6,-7,-8,14,-3,-5,-9,]),}
+_lr_action_items = {'$end':([0,1,2,3,4,5,7,8,9,35,36,37,78,81,119,120,136,],[-83,0,-1,-2,-5,-6,-12,-13,-14,-3,-4,-7,-37,-39,-38,-15,-41,]),'IF':([0,4,5,7,8,9,37,78,79,81,119,120,131,136,],[14,14,14,-12,-13,-14,-7,-37,14,-39,-38,-15,14,-41,]),'WHILE':([0,4,5,7,8,9,37,78,79,81,119,120,131,136,],[15,15,15,-12,-13,-14,-7,-37,15,-39,-38,-15,15,-41,]),'FUNCTION':([0,4,5,7,8,9,37,78,79,81,119,120,131,136,],[16,16,16,-12,-13,-14,-7,-37,16,-39,-38,-15,16,-41,]),'LET':([0,4,5,7,8,9,37,78,79,81,119,120,131,136,],[20,20,20,-12,-13,-14,-7,-37,20,-39,-38,-15,20,-41,]),'STRING_IMPLICIT':([0,4,5,7,8,9,16,18,19,20,21,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,57,73,74,75,76,77,78,79,81,82,92,93,94,95,105,119,120,121,127,128,131,133,136,],[17,17,17,-12,-13,-14,52,59,65,68,69,59,-61,-62,-63,-7,59,59,-50,-51,-52,-53,-56,-60,59,59,59,89,-54,-55,-57,-58,-59,-37,17,-39,100,65,115,68,117,59,-38,-15,125,125,100,17,59,-41,]),'TYPE':([0,4,5,7,8,9,37,78,79,81,119,120,131,136,],[21,21,21,-12,-13,-14,-7,-37,21,-39,-38,-15,21,-41,]),'(':([0,4,5,7,8,9,14,15,17,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,52,53,54,59,73,74,75,76,77,78,79,81,93,105,115,119,120,131,133,136,],[18,18,18,-12,-13,-14,50,50,54,18,18,-61,-62,-63,-7,18,18,-50,-51,-52,-53,-56,-60,18,82,18,18,54,-54,-55,-57,-58,-59,-37,18,-39,18,18,54,-38,-15,18,18,-41,]),'+':([0,4,5,7,8,9,13,17,18,22,23,24,25,26,27,28,29,30,31,32,33,34,37,38,39,40,41,42,43,46,48,50,53,54,55,58,59,70,71,72,73,74,75,76,77,78,79,80,81,83,87,89,90,91,93,104,105,106,107,110,115,119,120,124,131,133,134,136,],[25,25,25,-12,-13,-14,40,-69,25,-72,25,-49,-61,-62,-63,-64,-65,-66,-67,-68,-70,-71,-7,25,25,-50,-51,-52,-53,-56,-60,25,25,25,-78,40,-69,40,40,40,-54,-55,-57,-58,-59,-37,25,40,-39,40,40,-82,-46,-24,25,-73,25,-81,-80,40,-69,-38,-15,-79,25,25,40,-41,]),'-':([0,4,5,7,8,9,13,17,18,22,23,24,25,26,27,28,29,30,31,32,33,34,37,38,39,40,41,42,43,46,48,50,53,54,55,58,59,70,71,72,73,74,75,76,77,78,79,80,81,83,87,89,90,91,93,104,105,106,107,110,115,119,120,124,131,133,134,136,],[26,26,26,-12,-13,-14,41,-69,26,-72,26,-49,-61,-62,-63,-64,-65,-66,-67,-68,-70,-71,-7,26,26,-50,-51,-52,-53,-56,-60,26,26,26,-78,41,-69,41,41,41,-54,-55,-57,-58,-59,-37,26,41,-39,41,41,-82,-46,-24,26,-73,26,-81,-80,41,-69,-38,-15,-79,26,26,41,-41,]),'!':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[27,27,27,-12,-13,-14,27,27,-61,-62,-63,-7,27,27,-50,-51,-52,-53,-56,-60,27,27,27,-54,-55,-57,-58,-59,-37,27,-39,27,27,-38,-15,27,27,-41,]),'INTEGER':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[28,28,28,-12,-13,-14,28,28,-61,-62,-63,-7,28,28,-50,-51,-52,-53,-56,-60,28,28,28,-54,-55,-57,-58,-59,-37,28,-39,28,28,-38,-15,28,28,-41,]),'REAL':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[29,29,29,-12,-13,-14,29,29,-61,-62,-63,-7,29,29,-50,-51,-52,-53,-56,-60,29,29,29,-54,-55,-57,-58,-59,-37,29,-39,29,29,-38,-15,29,29,-41,]),'CHAR':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[30,30,30,-12,-13,-14,30,30,-61,-62,-63,-7,30,30,-50,-51,-52,-53,-56,-60,30,30,30,-54,-55,-57,-58,-59,-37,30,-39,30,30,-38,-15,30,30,-41,]),'TR':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[31,31,31,-12,-13,-14,31,31,-61,-62,-63,-7,31,31,-50,-51,-52,-53,-56,-60,31,31,31,-54,-55,-57,-58,-59,-37,31,-39,31,31,-38,-15,31,31,-41,]),'FL':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,50,53,54,73,74,75,76,77,78,79,81,93,105,119,120,131,133,136,],[32,32,32,-12,-13,-14,32,32,-61,-62,-63,-7,32,32,-50,-51,-52,-53,-56,-60,32,32,32,-54,-55,-57,-58,-59,-37,32,-39,32,32,-38,-15,32,32,-41,]),'{':([0,4,5,7,8,9,18,23,25,26,27,37,38,39,40,41,42,43,46,48,49,50,51,53,54,73,74,75,76,77,78,79,81,93,96,97,99,105,111,112,113,114,119,120,125,129,131,133,136,],[19,19,19,-12,-13,-14,19,19,-61,-62,-63,-7,19,19,-50,-51,-52,-53,-56,-60,79,19,79,19,19,-54,-55,-57,-58,-59,-37,19,-39,19,19,79,-40,19,-32,-33,-34,-35,-38,-15,-36,131,19,19,-41,]),'}':([4,5,7,8,9,19,22,24,28,29,30,31,32,33,34,35,36,37,55,59,60,61,62,70,72,78,81,89,90,91,92,98,104,106,107,108,109,110,111,112,113,114,115,119,120,124,135,136,],[-5,-6,-12,-13,-14,-83,-72,-49,-64,-65,-66,-67,-68,-70,-71,-3,-4,-7,-78,-69,91,-26,-27,-48,-47,-37,-39,-82,-46,-24,-83,120,-73,-81,-80,-25,-28,-29,-32,-33,-34,-35,-36,-38,-15,-79,136,-41,]),'RETURN':([4,5,7,8,9,35,36,37,78,81,119,120,132,136,],[-5,-6,-12,-13,-14,-3,-4,-7,-37,-39,-38,-15,133,-41,]),';':([6,10,11,12,13,17,22,24,28,29,30,31,32,33,34,55,59,66,67,68,70,71,72,83,89,90,91,104,106,107,116,117,118,124,134,],[37,-8,-9,-10,-11,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,-69,-16,-18,-20,-48,-21,-47,-22,-82,-46,-24,-73,-81,-80,-17,-19,-23,-79,135,]),'=':([10,13,17,22,24,28,29,30,31,32,33,34,46,47,48,55,58,59,66,67,68,69,70,71,72,80,83,87,89,90,91,104,106,107,110,115,116,117,124,134,],[38,47,53,-72,-49,-64,-65,-66,-67,-68,-70,-71,75,76,77,-78,47,-69,-16,-18,-20,96,47,47,47,47,47,47,-82,-46,-24,-73,-81,-80,47,-69,-17,-19,-79,47,]),'*':([13,17,22,24,28,29,30,31,32,33,34,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[42,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,42,-69,42,42,42,42,42,42,-82,-46,-24,-73,-81,-80,42,-69,-79,42,]),'/':([13,17,22,24,28,29,30,31,32,33,34,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[43,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,43,-69,43,43,43,43,43,43,-82,-46,-24,-73,-81,-80,43,-69,-79,43,]),'&':([13,17,22,24,28,29,30,31,32,33,34,44,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[44,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,73,-78,44,-69,44,44,44,44,44,44,-82,-46,-24,-73,-81,-80,44,-69,-79,44,]),'|':([13,17,22,24,28,29,30,31,32,33,34,45,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[45,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,74,-78,45,-69,45,45,45,45,45,45,-82,-46,-24,-73,-81,-80,45,-69,-79,45,]),'<':([13,17,22,24,28,29,30,31,32,33,34,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[46,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,46,-69,46,46,46,46,46,46,-82,-46,-24,-73,-81,-80,46,-69,-79,46,]),'>':([13,17,22,24,28,29,30,31,32,33,34,55,58,59,70,71,72,80,83,87,89,90,91,104,106,107,110,115,124,134,],[48,-69,-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,48,-69,48,48,48,48,48,48,-82,-46,-24,-73,-81,-80,48,-69,-79,48,]),'[':([17,59,89,106,115,],[56,56,56,56,56,]),'.':([17,59,89,106,115,],[57,57,57,57,57,]),'STRING_EXPLICIT':([19,56,92,],[64,88,64,]),')':([22,24,28,29,30,31,32,33,34,54,55,58,59,70,72,80,82,84,85,86,87,89,90,91,101,102,103,104,106,107,111,112,113,114,123,124,125,126,130,],[-72,-49,-64,-65,-66,-67,-68,-70,-71,-83,-78,90,-69,-48,-47,99,-83,104,-74,-75,-77,-82,-46,-24,122,-42,-43,-73,-81,-80,-32,-33,-34,-35,-76,-79,-36,-45,-44,]),',':([22,24,28,29,30,31,32,33,34,55,59,61,67,68,70,72,87,89,90,91,104,106,107,109,110,111,112,113,114,115,117,124,125,126,],[-72,-49,-64,-65,-66,-67,-68,-70,-71,-78,-69,92,94,-20,-48,-47,105,-82,-46,-24,-73,-81,-80,-28,-29,-32,-33,-34,-35,-36,-19,-79,-36,128,]),':':([63,64,65,68,100,122,],[93,-30,-31,95,121,127,]),'ELSE':([78,120,],[97,-15,]),']':([88,],[106,]),'INT':([93,121,127,],[111,111,111,]),'FLOAT':([93,121,127,],[112,112,112,]),'CHARACTER':([93,121,127,],[113,113,113,]),'BOOLEAN':([93,121,127,],[114,114,114,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'file':([0,],[1,]),'expression':([0,8,],[2,11,]),'empty':([0,],[3,]),'term':([0,8,9,],[4,4,12,]),'factor':([0,8,9,10,],[5,5,5,13,]),}
+_lr_goto_items = {'file':([0,],[1,]),'code':([0,4,5,79,131,],[2,35,36,98,132,]),'empty':([0,19,54,82,92,],[3,62,86,103,62,]),'statement':([0,4,5,79,131,],[4,4,4,4,4,]),'block':([0,4,5,79,131,],[5,5,5,5,5,]),'statement_content':([0,4,5,79,131,],[6,6,6,6,6,]),'if_conditional':([0,4,5,79,131,],[7,7,7,7,7,]),'while_loop':([0,4,5,79,131,],[8,8,8,8,8,]),'function':([0,4,5,79,131,],[9,9,9,9,9,]),'declaration':([0,4,5,79,131,],[10,10,10,10,10,]),'assignment':([0,4,5,79,131,],[11,11,11,11,11,]),'definition':([0,4,5,79,131,],[12,12,12,12,12,]),'expression':([0,4,5,18,23,38,39,50,53,54,79,93,105,131,133,],[13,13,13,58,70,71,72,80,83,87,13,110,87,13,134,]),'object':([0,4,5,18,23,38,39,50,53,54,79,93,96,105,131,133,],[22,22,22,22,22,22,22,22,22,22,22,22,118,22,22,22,]),'unary_operator':([0,4,5,18,23,38,39,50,53,54,79,93,105,131,133,],[23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,]),'term':([0,4,5,18,23,38,39,50,53,54,79,93,105,131,133,],[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,]),'function_call':([0,4,5,18,23,38,39,50,53,54,79,93,105,131,133,],[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,]),'object_call':([0,4,5,18,23,38,39,50,53,54,79,93,105,131,133,],[34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,]),'binary_operator':([13,58,70,71,72,80,83,87,110,134,],[39,39,39,39,39,39,39,39,39,39,]),'condition':([14,15,],[49,51,]),'object_attribute_list':([17,59,89,106,115,],[55,55,107,124,55,]),'object_content':([19,92,],[60,108,]),'object_item':([19,92,],[61,61,]),'key':([19,92,],[63,63,]),'declaration_content':([20,94,],[66,116,]),'item':([20,94,],[67,67,]),'block_body':([49,51,97,],[78,81,119,]),'function_call_list':([54,],[84,]),'function_call_list_nonempty':([54,105,],[85,123,]),'argument_list':([82,],[101,]),'argument_list_nonempty':([82,128,],[102,130,]),'type':([93,121,127,],[109,126,129,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,14 +27,87 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> file","S'",1,None,None,None),
-  ('file -> expression','file',1,'p_file','ajs_parser.py',17),
+  ('file -> code','file',1,'p_file','ajs_parser.py',17),
   ('file -> empty','file',1,'p_file','ajs_parser.py',18),
-  ('expression -> expression ARITHMETIC term','expression',3,'p_expression','ajs_parser.py',26),
-  ('expression -> term','expression',1,'p_expression','ajs_parser.py',27),
-  ('term -> term ARITHMETIC factor','term',3,'p_term','ajs_parser.py',39),
-  ('term -> factor','term',1,'p_term','ajs_parser.py',40),
-  ('factor -> INTEGER','factor',1,'p_factor','ajs_parser.py',52),
-  ('factor -> REAL','factor',1,'p_factor','ajs_parser.py',53),
-  ('factor -> ( expression )','factor',3,'p_factor','ajs_parser.py',54),
-  ('empty -> <empty>','empty',0,'p_empty','ajs_parser.py',65),
+  ('code -> statement code','code',2,'p_code','ajs_parser.py',24),
+  ('code -> block code','code',2,'p_code','ajs_parser.py',25),
+  ('code -> statement','code',1,'p_code','ajs_parser.py',26),
+  ('code -> block','code',1,'p_code','ajs_parser.py',27),
+  ('statement -> statement_content ;','statement',2,'p_statement','ajs_parser.py',32),
+  ('statement_content -> declaration','statement_content',1,'p_statement_content','ajs_parser.py',38),
+  ('statement_content -> assignment','statement_content',1,'p_statement_content','ajs_parser.py',39),
+  ('statement_content -> definition','statement_content',1,'p_statement_content','ajs_parser.py',40),
+  ('statement_content -> expression','statement_content',1,'p_statement_content','ajs_parser.py',41),
+  ('block -> if_conditional','block',1,'p_block','ajs_parser.py',47),
+  ('block -> while_loop','block',1,'p_block','ajs_parser.py',48),
+  ('block -> function','block',1,'p_block','ajs_parser.py',49),
+  ('block_body -> { code }','block_body',3,'p_block_body','ajs_parser.py',55),
+  ('declaration -> LET declaration_content','declaration',2,'p_declaration','ajs_parser.py',61),
+  ('declaration_content -> item , declaration_content','declaration_content',3,'p_declaration_content','ajs_parser.py',67),
+  ('declaration_content -> item','declaration_content',1,'p_declaration_content','ajs_parser.py',68),
+  ('item -> STRING_IMPLICIT : STRING_IMPLICIT','item',3,'p_item','ajs_parser.py',73),
+  ('item -> STRING_IMPLICIT','item',1,'p_item','ajs_parser.py',74),
+  ('assignment -> declaration = expression','assignment',3,'p_assignment','ajs_parser.py',80),
+  ('assignment -> STRING_IMPLICIT = expression','assignment',3,'p_assignment','ajs_parser.py',81),
+  ('definition -> TYPE STRING_IMPLICIT = object','definition',4,'p_definition','ajs_parser.py',86),
+  ('object -> { object_content }','object',3,'p_object','ajs_parser.py',91),
+  ('object_content -> object_item , object_content','object_content',3,'p_object_content','ajs_parser.py',97),
+  ('object_content -> object_item','object_content',1,'p_object_content','ajs_parser.py',98),
+  ('object_content -> empty','object_content',1,'p_object_content','ajs_parser.py',99),
+  ('object_item -> key : type','object_item',3,'p_object_item','ajs_parser.py',104),
+  ('object_item -> key : expression','object_item',3,'p_object_item','ajs_parser.py',105),
+  ('key -> STRING_EXPLICIT','key',1,'p_key','ajs_parser.py',110),
+  ('key -> STRING_IMPLICIT','key',1,'p_key','ajs_parser.py',111),
+  ('type -> INT','type',1,'p_type','ajs_parser.py',117),
+  ('type -> FLOAT','type',1,'p_type','ajs_parser.py',118),
+  ('type -> CHARACTER','type',1,'p_type','ajs_parser.py',119),
+  ('type -> BOOLEAN','type',1,'p_type','ajs_parser.py',120),
+  ('type -> STRING_IMPLICIT','type',1,'p_type','ajs_parser.py',121),
+  ('if_conditional -> IF condition block_body','if_conditional',3,'p_if_conditional','ajs_parser.py',127),
+  ('if_conditional -> IF condition block_body ELSE block_body','if_conditional',5,'p_if_conditional','ajs_parser.py',128),
+  ('while_loop -> WHILE condition block_body','while_loop',3,'p_while_loop','ajs_parser.py',133),
+  ('condition -> ( expression )','condition',3,'p_condition','ajs_parser.py',138),
+  ('function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }','function',13,'p_function','ajs_parser.py',143),
+  ('argument_list -> argument_list_nonempty','argument_list',1,'p_argument_list','ajs_parser.py',148),
+  ('argument_list -> empty','argument_list',1,'p_argument_list','ajs_parser.py',149),
+  ('argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty','argument_list_nonempty',5,'p_argument_list_nonempty','ajs_parser.py',154),
+  ('argument_list_nonempty -> STRING_IMPLICIT : type','argument_list_nonempty',3,'p_argument_list_nonempty','ajs_parser.py',155),
+  ('expression -> ( expression )','expression',3,'p_expression','ajs_parser.py',160),
+  ('expression -> expression binary_operator expression','expression',3,'p_expression','ajs_parser.py',161),
+  ('expression -> unary_operator expression','expression',2,'p_expression','ajs_parser.py',162),
+  ('expression -> term','expression',1,'p_expression','ajs_parser.py',163),
+  ('binary_operator -> +','binary_operator',1,'p_binary_operator','ajs_parser.py',168),
+  ('binary_operator -> -','binary_operator',1,'p_binary_operator','ajs_parser.py',169),
+  ('binary_operator -> *','binary_operator',1,'p_binary_operator','ajs_parser.py',170),
+  ('binary_operator -> /','binary_operator',1,'p_binary_operator','ajs_parser.py',171),
+  ('binary_operator -> & &','binary_operator',2,'p_binary_operator','ajs_parser.py',172),
+  ('binary_operator -> | |','binary_operator',2,'p_binary_operator','ajs_parser.py',173),
+  ('binary_operator -> <','binary_operator',1,'p_binary_operator','ajs_parser.py',174),
+  ('binary_operator -> < =','binary_operator',2,'p_binary_operator','ajs_parser.py',175),
+  ('binary_operator -> = =','binary_operator',2,'p_binary_operator','ajs_parser.py',176),
+  ('binary_operator -> > =','binary_operator',2,'p_binary_operator','ajs_parser.py',177),
+  ('binary_operator -> >','binary_operator',1,'p_binary_operator','ajs_parser.py',178),
+  ('unary_operator -> +','unary_operator',1,'p_unary_operator','ajs_parser.py',183),
+  ('unary_operator -> -','unary_operator',1,'p_unary_operator','ajs_parser.py',184),
+  ('unary_operator -> !','unary_operator',1,'p_unary_operator','ajs_parser.py',185),
+  ('term -> INTEGER','term',1,'p_term','ajs_parser.py',190),
+  ('term -> REAL','term',1,'p_term','ajs_parser.py',191),
+  ('term -> CHAR','term',1,'p_term','ajs_parser.py',192),
+  ('term -> TR','term',1,'p_term','ajs_parser.py',193),
+  ('term -> FL','term',1,'p_term','ajs_parser.py',194),
+  ('term -> STRING_IMPLICIT','term',1,'p_term','ajs_parser.py',195),
+  ('term -> function_call','term',1,'p_term','ajs_parser.py',196),
+  ('term -> object_call','term',1,'p_term','ajs_parser.py',197),
+  ('term -> object','term',1,'p_term','ajs_parser.py',198),
+  ('function_call -> STRING_IMPLICIT ( function_call_list )','function_call',4,'p_function_call','ajs_parser.py',203),
+  ('function_call_list -> function_call_list_nonempty','function_call_list',1,'p_function_call_list','ajs_parser.py',208),
+  ('function_call_list -> empty','function_call_list',1,'p_function_call_list','ajs_parser.py',209),
+  ('function_call_list_nonempty -> expression , function_call_list_nonempty','function_call_list_nonempty',3,'p_function_call_list_nonempty','ajs_parser.py',214),
+  ('function_call_list_nonempty -> expression','function_call_list_nonempty',1,'p_function_call_list_nonempty','ajs_parser.py',215),
+  ('object_call -> STRING_IMPLICIT object_attribute_list','object_call',2,'p_object_call','ajs_parser.py',220),
+  ('object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list','object_attribute_list',4,'p_object_attribute_list','ajs_parser.py',225),
+  ('object_attribute_list -> . STRING_IMPLICIT object_attribute_list','object_attribute_list',3,'p_object_attribute_list','ajs_parser.py',226),
+  ('object_attribute_list -> [ STRING_EXPLICIT ]','object_attribute_list',3,'p_object_attribute_list','ajs_parser.py',227),
+  ('object_attribute_list -> . STRING_IMPLICIT','object_attribute_list',2,'p_object_attribute_list','ajs_parser.py',228),
+  ('empty -> <empty>','empty',0,'p_empty','ajs_parser.py',233),
 ]

@@ -21,13 +21,13 @@ cd ./1-Lex_Yacc
 ```
 **2. Run `main.py` file:**
 ```bash
-python3 main.py <path>.ajson [--mode=<mode>]
+python3 main.py <path>.ajson -<mode>
 ```
 - `<path>`: path to an AJSON file. Examples in [tests](./1-Lex_Yacc/tests)
-- `<mode>`: 0 (default) = lexer & parser || 1 = lexer
+- `<mode>`: lex = lexer || par = parser
 ---
 ### 2<sup>nd</sup> Assignment - AJS
-The second and final assignment was build over the first one and involved designing and implementing a lexical, syntactic and semantic analyzer for AJS (Almost JavaScript), a custom programming language based on JavaScript. The analyzer uses the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
+The second and final assignment was build over the first one and involved designing and implementing a lexical, syntactic and semantic analyzer for AJS (Almost JavaScript), a custom and simple programming language based on JavaScript. The analyzer uses the `lex` and `yacc` modules from the Python PLY (Python Lex-Yacc) library[^1].
 
 **1. Change directory to `2-AJS`:**
 ```bash

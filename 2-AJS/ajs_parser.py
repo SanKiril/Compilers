@@ -187,7 +187,7 @@ class AJSParser:
 
     def p_term(self, p):
         """
-        binary_operator : INTEGER
+        term : INTEGER
             | REAL
             | CHAR
             | TR

@@ -6,29 +6,22 @@ from ajson_parser import AJSONParser
 
 def main():
     # CHECK ARGUMENT NUMBER
-    if not (2 <= len(sys.argv) <= 3):
+    if len(sys.argv) < 3:
         raise ValueError(f"INCORRECT ARGUMENT NUMBER:\n"
             f"# PROVIDED: {len(sys.argv)}\n"
-            f"# EXPECTED: 2 || 3\n"
-            f"# USAGE: python3 ./main.py <path>.ajson [--mode=<mode>]\n"
+            f"# EXPECTED: 3\n"
+            f"# USAGE: python3 ./main.py <path>.ajson -<mode>\n"
             f"# - <path>: path to an AJSON file. Examples in ./1-Lex_Yacc/tests\n"
-            f"# - <mode>: 0 (default) = lexer & parser || 1 = lexer")
+            f"# - <mode>: lex = lexer || par = parser")
     
     # CHECK MODE
-    if len(sys.argv) == 3:
-        if sys.argv[2] == "--mode=0":
-            mode = 0
-        elif sys.argv[2] == "--mode=1":
-            mode = 1
-        else:
-            raise ValueError(f"INCORRECT MODE:\n"
-                f"# PROVIDED: {sys.argv[2]}\n"
-                f"# EXPECTED: 0 || 1\n"
-                f"# USAGE: python3 ./main.py ... [--mode=<mode>]\n"
-                f"# - ...\n"
-                f"# - <mode>: 0 (default) = lexer & parser || 1 = lexer")
-    else:
-        mode = 0
+    if sys.argv[2] not in ["-lex", "-par"]:
+        raise ValueError(f"INCORRECT MODE:\n"
+            f"# PROVIDED: {sys.argv[2]}\n"
+            f"# EXPECTED: lex || par\n"
+            f"# USAGE: python3 ./main.py ... -<mode>\n"
+            f"# - ...\n"
+            f"# - <mode>: lex = lexer || par = parser")
     
     # CHECK FILE EXTENSION
     if os.path.splitext(sys.argv[1])[1] != ".ajson":
@@ -44,21 +37,17 @@ def main():
         raise FileNotFoundError(f"FILE PATH NOT EXIST:\n"
             f"# PROVIDED: {sys.argv[1]}")
     
-    if mode == 0:
-        # LEXER & PARSER
+    if sys.argv[2] == "-par":  # lexer & parser
         parser = AJSONParser()
         output = parser.parse(data)
         if output is None:
             output = f">>> EMPTY AJSON FILE {sys.argv[1]}"
         else:
             output = f">>> AJSON FILE {sys.argv[1]}\n" + output
-        print(output)
-    else:
-        # LEXER
+    else:  # lexer
         lexer = AJSONLexer()
         output = lexer.tokenize(data)
-        print(output)
-    return output
+    print(output)
 
 
 if __name__ == "__main__":
