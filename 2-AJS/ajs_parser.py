@@ -11,6 +11,14 @@ class AJSParser:
 
     tokens = AJSLexer().tokens
 
+    # DEFINE TOKEN PRECEDENCE
+    precedence = (
+        #("left", PLUS, MINUS),
+        #("left", TIMES, DIVIDE),
+        ("nonassoc", "STRING_IMPLICIT"),  # non-associative
+        ("right", "ASSIGN"),  # right associative: [OK]: a = (b + c), [NOK]: (a = b) + c
+    )
+
     # DEFINE PRODUCTION RULES
     def p_file(self, p):
         """
@@ -77,13 +85,13 @@ class AJSParser:
     
     def p_assignment(self, p):
         """
-        assignment : declaration '=' expression
-            | STRING_IMPLICIT '=' expression
+        assignment : declaration ASSIGN expression
+            | STRING_IMPLICIT ASSIGN expression
         """
     
     def p_definition(self, p):
         """
-        definition : TYPE STRING_IMPLICIT '=' object
+        definition : TYPE STRING_IMPLICIT ASSIGN object
         """
     
     def p_object(self, p):
@@ -165,24 +173,24 @@ class AJSParser:
     
     def p_binary_operator(self, p):
         """
-        binary_operator : '+'
-            | '-'
-            | '*'
-            | '/'
-            | '&' '&'
-            | '|' '|'
-            | '<'
-            | '<' '='
-            | '=' '='
-            | '>' '='
-            | '>'
+        binary_operator : PLUS
+            | MINUS
+            | TIMES
+            | DIVIDE
+            | AND
+            | OR
+            | LT
+            | LE
+            | EQ
+            | GE
+            | GT
         """
     
     def p_unary_operator(self, p):
         """
-        unary_operator : '+'
-            | '-'
-            | '!'
+        unary_operator : PLUS
+            | MINUS
+            | NOT
         """
 
     def p_term(self, p):

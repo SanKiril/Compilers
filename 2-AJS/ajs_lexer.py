@@ -10,7 +10,7 @@ class AJSLexer:
         self.lexer = lex.lex(module=self)
     
     # DEFINE LITERALS
-    literals = ['{', '}', '(', ')', '[', ']', '=', ':', ',', ';', '+', '-', '*', '/', '!', '&', '|', '>', '<']
+    literals = ['{', '}', '(', ')', '[', ']', ':', ',', ';']
     
     # DEFINE RESERVED TOKENS
     reserved = {
@@ -32,6 +32,19 @@ class AJSLexer:
     
     # DEFINE TOKENS
     tokens = [
+        "PLUS",
+        "MINUS",
+        "TIMES",
+        "DIVIDE",
+        "NOT",
+        "AND",
+        "OR",
+        "LT",
+        "LE",
+        "EQ",
+        "GE",
+        "GT",
+        "ASSIGN",
         "STRING_EXPLICIT",
         "STRING_IMPLICIT",
         "CHAR",
@@ -51,6 +64,20 @@ class AJSLexer:
     real = rf'({scientific})|({floating})'
     
     # RECOGNIZE TOKENS
+    t_PLUS = r'\+'
+    t_MINUS = r'\-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'\/'
+    t_NOT = r'\!'
+    t_AND = r'\&\&'
+    t_OR = r'\|\|'
+    t_LE = r'\<\='
+    t_LT = r'\<'
+    t_EQ = r'\=\='
+    t_GE = r'\>\='
+    t_GT = r'\>'
+    t_ASSIGN = r'\='
+
     def t_STRING_EXPLICIT(self, t):
         r'\"[^\"\n\r]*\"'
         t.value = t.value[1:-1]
