@@ -112,7 +112,7 @@ class AJSParser:
 
     def p_object_item(self, p):
         """
-        object_item : key ':' type
+        object_item : key ':' basic_type
             | key ':' expression
         """
     
@@ -125,11 +125,17 @@ class AJSParser:
     
     def p_type(self, p):
         """
-        type : INT
+        type : basic_type
+            | STRING_IMPLICIT
+        """
+        p[0] = p[1]
+    
+    def p_basic_type(self, p):
+        """
+        basic_type : INT
             | FLOAT
             | CHARACTER
             | BOOLEAN
-            | STRING_IMPLICIT
         """
         p[0] = p[1]
     
