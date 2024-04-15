@@ -35,24 +35,24 @@ Rule 24    object -> { object_content }
 Rule 25    object_content -> object_item , object_content
 Rule 26    object_content -> object_item
 Rule 27    object_content -> empty
-Rule 28    object_item -> key : type
+Rule 28    object_item -> key type
 Rule 29    object_item -> key : expression
 Rule 30    key -> STRING_EXPLICIT
 Rule 31    key -> STRING_IMPLICIT
-Rule 32    type -> INT
-Rule 33    type -> FLOAT
-Rule 34    type -> CHARACTER
-Rule 35    type -> BOOLEAN
-Rule 36    type -> STRING_IMPLICIT
+Rule 32    type -> : INT
+Rule 33    type -> : FLOAT
+Rule 34    type -> : CHARACTER
+Rule 35    type -> : BOOLEAN
+Rule 36    type -> : STRING_IMPLICIT
 Rule 37    if_conditional -> IF condition block_body
 Rule 38    if_conditional -> IF condition block_body ELSE block_body
 Rule 39    while_loop -> WHILE condition block_body
 Rule 40    condition -> ( expression )
-Rule 41    function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+Rule 41    function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
 Rule 42    argument_list -> argument_list_nonempty
 Rule 43    argument_list -> empty
-Rule 44    argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty
-Rule 45    argument_list_nonempty -> STRING_IMPLICIT : type
+Rule 44    argument_list_nonempty -> STRING_IMPLICIT type , argument_list_nonempty
+Rule 45    argument_list_nonempty -> STRING_IMPLICIT type
 Rule 46    expression -> ( expression )
 Rule 47    expression -> expression binary_operator expression
 Rule 48    expression -> unary_operator expression
@@ -98,7 +98,7 @@ Terminals, with rules where they appear
 )                    : 40 41 46 73
 ,                    : 17 25 44 76
 .                    : 80 82
-:                    : 19 28 29 41 44 45
+:                    : 19 29 32 33 34 35 36
 ;                    : 7 41
 AND                  : 54
 ASSIGN               : 21 22 23
@@ -197,7 +197,7 @@ state 0
     (37) if_conditional -> . IF condition block_body
     (38) if_conditional -> . IF condition block_body ELSE block_body
     (39) while_loop -> . WHILE condition block_body
-    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
     (16) declaration -> . LET declaration_content
     (21) assignment -> . declaration ASSIGN expression
     (22) assignment -> . STRING_IMPLICIT ASSIGN expression
@@ -298,7 +298,7 @@ state 4
     (37) if_conditional -> . IF condition block_body
     (38) if_conditional -> . IF condition block_body ELSE block_body
     (39) while_loop -> . WHILE condition block_body
-    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
     (16) declaration -> . LET declaration_content
     (21) assignment -> . declaration ASSIGN expression
     (22) assignment -> . STRING_IMPLICIT ASSIGN expression
@@ -379,7 +379,7 @@ state 5
     (37) if_conditional -> . IF condition block_body
     (38) if_conditional -> . IF condition block_body ELSE block_body
     (39) while_loop -> . WHILE condition block_body
-    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
     (16) declaration -> . LET declaration_content
     (21) assignment -> . declaration ASSIGN expression
     (22) assignment -> . STRING_IMPLICIT ASSIGN expression
@@ -598,7 +598,7 @@ state 15
 
 state 16
 
-    (41) function -> FUNCTION . STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> FUNCTION . STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
 
     STRING_IMPLICIT shift and go to state 54
 
@@ -681,7 +681,7 @@ state 19
     (25) object_content -> . object_item , object_content
     (26) object_content -> . object_item
     (27) object_content -> . empty
-    (28) object_item -> . key : type
+    (28) object_item -> . key type
     (29) object_item -> . key : expression
     (83) empty -> .
     (30) key -> . STRING_EXPLICIT
@@ -1375,7 +1375,7 @@ state 53
 
 state 54
 
-    (41) function -> FUNCTION STRING_IMPLICIT . ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> FUNCTION STRING_IMPLICIT . ( argument_list ) type { code RETURN expression ; }
 
     (               shift and go to state 79
 
@@ -1597,11 +1597,17 @@ state 64
 
 state 65
 
-    (28) object_item -> key . : type
+    (28) object_item -> key . type
     (29) object_item -> key . : expression
+    (32) type -> . : INT
+    (33) type -> . : FLOAT
+    (34) type -> . : CHARACTER
+    (35) type -> . : BOOLEAN
+    (36) type -> . : STRING_IMPLICIT
 
-    :               shift and go to state 90
+    :               shift and go to state 91
 
+    type                           shift and go to state 90
 
 state 66
 
@@ -1630,7 +1636,7 @@ state 69
     (17) declaration_content -> item . , declaration_content
     (18) declaration_content -> item .
 
-    ,               shift and go to state 91
+    ,               shift and go to state 92
     ASSIGN          reduce using rule 18 (declaration_content -> item .)
     ;               reduce using rule 18 (declaration_content -> item .)
 
@@ -1640,7 +1646,7 @@ state 70
     (19) item -> STRING_IMPLICIT . : STRING_IMPLICIT
     (20) item -> STRING_IMPLICIT .
 
-    :               shift and go to state 92
+    :               shift and go to state 93
     ,               reduce using rule 20 (item -> STRING_IMPLICIT .)
     ASSIGN          reduce using rule 20 (item -> STRING_IMPLICIT .)
     ;               reduce using rule 20 (item -> STRING_IMPLICIT .)
@@ -1650,7 +1656,7 @@ state 71
 
     (23) definition -> TYPE STRING_IMPLICIT . ASSIGN object
 
-    ASSIGN          shift and go to state 93
+    ASSIGN          shift and go to state 94
 
 
 state 72
@@ -1822,7 +1828,7 @@ state 75
     $end            reduce using rule 37 (if_conditional -> IF condition block_body .)
     }               reduce using rule 37 (if_conditional -> IF condition block_body .)
     RETURN          reduce using rule 37 (if_conditional -> IF condition block_body .)
-    ELSE            shift and go to state 94
+    ELSE            shift and go to state 95
 
 
 state 76
@@ -1843,7 +1849,7 @@ state 76
     (37) if_conditional -> . IF condition block_body
     (38) if_conditional -> . IF condition block_body ELSE block_body
     (39) while_loop -> . WHILE condition block_body
-    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
     (16) declaration -> . LET declaration_content
     (21) assignment -> . declaration ASSIGN expression
     (22) assignment -> . STRING_IMPLICIT ASSIGN expression
@@ -1885,7 +1891,7 @@ state 76
     FL              shift and go to state 32
     {               shift and go to state 19
 
-    code                           shift and go to state 95
+    code                           shift and go to state 96
     statement                      shift and go to state 4
     block                          shift and go to state 5
     statement_content              shift and go to state 6
@@ -1918,7 +1924,7 @@ state 77
     (59) binary_operator -> . GE
     (60) binary_operator -> . GT
 
-    )               shift and go to state 96
+    )               shift and go to state 97
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
     TIMES           shift and go to state 42
@@ -1960,19 +1966,19 @@ state 78
 
 state 79
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( . argument_list ) : type { code RETURN expression ; }
+    (41) function -> FUNCTION STRING_IMPLICIT ( . argument_list ) type { code RETURN expression ; }
     (42) argument_list -> . argument_list_nonempty
     (43) argument_list -> . empty
-    (44) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
-    (45) argument_list_nonempty -> . STRING_IMPLICIT : type
+    (44) argument_list_nonempty -> . STRING_IMPLICIT type , argument_list_nonempty
+    (45) argument_list_nonempty -> . STRING_IMPLICIT type
     (83) empty -> .
 
-    STRING_IMPLICIT shift and go to state 97
+    STRING_IMPLICIT shift and go to state 98
     )               reduce using rule 83 (empty -> .)
 
-    argument_list                  shift and go to state 98
-    argument_list_nonempty         shift and go to state 99
-    empty                          shift and go to state 100
+    argument_list                  shift and go to state 99
+    argument_list_nonempty         shift and go to state 100
+    empty                          shift and go to state 101
 
 state 80
 
@@ -2009,7 +2015,7 @@ state 81
 
     (73) function_call -> STRING_IMPLICIT ( function_call_list . )
 
-    )               shift and go to state 101
+    )               shift and go to state 102
 
 
 state 82
@@ -2043,7 +2049,7 @@ state 84
     (59) binary_operator -> . GE
     (60) binary_operator -> . GT
 
-    ,               shift and go to state 102
+    ,               shift and go to state 103
     )               reduce using rule 77 (function_call_list_nonempty -> expression .)
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
@@ -2064,7 +2070,7 @@ state 85
     (79) object_attribute_list -> [ STRING_EXPLICIT . ] object_attribute_list
     (81) object_attribute_list -> [ STRING_EXPLICIT . ]
 
-    ]               shift and go to state 103
+    ]               shift and go to state 104
 
 
 state 86
@@ -2094,7 +2100,7 @@ state 86
     [               shift and go to state 58
     .               shift and go to state 59
 
-    object_attribute_list          shift and go to state 104
+    object_attribute_list          shift and go to state 105
 
 state 87
 
@@ -2144,7 +2150,7 @@ state 89
     (25) object_content -> . object_item , object_content
     (26) object_content -> . object_item
     (27) object_content -> . empty
-    (28) object_item -> . key : type
+    (28) object_item -> . key type
     (29) object_item -> . key : expression
     (83) empty -> .
     (30) key -> . STRING_EXPLICIT
@@ -2155,19 +2161,26 @@ state 89
     STRING_IMPLICIT shift and go to state 67
 
     object_item                    shift and go to state 63
-    object_content                 shift and go to state 105
+    object_content                 shift and go to state 106
     empty                          shift and go to state 64
     key                            shift and go to state 65
 
 state 90
 
-    (28) object_item -> key : . type
+    (28) object_item -> key type .
+
+    ,               reduce using rule 28 (object_item -> key type .)
+    }               reduce using rule 28 (object_item -> key type .)
+
+
+state 91
+
     (29) object_item -> key : . expression
-    (32) type -> . INT
-    (33) type -> . FLOAT
-    (34) type -> . CHARACTER
-    (35) type -> . BOOLEAN
-    (36) type -> . STRING_IMPLICIT
+    (32) type -> : . INT
+    (33) type -> : . FLOAT
+    (34) type -> : . CHARACTER
+    (35) type -> : . BOOLEAN
+    (36) type -> : . STRING_IMPLICIT
     (46) expression -> . ( expression )
     (47) expression -> . expression binary_operator expression
     (48) expression -> . unary_operator expression
@@ -2204,7 +2217,6 @@ state 90
     FL              shift and go to state 32
     {               shift and go to state 19
 
-    type                           shift and go to state 106
     expression                     shift and go to state 107
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
@@ -2212,7 +2224,7 @@ state 90
     object_call                    shift and go to state 34
     object                         shift and go to state 22
 
-state 91
+state 92
 
     (17) declaration_content -> item , . declaration_content
     (17) declaration_content -> . item , declaration_content
@@ -2225,14 +2237,14 @@ state 91
     item                           shift and go to state 69
     declaration_content            shift and go to state 113
 
-state 92
+state 93
 
     (19) item -> STRING_IMPLICIT : . STRING_IMPLICIT
 
     STRING_IMPLICIT shift and go to state 114
 
 
-state 93
+state 94
 
     (23) definition -> TYPE STRING_IMPLICIT ASSIGN . object
     (24) object -> . { object_content }
@@ -2241,7 +2253,7 @@ state 93
 
     object                         shift and go to state 115
 
-state 94
+state 95
 
     (38) if_conditional -> IF condition block_body ELSE . block_body
     (15) block_body -> . { code }
@@ -2250,50 +2262,56 @@ state 94
 
     block_body                     shift and go to state 116
 
-state 95
+state 96
 
     (15) block_body -> { code . }
 
     }               shift and go to state 117
 
 
-state 96
+state 97
 
     (40) condition -> ( expression ) .
 
     {               reduce using rule 40 (condition -> ( expression ) .)
 
 
-state 97
-
-    (44) argument_list_nonempty -> STRING_IMPLICIT . : type , argument_list_nonempty
-    (45) argument_list_nonempty -> STRING_IMPLICIT . : type
-
-    :               shift and go to state 118
-
-
 state 98
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list . ) : type { code RETURN expression ; }
+    (44) argument_list_nonempty -> STRING_IMPLICIT . type , argument_list_nonempty
+    (45) argument_list_nonempty -> STRING_IMPLICIT . type
+    (32) type -> . : INT
+    (33) type -> . : FLOAT
+    (34) type -> . : CHARACTER
+    (35) type -> . : BOOLEAN
+    (36) type -> . : STRING_IMPLICIT
 
-    )               shift and go to state 119
+    :               shift and go to state 119
 
+    type                           shift and go to state 118
 
 state 99
+
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list . ) type { code RETURN expression ; }
+
+    )               shift and go to state 120
+
+
+state 100
 
     (42) argument_list -> argument_list_nonempty .
 
     )               reduce using rule 42 (argument_list -> argument_list_nonempty .)
 
 
-state 100
+state 101
 
     (43) argument_list -> empty .
 
     )               reduce using rule 43 (argument_list -> empty .)
 
 
-state 101
+state 102
 
     (73) function_call -> STRING_IMPLICIT ( function_call_list ) .
 
@@ -2314,7 +2332,7 @@ state 101
     }               reduce using rule 73 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
 
 
-state 102
+state 103
 
     (76) function_call_list_nonempty -> expression , . function_call_list_nonempty
     (76) function_call_list_nonempty -> . expression , function_call_list_nonempty
@@ -2352,14 +2370,14 @@ state 102
     {               shift and go to state 19
 
     expression                     shift and go to state 84
-    function_call_list_nonempty    shift and go to state 120
+    function_call_list_nonempty    shift and go to state 121
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
     function_call                  shift and go to state 33
     object_call                    shift and go to state 34
     object                         shift and go to state 22
 
-state 103
+state 104
 
     (79) object_attribute_list -> [ STRING_EXPLICIT ] . object_attribute_list
     (81) object_attribute_list -> [ STRING_EXPLICIT ] .
@@ -2386,9 +2404,9 @@ state 103
     [               shift and go to state 58
     .               shift and go to state 59
 
-    object_attribute_list          shift and go to state 121
+    object_attribute_list          shift and go to state 122
 
-state 104
+state 105
 
     (80) object_attribute_list -> . STRING_IMPLICIT object_attribute_list .
 
@@ -2409,19 +2427,11 @@ state 104
     }               reduce using rule 80 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
 
 
-state 105
+state 106
 
     (25) object_content -> object_item , object_content .
 
     }               reduce using rule 25 (object_content -> object_item , object_content .)
-
-
-state 106
-
-    (28) object_item -> key : type .
-
-    ,               reduce using rule 28 (object_item -> key : type .)
-    }               reduce using rule 28 (object_item -> key : type .)
 
 
 state 107
@@ -2458,47 +2468,47 @@ state 107
 
 state 108
 
-    (32) type -> INT .
+    (32) type -> : INT .
 
-    ,               reduce using rule 32 (type -> INT .)
-    }               reduce using rule 32 (type -> INT .)
-    )               reduce using rule 32 (type -> INT .)
-    {               reduce using rule 32 (type -> INT .)
+    ,               reduce using rule 32 (type -> : INT .)
+    }               reduce using rule 32 (type -> : INT .)
+    )               reduce using rule 32 (type -> : INT .)
+    {               reduce using rule 32 (type -> : INT .)
 
 
 state 109
 
-    (33) type -> FLOAT .
+    (33) type -> : FLOAT .
 
-    ,               reduce using rule 33 (type -> FLOAT .)
-    }               reduce using rule 33 (type -> FLOAT .)
-    )               reduce using rule 33 (type -> FLOAT .)
-    {               reduce using rule 33 (type -> FLOAT .)
+    ,               reduce using rule 33 (type -> : FLOAT .)
+    }               reduce using rule 33 (type -> : FLOAT .)
+    )               reduce using rule 33 (type -> : FLOAT .)
+    {               reduce using rule 33 (type -> : FLOAT .)
 
 
 state 110
 
-    (34) type -> CHARACTER .
+    (34) type -> : CHARACTER .
 
-    ,               reduce using rule 34 (type -> CHARACTER .)
-    }               reduce using rule 34 (type -> CHARACTER .)
-    )               reduce using rule 34 (type -> CHARACTER .)
-    {               reduce using rule 34 (type -> CHARACTER .)
+    ,               reduce using rule 34 (type -> : CHARACTER .)
+    }               reduce using rule 34 (type -> : CHARACTER .)
+    )               reduce using rule 34 (type -> : CHARACTER .)
+    {               reduce using rule 34 (type -> : CHARACTER .)
 
 
 state 111
 
-    (35) type -> BOOLEAN .
+    (35) type -> : BOOLEAN .
 
-    ,               reduce using rule 35 (type -> BOOLEAN .)
-    }               reduce using rule 35 (type -> BOOLEAN .)
-    )               reduce using rule 35 (type -> BOOLEAN .)
-    {               reduce using rule 35 (type -> BOOLEAN .)
+    ,               reduce using rule 35 (type -> : BOOLEAN .)
+    }               reduce using rule 35 (type -> : BOOLEAN .)
+    )               reduce using rule 35 (type -> : BOOLEAN .)
+    {               reduce using rule 35 (type -> : BOOLEAN .)
 
 
 state 112
 
-    (36) type -> STRING_IMPLICIT .
+    (36) type -> : STRING_IMPLICIT .
     (69) term -> STRING_IMPLICIT .
     (73) function_call -> STRING_IMPLICIT . ( function_call_list )
     (78) object_call -> STRING_IMPLICIT . object_attribute_list
@@ -2507,10 +2517,10 @@ state 112
     (81) object_attribute_list -> . [ STRING_EXPLICIT ]
     (82) object_attribute_list -> . . STRING_IMPLICIT
 
-  ! reduce/reduce conflict for , resolved using rule 36 (type -> STRING_IMPLICIT .)
-  ! reduce/reduce conflict for } resolved using rule 36 (type -> STRING_IMPLICIT .)
-    ,               reduce using rule 36 (type -> STRING_IMPLICIT .)
-    }               reduce using rule 36 (type -> STRING_IMPLICIT .)
+  ! reduce/reduce conflict for , resolved using rule 36 (type -> : STRING_IMPLICIT .)
+  ! reduce/reduce conflict for } resolved using rule 36 (type -> : STRING_IMPLICIT .)
+    ,               reduce using rule 36 (type -> : STRING_IMPLICIT .)
+    }               reduce using rule 36 (type -> : STRING_IMPLICIT .)
     PLUS            reduce using rule 69 (term -> STRING_IMPLICIT .)
     MINUS           reduce using rule 69 (term -> STRING_IMPLICIT .)
     TIMES           reduce using rule 69 (term -> STRING_IMPLICIT .)
@@ -2608,37 +2618,49 @@ state 117
 
 state 118
 
-    (44) argument_list_nonempty -> STRING_IMPLICIT : . type , argument_list_nonempty
-    (45) argument_list_nonempty -> STRING_IMPLICIT : . type
-    (32) type -> . INT
-    (33) type -> . FLOAT
-    (34) type -> . CHARACTER
-    (35) type -> . BOOLEAN
-    (36) type -> . STRING_IMPLICIT
+    (44) argument_list_nonempty -> STRING_IMPLICIT type . , argument_list_nonempty
+    (45) argument_list_nonempty -> STRING_IMPLICIT type .
+
+    ,               shift and go to state 123
+    )               reduce using rule 45 (argument_list_nonempty -> STRING_IMPLICIT type .)
+
+
+state 119
+
+    (32) type -> : . INT
+    (33) type -> : . FLOAT
+    (34) type -> : . CHARACTER
+    (35) type -> : . BOOLEAN
+    (36) type -> : . STRING_IMPLICIT
 
     INT             shift and go to state 108
     FLOAT           shift and go to state 109
     CHARACTER       shift and go to state 110
     BOOLEAN         shift and go to state 111
-    STRING_IMPLICIT shift and go to state 122
-
-    type                           shift and go to state 123
-
-state 119
-
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) . : type { code RETURN expression ; }
-
-    :               shift and go to state 124
+    STRING_IMPLICIT shift and go to state 124
 
 
 state 120
+
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) . type { code RETURN expression ; }
+    (32) type -> . : INT
+    (33) type -> . : FLOAT
+    (34) type -> . : CHARACTER
+    (35) type -> . : BOOLEAN
+    (36) type -> . : STRING_IMPLICIT
+
+    :               shift and go to state 119
+
+    type                           shift and go to state 125
+
+state 121
 
     (76) function_call_list_nonempty -> expression , function_call_list_nonempty .
 
     )               reduce using rule 76 (function_call_list_nonempty -> expression , function_call_list_nonempty .)
 
 
-state 121
+state 122
 
     (79) object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .
 
@@ -2659,68 +2681,42 @@ state 121
     }               reduce using rule 79 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
 
 
-state 122
-
-    (36) type -> STRING_IMPLICIT .
-
-    ,               reduce using rule 36 (type -> STRING_IMPLICIT .)
-    )               reduce using rule 36 (type -> STRING_IMPLICIT .)
-    {               reduce using rule 36 (type -> STRING_IMPLICIT .)
-
-
 state 123
 
-    (44) argument_list_nonempty -> STRING_IMPLICIT : type . , argument_list_nonempty
-    (45) argument_list_nonempty -> STRING_IMPLICIT : type .
+    (44) argument_list_nonempty -> STRING_IMPLICIT type , . argument_list_nonempty
+    (44) argument_list_nonempty -> . STRING_IMPLICIT type , argument_list_nonempty
+    (45) argument_list_nonempty -> . STRING_IMPLICIT type
 
-    ,               shift and go to state 125
-    )               reduce using rule 45 (argument_list_nonempty -> STRING_IMPLICIT : type .)
+    STRING_IMPLICIT shift and go to state 98
 
+    argument_list_nonempty         shift and go to state 126
 
 state 124
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : . type { code RETURN expression ; }
-    (32) type -> . INT
-    (33) type -> . FLOAT
-    (34) type -> . CHARACTER
-    (35) type -> . BOOLEAN
-    (36) type -> . STRING_IMPLICIT
+    (36) type -> : STRING_IMPLICIT .
 
-    INT             shift and go to state 108
-    FLOAT           shift and go to state 109
-    CHARACTER       shift and go to state 110
-    BOOLEAN         shift and go to state 111
-    STRING_IMPLICIT shift and go to state 122
+    ,               reduce using rule 36 (type -> : STRING_IMPLICIT .)
+    )               reduce using rule 36 (type -> : STRING_IMPLICIT .)
+    {               reduce using rule 36 (type -> : STRING_IMPLICIT .)
 
-    type                           shift and go to state 126
 
 state 125
 
-    (44) argument_list_nonempty -> STRING_IMPLICIT : type , . argument_list_nonempty
-    (44) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
-    (45) argument_list_nonempty -> . STRING_IMPLICIT : type
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type . { code RETURN expression ; }
 
-    STRING_IMPLICIT shift and go to state 97
+    {               shift and go to state 127
 
-    argument_list_nonempty         shift and go to state 127
 
 state 126
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type . { code RETURN expression ; }
+    (44) argument_list_nonempty -> STRING_IMPLICIT type , argument_list_nonempty .
 
-    {               shift and go to state 128
+    )               reduce using rule 44 (argument_list_nonempty -> STRING_IMPLICIT type , argument_list_nonempty .)
 
 
 state 127
 
-    (44) argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .
-
-    )               reduce using rule 44 (argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .)
-
-
-state 128
-
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { . code RETURN expression ; }
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { . code RETURN expression ; }
     (3) code -> . statement code
     (4) code -> . block code
     (5) code -> . statement
@@ -2736,7 +2732,7 @@ state 128
     (37) if_conditional -> . IF condition block_body
     (38) if_conditional -> . IF condition block_body ELSE block_body
     (39) while_loop -> . WHILE condition block_body
-    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
+    (41) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; }
     (16) declaration -> . LET declaration_content
     (21) assignment -> . declaration ASSIGN expression
     (22) assignment -> . STRING_IMPLICIT ASSIGN expression
@@ -2778,7 +2774,7 @@ state 128
     FL              shift and go to state 32
     {               shift and go to state 19
 
-    code                           shift and go to state 129
+    code                           shift and go to state 128
     expression                     shift and go to state 13
     statement                      shift and go to state 4
     block                          shift and go to state 5
@@ -2795,16 +2791,16 @@ state 128
     function_call                  shift and go to state 33
     object_call                    shift and go to state 34
 
+state 128
+
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code . RETURN expression ; }
+
+    RETURN          shift and go to state 129
+
+
 state 129
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code . RETURN expression ; }
-
-    RETURN          shift and go to state 130
-
-
-state 130
-
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN . expression ; }
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN . expression ; }
     (46) expression -> . ( expression )
     (47) expression -> . expression binary_operator expression
     (48) expression -> . unary_operator expression
@@ -2837,16 +2833,16 @@ state 130
     STRING_IMPLICIT shift and go to state 61
     {               shift and go to state 19
 
-    expression                     shift and go to state 131
+    expression                     shift and go to state 130
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
     function_call                  shift and go to state 33
     object_call                    shift and go to state 34
     object                         shift and go to state 22
 
-state 131
+state 130
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression . ; }
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression . ; }
     (47) expression -> expression . binary_operator expression
     (50) binary_operator -> . PLUS
     (51) binary_operator -> . MINUS
@@ -2860,7 +2856,7 @@ state 131
     (59) binary_operator -> . GE
     (60) binary_operator -> . GT
 
-    ;               shift and go to state 132
+    ;               shift and go to state 131
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
     TIMES           shift and go to state 42
@@ -2875,36 +2871,36 @@ state 131
 
     binary_operator                shift and go to state 39
 
+state 131
+
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; . }
+
+    }               shift and go to state 132
+
+
 state 132
 
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; . }
+    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .
 
-    }               shift and go to state 133
-
-
-state 133
-
-    (41) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .
-
-    IF              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    WHILE           reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    FUNCTION        reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    LET             reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    STRING_IMPLICIT reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    TYPE            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    (               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    PLUS            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    MINUS           reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    NOT             reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    INTEGER         reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    REAL            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    CHAR            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    TR              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    FL              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    {               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    $end            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    }               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
-    RETURN          reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
+    IF              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    WHILE           reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    FUNCTION        reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    LET             reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    STRING_IMPLICIT reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    TYPE            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    (               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    PLUS            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    MINUS           reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    NOT             reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    INTEGER         reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    REAL            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    CHAR            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    TR              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    FL              reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    {               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    $end            reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    }               reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
+    RETURN          reduce using rule 41 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) type { code RETURN expression ; } .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -2931,5 +2927,5 @@ WARNING: shift/reduce conflict for LE in state 74 resolved as shift
 WARNING: shift/reduce conflict for EQ in state 74 resolved as shift
 WARNING: shift/reduce conflict for GE in state 74 resolved as shift
 WARNING: shift/reduce conflict for GT in state 74 resolved as shift
-WARNING: reduce/reduce conflict in state 112 resolved using rule (type -> STRING_IMPLICIT)
+WARNING: reduce/reduce conflict in state 112 resolved using rule (type -> : STRING_IMPLICIT)
 WARNING: rejected rule (term -> STRING_IMPLICIT) in state 112

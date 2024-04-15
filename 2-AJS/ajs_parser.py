@@ -13,10 +13,13 @@ class AJSParser:
 
     # DEFINE TOKEN PRECEDENCE
     precedence = (
-        #("left", PLUS, MINUS),
-        #("left", TIMES, DIVIDE),
-        ("nonassoc", "STRING_IMPLICIT"),  # non-associative
-        ("right", "ASSIGN"),  # right associative: [OK]: a = (b + c), [NOK]: (a = b) + c
+        ("nonassoc", "STRING_IMPLICIT"),
+        ("right", "ASSIGN"),
+        ("left", "OR", "AND"),
+        ("nonassoc", "LE", "LT", "EQ", "GE", "GT"),
+        ("left", "PLUS", "MINUS"),
+        ("left", "TIMES", "DIVIDE"),
+        ("right", "UPLUS", "UMINUS", "NOT"),
     )
 
     # DEFINE PRODUCTION RULES
@@ -188,8 +191,8 @@ class AJSParser:
     
     def p_unary_operator(self, p):
         """
-        unary_operator : PLUS
-            | MINUS
+        unary_operator : PLUS %prec UPLUS
+            | MINUS %prec UMINUS
             | NOT
         """
 
