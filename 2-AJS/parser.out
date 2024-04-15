@@ -3,7 +3,6 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     COMMENT
-    NULL
 
 Grammar
 
@@ -77,28 +76,29 @@ Rule 66    term -> REAL
 Rule 67    term -> CHAR
 Rule 68    term -> TR
 Rule 69    term -> FL
-Rule 70    term -> STRING_IMPLICIT
-Rule 71    term -> function_call
-Rule 72    term -> object_call
-Rule 73    term -> object
-Rule 74    function_call -> STRING_IMPLICIT ( function_call_list )
-Rule 75    function_call_list -> function_call_list_nonempty
-Rule 76    function_call_list -> empty
-Rule 77    function_call_list_nonempty -> expression , function_call_list_nonempty
-Rule 78    function_call_list_nonempty -> expression
-Rule 79    object_call -> STRING_IMPLICIT object_attribute_list
-Rule 80    object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list
-Rule 81    object_attribute_list -> . STRING_IMPLICIT object_attribute_list
-Rule 82    object_attribute_list -> [ STRING_EXPLICIT ]
-Rule 83    object_attribute_list -> . STRING_IMPLICIT
-Rule 84    empty -> <empty>
+Rule 70    term -> NULL
+Rule 71    term -> STRING_IMPLICIT
+Rule 72    term -> function_call
+Rule 73    term -> object_call
+Rule 74    term -> object
+Rule 75    function_call -> STRING_IMPLICIT ( function_call_list )
+Rule 76    function_call_list -> function_call_list_nonempty
+Rule 77    function_call_list -> empty
+Rule 78    function_call_list_nonempty -> expression , function_call_list_nonempty
+Rule 79    function_call_list_nonempty -> expression
+Rule 80    object_call -> STRING_IMPLICIT object_attribute_list
+Rule 81    object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list
+Rule 82    object_attribute_list -> . STRING_IMPLICIT object_attribute_list
+Rule 83    object_attribute_list -> [ STRING_EXPLICIT ]
+Rule 84    object_attribute_list -> . STRING_IMPLICIT
+Rule 85    empty -> <empty>
 
 Terminals, with rules where they appear
 
-(                    : 41 42 47 74
-)                    : 41 42 47 74
-,                    : 17 25 45 77
-.                    : 81 83
+(                    : 41 42 47 75
+)                    : 41 42 47 75
+,                    : 17 25 45 78
+.                    : 82 84
 :                    : 19 28 29 42 45 46
 ;                    : 7 42
 AND                  : 55
@@ -123,19 +123,19 @@ LET                  : 16
 LT                   : 57
 MINUS                : 52 63
 NOT                  : 64
-NULL                 : 
+NULL                 : 70
 OR                   : 56
 PLUS                 : 51 62
 REAL                 : 66
 RETURN               : 42
-STRING_EXPLICIT      : 30 80 82
-STRING_IMPLICIT      : 19 19 20 22 23 31 33 42 45 46 70 74 79 81 83
+STRING_EXPLICIT      : 30 81 83
+STRING_IMPLICIT      : 19 19 20 22 23 31 33 42 45 46 71 75 80 82 84
 TIMES                : 53
 TR                   : 68
 TYPE                 : 23
 WHILE                : 40
-[                    : 80 82
-]                    : 80 82
+[                    : 81 83
+]                    : 81 83
 error                : 
 {                    : 15 24 42
 }                    : 15 24 42
@@ -154,19 +154,19 @@ condition            : 38 39 40
 declaration          : 8 21
 declaration_content  : 16 17
 definition           : 10
-empty                : 2 27 44 76
-expression           : 11 21 22 29 41 42 47 48 48 49 77 78
+empty                : 2 27 44 77
+expression           : 11 21 22 29 41 42 47 48 48 49 78 79
 file                 : 0
 function             : 14
-function_call        : 71
-function_call_list   : 74
-function_call_list_nonempty : 75 77
+function_call        : 72
+function_call_list   : 75
+function_call_list_nonempty : 76 78
 if_conditional       : 12
 item                 : 17 18
 key                  : 28 29
-object               : 23 73
-object_attribute_list : 79 80 81
-object_call          : 72
+object               : 23 74
+object_attribute_list : 80 81 82
+object_call          : 73
 object_content       : 24 25
 object_item          : 25 26
 statement            : 3 5
@@ -187,7 +187,7 @@ state 0
     (4) code -> . block code
     (5) code -> . statement
     (6) code -> . block
-    (84) empty -> .
+    (85) empty -> .
     (7) statement -> . statement_content ;
     (12) block -> . if_conditional
     (13) block -> . while_loop
@@ -216,15 +216,16 @@ state 0
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
-    $end            reduce using rule 84 (empty -> .)
+    $end            reduce using rule 85 (empty -> .)
     IF              shift and go to state 14
     WHILE           shift and go to state 15
     FUNCTION        shift and go to state 16
@@ -240,6 +241,7 @@ state 0
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
+    NULL            shift and go to state 33
     {               shift and go to state 19
 
     file                           shift and go to state 1
@@ -258,8 +260,8 @@ state 0
     object                         shift and go to state 22
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
 
 state 1
 
@@ -317,12 +319,13 @@ state 4
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     $end            reduce using rule 5 (code -> statement .)
@@ -343,10 +346,11 @@ state 4
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
+    NULL            shift and go to state 33
     {               shift and go to state 19
 
     statement                      shift and go to state 4
-    code                           shift and go to state 35
+    code                           shift and go to state 36
     block                          shift and go to state 5
     statement_content              shift and go to state 6
     if_conditional                 shift and go to state 7
@@ -359,8 +363,8 @@ state 4
     object                         shift and go to state 22
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
 
 state 5
 
@@ -398,12 +402,13 @@ state 5
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     $end            reduce using rule 6 (code -> block .)
@@ -424,10 +429,11 @@ state 5
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
+    NULL            shift and go to state 33
     {               shift and go to state 19
 
     block                          shift and go to state 5
-    code                           shift and go to state 36
+    code                           shift and go to state 37
     statement                      shift and go to state 4
     statement_content              shift and go to state 6
     if_conditional                 shift and go to state 7
@@ -440,14 +446,14 @@ state 5
     object                         shift and go to state 22
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
 
 state 6
 
     (7) statement -> statement_content . ;
 
-    ;               shift and go to state 37
+    ;               shift and go to state 38
 
 
 state 7
@@ -469,6 +475,7 @@ state 7
     CHAR            reduce using rule 12 (block -> if_conditional .)
     TR              reduce using rule 12 (block -> if_conditional .)
     FL              reduce using rule 12 (block -> if_conditional .)
+    NULL            reduce using rule 12 (block -> if_conditional .)
     {               reduce using rule 12 (block -> if_conditional .)
     $end            reduce using rule 12 (block -> if_conditional .)
     }               reduce using rule 12 (block -> if_conditional .)
@@ -494,6 +501,7 @@ state 8
     CHAR            reduce using rule 13 (block -> while_loop .)
     TR              reduce using rule 13 (block -> while_loop .)
     FL              reduce using rule 13 (block -> while_loop .)
+    NULL            reduce using rule 13 (block -> while_loop .)
     {               reduce using rule 13 (block -> while_loop .)
     $end            reduce using rule 13 (block -> while_loop .)
     }               reduce using rule 13 (block -> while_loop .)
@@ -519,6 +527,7 @@ state 9
     CHAR            reduce using rule 14 (block -> function .)
     TR              reduce using rule 14 (block -> function .)
     FL              reduce using rule 14 (block -> function .)
+    NULL            reduce using rule 14 (block -> function .)
     {               reduce using rule 14 (block -> function .)
     $end            reduce using rule 14 (block -> function .)
     }               reduce using rule 14 (block -> function .)
@@ -531,7 +540,7 @@ state 10
     (21) assignment -> declaration . ASSIGN expression
 
     ;               reduce using rule 8 (statement_content -> declaration .)
-    ASSIGN          shift and go to state 38
+    ASSIGN          shift and go to state 39
 
 
 state 11
@@ -565,19 +574,19 @@ state 13
     (61) binary_operator -> . GT
 
     ;               reduce using rule 11 (statement_content -> expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
 state 14
 
@@ -585,55 +594,55 @@ state 14
     (39) if_conditional -> IF . condition block_body ELSE block_body
     (41) condition -> . ( expression )
 
-    (               shift and go to state 52
+    (               shift and go to state 53
 
-    condition                      shift and go to state 51
+    condition                      shift and go to state 52
 
 state 15
 
     (40) while_loop -> WHILE . condition block_body
     (41) condition -> . ( expression )
 
-    (               shift and go to state 52
+    (               shift and go to state 53
 
-    condition                      shift and go to state 53
+    condition                      shift and go to state 54
 
 state 16
 
     (42) function -> FUNCTION . STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; }
 
-    STRING_IMPLICIT shift and go to state 54
+    STRING_IMPLICIT shift and go to state 55
 
 
 state 17
 
     (22) assignment -> STRING_IMPLICIT . ASSIGN expression
-    (70) term -> STRING_IMPLICIT .
-    (74) function_call -> STRING_IMPLICIT . ( function_call_list )
-    (79) object_call -> STRING_IMPLICIT . object_attribute_list
-    (80) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
-    (81) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
-    (82) object_attribute_list -> . [ STRING_EXPLICIT ]
-    (83) object_attribute_list -> . . STRING_IMPLICIT
+    (71) term -> STRING_IMPLICIT .
+    (75) function_call -> STRING_IMPLICIT . ( function_call_list )
+    (80) object_call -> STRING_IMPLICIT . object_attribute_list
+    (81) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (82) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (84) object_attribute_list -> . . STRING_IMPLICIT
 
-    ASSIGN          shift and go to state 55
-    PLUS            reduce using rule 70 (term -> STRING_IMPLICIT .)
-    MINUS           reduce using rule 70 (term -> STRING_IMPLICIT .)
-    TIMES           reduce using rule 70 (term -> STRING_IMPLICIT .)
-    DIVIDE          reduce using rule 70 (term -> STRING_IMPLICIT .)
-    AND             reduce using rule 70 (term -> STRING_IMPLICIT .)
-    OR              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    LT              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    LE              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    EQ              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    GE              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    GT              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    ;               reduce using rule 70 (term -> STRING_IMPLICIT .)
-    (               shift and go to state 56
-    [               shift and go to state 58
-    .               shift and go to state 59
+    ASSIGN          shift and go to state 56
+    PLUS            reduce using rule 71 (term -> STRING_IMPLICIT .)
+    MINUS           reduce using rule 71 (term -> STRING_IMPLICIT .)
+    TIMES           reduce using rule 71 (term -> STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 71 (term -> STRING_IMPLICIT .)
+    AND             reduce using rule 71 (term -> STRING_IMPLICIT .)
+    OR              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    LT              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    LE              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    EQ              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    GE              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    GT              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    ;               reduce using rule 71 (term -> STRING_IMPLICIT .)
+    (               shift and go to state 57
+    [               shift and go to state 59
+    .               shift and go to state 60
 
-    object_attribute_list          shift and go to state 57
+    object_attribute_list          shift and go to state 58
 
 state 18
 
@@ -650,12 +659,13 @@ state 18
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -667,14 +677,15 @@ state 18
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 60
+    expression                     shift and go to state 61
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
 state 19
@@ -685,18 +696,18 @@ state 19
     (27) object_content -> . empty
     (28) object_item -> . key : basic_type
     (29) object_item -> . key : expression
-    (84) empty -> .
+    (85) empty -> .
     (30) key -> . STRING_EXPLICIT
     (31) key -> . STRING_IMPLICIT
 
-    }               reduce using rule 84 (empty -> .)
-    STRING_EXPLICIT shift and go to state 66
-    STRING_IMPLICIT shift and go to state 67
+    }               reduce using rule 85 (empty -> .)
+    STRING_EXPLICIT shift and go to state 67
+    STRING_IMPLICIT shift and go to state 68
 
-    object_content                 shift and go to state 62
-    object_item                    shift and go to state 63
-    empty                          shift and go to state 64
-    key                            shift and go to state 65
+    object_content                 shift and go to state 63
+    object_item                    shift and go to state 64
+    empty                          shift and go to state 65
+    key                            shift and go to state 66
 
 state 20
 
@@ -706,37 +717,37 @@ state 20
     (19) item -> . STRING_IMPLICIT : STRING_IMPLICIT
     (20) item -> . STRING_IMPLICIT
 
-    STRING_IMPLICIT shift and go to state 70
+    STRING_IMPLICIT shift and go to state 71
 
-    declaration_content            shift and go to state 68
-    item                           shift and go to state 69
+    declaration_content            shift and go to state 69
+    item                           shift and go to state 70
 
 state 21
 
     (23) definition -> TYPE . STRING_IMPLICIT ASSIGN object
 
-    STRING_IMPLICIT shift and go to state 71
+    STRING_IMPLICIT shift and go to state 72
 
 
 state 22
 
-    (73) term -> object .
+    (74) term -> object .
 
-    PLUS            reduce using rule 73 (term -> object .)
-    MINUS           reduce using rule 73 (term -> object .)
-    TIMES           reduce using rule 73 (term -> object .)
-    DIVIDE          reduce using rule 73 (term -> object .)
-    AND             reduce using rule 73 (term -> object .)
-    OR              reduce using rule 73 (term -> object .)
-    LT              reduce using rule 73 (term -> object .)
-    LE              reduce using rule 73 (term -> object .)
-    EQ              reduce using rule 73 (term -> object .)
-    GE              reduce using rule 73 (term -> object .)
-    GT              reduce using rule 73 (term -> object .)
-    ;               reduce using rule 73 (term -> object .)
-    )               reduce using rule 73 (term -> object .)
-    ,               reduce using rule 73 (term -> object .)
-    }               reduce using rule 73 (term -> object .)
+    PLUS            reduce using rule 74 (term -> object .)
+    MINUS           reduce using rule 74 (term -> object .)
+    TIMES           reduce using rule 74 (term -> object .)
+    DIVIDE          reduce using rule 74 (term -> object .)
+    AND             reduce using rule 74 (term -> object .)
+    OR              reduce using rule 74 (term -> object .)
+    LT              reduce using rule 74 (term -> object .)
+    LE              reduce using rule 74 (term -> object .)
+    EQ              reduce using rule 74 (term -> object .)
+    GE              reduce using rule 74 (term -> object .)
+    GT              reduce using rule 74 (term -> object .)
+    ;               reduce using rule 74 (term -> object .)
+    )               reduce using rule 74 (term -> object .)
+    ,               reduce using rule 74 (term -> object .)
+    }               reduce using rule 74 (term -> object .)
 
 
 state 23
@@ -754,12 +765,13 @@ state 23
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -771,14 +783,15 @@ state 23
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
     unary_operator                 shift and go to state 23
-    expression                     shift and go to state 72
+    expression                     shift and go to state 73
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
 state 24
@@ -815,6 +828,7 @@ state 25
     CHAR            reduce using rule 62 (unary_operator -> PLUS .)
     TR              reduce using rule 62 (unary_operator -> PLUS .)
     FL              reduce using rule 62 (unary_operator -> PLUS .)
+    NULL            reduce using rule 62 (unary_operator -> PLUS .)
     STRING_IMPLICIT reduce using rule 62 (unary_operator -> PLUS .)
     {               reduce using rule 62 (unary_operator -> PLUS .)
 
@@ -832,6 +846,7 @@ state 26
     CHAR            reduce using rule 63 (unary_operator -> MINUS .)
     TR              reduce using rule 63 (unary_operator -> MINUS .)
     FL              reduce using rule 63 (unary_operator -> MINUS .)
+    NULL            reduce using rule 63 (unary_operator -> MINUS .)
     STRING_IMPLICIT reduce using rule 63 (unary_operator -> MINUS .)
     {               reduce using rule 63 (unary_operator -> MINUS .)
 
@@ -849,6 +864,7 @@ state 27
     CHAR            reduce using rule 64 (unary_operator -> NOT .)
     TR              reduce using rule 64 (unary_operator -> NOT .)
     FL              reduce using rule 64 (unary_operator -> NOT .)
+    NULL            reduce using rule 64 (unary_operator -> NOT .)
     STRING_IMPLICIT reduce using rule 64 (unary_operator -> NOT .)
     {               reduce using rule 64 (unary_operator -> NOT .)
 
@@ -960,47 +976,68 @@ state 32
 
 state 33
 
-    (71) term -> function_call .
+    (70) term -> NULL .
 
-    PLUS            reduce using rule 71 (term -> function_call .)
-    MINUS           reduce using rule 71 (term -> function_call .)
-    TIMES           reduce using rule 71 (term -> function_call .)
-    DIVIDE          reduce using rule 71 (term -> function_call .)
-    AND             reduce using rule 71 (term -> function_call .)
-    OR              reduce using rule 71 (term -> function_call .)
-    LT              reduce using rule 71 (term -> function_call .)
-    LE              reduce using rule 71 (term -> function_call .)
-    EQ              reduce using rule 71 (term -> function_call .)
-    GE              reduce using rule 71 (term -> function_call .)
-    GT              reduce using rule 71 (term -> function_call .)
-    ;               reduce using rule 71 (term -> function_call .)
-    )               reduce using rule 71 (term -> function_call .)
-    ,               reduce using rule 71 (term -> function_call .)
-    }               reduce using rule 71 (term -> function_call .)
+    PLUS            reduce using rule 70 (term -> NULL .)
+    MINUS           reduce using rule 70 (term -> NULL .)
+    TIMES           reduce using rule 70 (term -> NULL .)
+    DIVIDE          reduce using rule 70 (term -> NULL .)
+    AND             reduce using rule 70 (term -> NULL .)
+    OR              reduce using rule 70 (term -> NULL .)
+    LT              reduce using rule 70 (term -> NULL .)
+    LE              reduce using rule 70 (term -> NULL .)
+    EQ              reduce using rule 70 (term -> NULL .)
+    GE              reduce using rule 70 (term -> NULL .)
+    GT              reduce using rule 70 (term -> NULL .)
+    ;               reduce using rule 70 (term -> NULL .)
+    )               reduce using rule 70 (term -> NULL .)
+    ,               reduce using rule 70 (term -> NULL .)
+    }               reduce using rule 70 (term -> NULL .)
 
 
 state 34
 
-    (72) term -> object_call .
+    (72) term -> function_call .
 
-    PLUS            reduce using rule 72 (term -> object_call .)
-    MINUS           reduce using rule 72 (term -> object_call .)
-    TIMES           reduce using rule 72 (term -> object_call .)
-    DIVIDE          reduce using rule 72 (term -> object_call .)
-    AND             reduce using rule 72 (term -> object_call .)
-    OR              reduce using rule 72 (term -> object_call .)
-    LT              reduce using rule 72 (term -> object_call .)
-    LE              reduce using rule 72 (term -> object_call .)
-    EQ              reduce using rule 72 (term -> object_call .)
-    GE              reduce using rule 72 (term -> object_call .)
-    GT              reduce using rule 72 (term -> object_call .)
-    ;               reduce using rule 72 (term -> object_call .)
-    )               reduce using rule 72 (term -> object_call .)
-    ,               reduce using rule 72 (term -> object_call .)
-    }               reduce using rule 72 (term -> object_call .)
+    PLUS            reduce using rule 72 (term -> function_call .)
+    MINUS           reduce using rule 72 (term -> function_call .)
+    TIMES           reduce using rule 72 (term -> function_call .)
+    DIVIDE          reduce using rule 72 (term -> function_call .)
+    AND             reduce using rule 72 (term -> function_call .)
+    OR              reduce using rule 72 (term -> function_call .)
+    LT              reduce using rule 72 (term -> function_call .)
+    LE              reduce using rule 72 (term -> function_call .)
+    EQ              reduce using rule 72 (term -> function_call .)
+    GE              reduce using rule 72 (term -> function_call .)
+    GT              reduce using rule 72 (term -> function_call .)
+    ;               reduce using rule 72 (term -> function_call .)
+    )               reduce using rule 72 (term -> function_call .)
+    ,               reduce using rule 72 (term -> function_call .)
+    }               reduce using rule 72 (term -> function_call .)
 
 
 state 35
+
+    (73) term -> object_call .
+
+    PLUS            reduce using rule 73 (term -> object_call .)
+    MINUS           reduce using rule 73 (term -> object_call .)
+    TIMES           reduce using rule 73 (term -> object_call .)
+    DIVIDE          reduce using rule 73 (term -> object_call .)
+    AND             reduce using rule 73 (term -> object_call .)
+    OR              reduce using rule 73 (term -> object_call .)
+    LT              reduce using rule 73 (term -> object_call .)
+    LE              reduce using rule 73 (term -> object_call .)
+    EQ              reduce using rule 73 (term -> object_call .)
+    GE              reduce using rule 73 (term -> object_call .)
+    GT              reduce using rule 73 (term -> object_call .)
+    ;               reduce using rule 73 (term -> object_call .)
+    )               reduce using rule 73 (term -> object_call .)
+    ,               reduce using rule 73 (term -> object_call .)
+    }               reduce using rule 73 (term -> object_call .)
+
+
+state 36
 
     (3) code -> statement code .
 
@@ -1009,7 +1046,7 @@ state 35
     RETURN          reduce using rule 3 (code -> statement code .)
 
 
-state 36
+state 37
 
     (4) code -> block code .
 
@@ -1018,7 +1055,7 @@ state 36
     RETURN          reduce using rule 4 (code -> block code .)
 
 
-state 37
+state 38
 
     (7) statement -> statement_content ; .
 
@@ -1037,13 +1074,14 @@ state 37
     CHAR            reduce using rule 7 (statement -> statement_content ; .)
     TR              reduce using rule 7 (statement -> statement_content ; .)
     FL              reduce using rule 7 (statement -> statement_content ; .)
+    NULL            reduce using rule 7 (statement -> statement_content ; .)
     {               reduce using rule 7 (statement -> statement_content ; .)
     $end            reduce using rule 7 (statement -> statement_content ; .)
     }               reduce using rule 7 (statement -> statement_content ; .)
     RETURN          reduce using rule 7 (statement -> statement_content ; .)
 
 
-state 38
+state 39
 
     (21) assignment -> declaration ASSIGN . expression
     (47) expression -> . ( expression )
@@ -1058,12 +1096,13 @@ state 38
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -1075,17 +1114,18 @@ state 38
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 73
+    expression                     shift and go to state 74
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 39
+state 40
 
     (48) expression -> expression binary_operator . expression
     (47) expression -> . ( expression )
@@ -1100,12 +1140,13 @@ state 39
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -1117,17 +1158,18 @@ state 39
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 74
+    expression                     shift and go to state 75
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 40
+state 41
 
     (51) binary_operator -> PLUS .
 
@@ -1140,11 +1182,12 @@ state 40
     CHAR            reduce using rule 51 (binary_operator -> PLUS .)
     TR              reduce using rule 51 (binary_operator -> PLUS .)
     FL              reduce using rule 51 (binary_operator -> PLUS .)
+    NULL            reduce using rule 51 (binary_operator -> PLUS .)
     STRING_IMPLICIT reduce using rule 51 (binary_operator -> PLUS .)
     {               reduce using rule 51 (binary_operator -> PLUS .)
 
 
-state 41
+state 42
 
     (52) binary_operator -> MINUS .
 
@@ -1157,11 +1200,12 @@ state 41
     CHAR            reduce using rule 52 (binary_operator -> MINUS .)
     TR              reduce using rule 52 (binary_operator -> MINUS .)
     FL              reduce using rule 52 (binary_operator -> MINUS .)
+    NULL            reduce using rule 52 (binary_operator -> MINUS .)
     STRING_IMPLICIT reduce using rule 52 (binary_operator -> MINUS .)
     {               reduce using rule 52 (binary_operator -> MINUS .)
 
 
-state 42
+state 43
 
     (53) binary_operator -> TIMES .
 
@@ -1174,11 +1218,12 @@ state 42
     CHAR            reduce using rule 53 (binary_operator -> TIMES .)
     TR              reduce using rule 53 (binary_operator -> TIMES .)
     FL              reduce using rule 53 (binary_operator -> TIMES .)
+    NULL            reduce using rule 53 (binary_operator -> TIMES .)
     STRING_IMPLICIT reduce using rule 53 (binary_operator -> TIMES .)
     {               reduce using rule 53 (binary_operator -> TIMES .)
 
 
-state 43
+state 44
 
     (54) binary_operator -> DIVIDE .
 
@@ -1191,11 +1236,12 @@ state 43
     CHAR            reduce using rule 54 (binary_operator -> DIVIDE .)
     TR              reduce using rule 54 (binary_operator -> DIVIDE .)
     FL              reduce using rule 54 (binary_operator -> DIVIDE .)
+    NULL            reduce using rule 54 (binary_operator -> DIVIDE .)
     STRING_IMPLICIT reduce using rule 54 (binary_operator -> DIVIDE .)
     {               reduce using rule 54 (binary_operator -> DIVIDE .)
 
 
-state 44
+state 45
 
     (55) binary_operator -> AND .
 
@@ -1208,11 +1254,12 @@ state 44
     CHAR            reduce using rule 55 (binary_operator -> AND .)
     TR              reduce using rule 55 (binary_operator -> AND .)
     FL              reduce using rule 55 (binary_operator -> AND .)
+    NULL            reduce using rule 55 (binary_operator -> AND .)
     STRING_IMPLICIT reduce using rule 55 (binary_operator -> AND .)
     {               reduce using rule 55 (binary_operator -> AND .)
 
 
-state 45
+state 46
 
     (56) binary_operator -> OR .
 
@@ -1225,11 +1272,12 @@ state 45
     CHAR            reduce using rule 56 (binary_operator -> OR .)
     TR              reduce using rule 56 (binary_operator -> OR .)
     FL              reduce using rule 56 (binary_operator -> OR .)
+    NULL            reduce using rule 56 (binary_operator -> OR .)
     STRING_IMPLICIT reduce using rule 56 (binary_operator -> OR .)
     {               reduce using rule 56 (binary_operator -> OR .)
 
 
-state 46
+state 47
 
     (57) binary_operator -> LT .
 
@@ -1242,11 +1290,12 @@ state 46
     CHAR            reduce using rule 57 (binary_operator -> LT .)
     TR              reduce using rule 57 (binary_operator -> LT .)
     FL              reduce using rule 57 (binary_operator -> LT .)
+    NULL            reduce using rule 57 (binary_operator -> LT .)
     STRING_IMPLICIT reduce using rule 57 (binary_operator -> LT .)
     {               reduce using rule 57 (binary_operator -> LT .)
 
 
-state 47
+state 48
 
     (58) binary_operator -> LE .
 
@@ -1259,11 +1308,12 @@ state 47
     CHAR            reduce using rule 58 (binary_operator -> LE .)
     TR              reduce using rule 58 (binary_operator -> LE .)
     FL              reduce using rule 58 (binary_operator -> LE .)
+    NULL            reduce using rule 58 (binary_operator -> LE .)
     STRING_IMPLICIT reduce using rule 58 (binary_operator -> LE .)
     {               reduce using rule 58 (binary_operator -> LE .)
 
 
-state 48
+state 49
 
     (59) binary_operator -> EQ .
 
@@ -1276,11 +1326,12 @@ state 48
     CHAR            reduce using rule 59 (binary_operator -> EQ .)
     TR              reduce using rule 59 (binary_operator -> EQ .)
     FL              reduce using rule 59 (binary_operator -> EQ .)
+    NULL            reduce using rule 59 (binary_operator -> EQ .)
     STRING_IMPLICIT reduce using rule 59 (binary_operator -> EQ .)
     {               reduce using rule 59 (binary_operator -> EQ .)
 
 
-state 49
+state 50
 
     (60) binary_operator -> GE .
 
@@ -1293,11 +1344,12 @@ state 49
     CHAR            reduce using rule 60 (binary_operator -> GE .)
     TR              reduce using rule 60 (binary_operator -> GE .)
     FL              reduce using rule 60 (binary_operator -> GE .)
+    NULL            reduce using rule 60 (binary_operator -> GE .)
     STRING_IMPLICIT reduce using rule 60 (binary_operator -> GE .)
     {               reduce using rule 60 (binary_operator -> GE .)
 
 
-state 50
+state 51
 
     (61) binary_operator -> GT .
 
@@ -1310,21 +1362,22 @@ state 50
     CHAR            reduce using rule 61 (binary_operator -> GT .)
     TR              reduce using rule 61 (binary_operator -> GT .)
     FL              reduce using rule 61 (binary_operator -> GT .)
+    NULL            reduce using rule 61 (binary_operator -> GT .)
     STRING_IMPLICIT reduce using rule 61 (binary_operator -> GT .)
     {               reduce using rule 61 (binary_operator -> GT .)
 
 
-state 51
+state 52
 
     (38) if_conditional -> IF condition . block_body
     (39) if_conditional -> IF condition . block_body ELSE block_body
     (15) block_body -> . { code }
 
-    {               shift and go to state 76
+    {               shift and go to state 77
 
-    block_body                     shift and go to state 75
+    block_body                     shift and go to state 76
 
-state 52
+state 53
 
     (41) condition -> ( . expression )
     (47) expression -> . ( expression )
@@ -1339,12 +1392,13 @@ state 52
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -1356,33 +1410,34 @@ state 52
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 77
+    expression                     shift and go to state 78
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 53
+state 54
 
     (40) while_loop -> WHILE condition . block_body
     (15) block_body -> . { code }
 
-    {               shift and go to state 76
+    {               shift and go to state 77
 
-    block_body                     shift and go to state 78
+    block_body                     shift and go to state 79
 
-state 54
+state 55
 
     (42) function -> FUNCTION STRING_IMPLICIT . ( argument_list ) : type { code RETURN expression ; }
 
-    (               shift and go to state 79
+    (               shift and go to state 80
 
 
-state 55
+state 56
 
     (22) assignment -> STRING_IMPLICIT ASSIGN . expression
     (47) expression -> . ( expression )
@@ -1397,12 +1452,13 @@ state 55
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -1414,24 +1470,25 @@ state 55
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 80
+    expression                     shift and go to state 81
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 56
+state 57
 
-    (74) function_call -> STRING_IMPLICIT ( . function_call_list )
-    (75) function_call_list -> . function_call_list_nonempty
-    (76) function_call_list -> . empty
-    (77) function_call_list_nonempty -> . expression , function_call_list_nonempty
-    (78) function_call_list_nonempty -> . expression
-    (84) empty -> .
+    (75) function_call -> STRING_IMPLICIT ( . function_call_list )
+    (76) function_call_list -> . function_call_list_nonempty
+    (77) function_call_list -> . empty
+    (78) function_call_list_nonempty -> . expression , function_call_list_nonempty
+    (79) function_call_list_nonempty -> . expression
+    (85) empty -> .
     (47) expression -> . ( expression )
     (48) expression -> . expression binary_operator expression
     (49) expression -> . unary_operator expression
@@ -1444,15 +1501,16 @@ state 56
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
-    )               reduce using rule 84 (empty -> .)
+    )               reduce using rule 85 (empty -> .)
     (               shift and go to state 18
     PLUS            shift and go to state 25
     MINUS           shift and go to state 26
@@ -1462,57 +1520,58 @@ state 56
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    function_call_list             shift and go to state 81
-    function_call_list_nonempty    shift and go to state 82
-    empty                          shift and go to state 83
-    expression                     shift and go to state 84
+    function_call_list             shift and go to state 82
+    function_call_list_nonempty    shift and go to state 83
+    empty                          shift and go to state 84
+    expression                     shift and go to state 85
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
-
-state 57
-
-    (79) object_call -> STRING_IMPLICIT object_attribute_list .
-
-    PLUS            reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    MINUS           reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    TIMES           reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    DIVIDE          reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    AND             reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    OR              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    LT              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    LE              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    EQ              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    GE              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    GT              reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    ;               reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    )               reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    ,               reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-    }               reduce using rule 79 (object_call -> STRING_IMPLICIT object_attribute_list .)
-
 
 state 58
 
-    (80) object_attribute_list -> [ . STRING_EXPLICIT ] object_attribute_list
-    (82) object_attribute_list -> [ . STRING_EXPLICIT ]
+    (80) object_call -> STRING_IMPLICIT object_attribute_list .
 
-    STRING_EXPLICIT shift and go to state 85
+    PLUS            reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    MINUS           reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    TIMES           reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    DIVIDE          reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    AND             reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    OR              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    LT              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    LE              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    EQ              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    GE              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    GT              reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    ;               reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    )               reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    ,               reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    }               reduce using rule 80 (object_call -> STRING_IMPLICIT object_attribute_list .)
 
 
 state 59
 
-    (81) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
-    (83) object_attribute_list -> . . STRING_IMPLICIT
+    (81) object_attribute_list -> [ . STRING_EXPLICIT ] object_attribute_list
+    (83) object_attribute_list -> [ . STRING_EXPLICIT ]
 
-    STRING_IMPLICIT shift and go to state 86
+    STRING_EXPLICIT shift and go to state 86
 
 
 state 60
+
+    (82) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (84) object_attribute_list -> . . STRING_IMPLICIT
+
+    STRING_IMPLICIT shift and go to state 87
+
+
+state 61
 
     (47) expression -> ( expression . )
     (48) expression -> expression . binary_operator expression
@@ -1528,98 +1587,98 @@ state 60
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-    )               shift and go to state 87
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    )               shift and go to state 88
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
-
-state 61
-
-    (70) term -> STRING_IMPLICIT .
-    (74) function_call -> STRING_IMPLICIT . ( function_call_list )
-    (79) object_call -> STRING_IMPLICIT . object_attribute_list
-    (80) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
-    (81) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
-    (82) object_attribute_list -> . [ STRING_EXPLICIT ]
-    (83) object_attribute_list -> . . STRING_IMPLICIT
-
-    )               reduce using rule 70 (term -> STRING_IMPLICIT .)
-    PLUS            reduce using rule 70 (term -> STRING_IMPLICIT .)
-    MINUS           reduce using rule 70 (term -> STRING_IMPLICIT .)
-    TIMES           reduce using rule 70 (term -> STRING_IMPLICIT .)
-    DIVIDE          reduce using rule 70 (term -> STRING_IMPLICIT .)
-    AND             reduce using rule 70 (term -> STRING_IMPLICIT .)
-    OR              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    LT              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    LE              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    EQ              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    GE              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    GT              reduce using rule 70 (term -> STRING_IMPLICIT .)
-    ;               reduce using rule 70 (term -> STRING_IMPLICIT .)
-    ,               reduce using rule 70 (term -> STRING_IMPLICIT .)
-    }               reduce using rule 70 (term -> STRING_IMPLICIT .)
-    (               shift and go to state 56
-    [               shift and go to state 58
-    .               shift and go to state 59
-
-    object_attribute_list          shift and go to state 57
+    binary_operator                shift and go to state 40
 
 state 62
 
-    (24) object -> { object_content . }
+    (71) term -> STRING_IMPLICIT .
+    (75) function_call -> STRING_IMPLICIT . ( function_call_list )
+    (80) object_call -> STRING_IMPLICIT . object_attribute_list
+    (81) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (82) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (84) object_attribute_list -> . . STRING_IMPLICIT
 
-    }               shift and go to state 88
+    )               reduce using rule 71 (term -> STRING_IMPLICIT .)
+    PLUS            reduce using rule 71 (term -> STRING_IMPLICIT .)
+    MINUS           reduce using rule 71 (term -> STRING_IMPLICIT .)
+    TIMES           reduce using rule 71 (term -> STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 71 (term -> STRING_IMPLICIT .)
+    AND             reduce using rule 71 (term -> STRING_IMPLICIT .)
+    OR              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    LT              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    LE              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    EQ              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    GE              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    GT              reduce using rule 71 (term -> STRING_IMPLICIT .)
+    ;               reduce using rule 71 (term -> STRING_IMPLICIT .)
+    ,               reduce using rule 71 (term -> STRING_IMPLICIT .)
+    }               reduce using rule 71 (term -> STRING_IMPLICIT .)
+    (               shift and go to state 57
+    [               shift and go to state 59
+    .               shift and go to state 60
 
+    object_attribute_list          shift and go to state 58
 
 state 63
+
+    (24) object -> { object_content . }
+
+    }               shift and go to state 89
+
+
+state 64
 
     (25) object_content -> object_item . , object_content
     (26) object_content -> object_item .
 
-    ,               shift and go to state 89
+    ,               shift and go to state 90
     }               reduce using rule 26 (object_content -> object_item .)
 
 
-state 64
+state 65
 
     (27) object_content -> empty .
 
     }               reduce using rule 27 (object_content -> empty .)
 
 
-state 65
+state 66
 
     (28) object_item -> key . : basic_type
     (29) object_item -> key . : expression
 
-    :               shift and go to state 90
+    :               shift and go to state 91
 
 
-state 66
+state 67
 
     (30) key -> STRING_EXPLICIT .
 
     :               reduce using rule 30 (key -> STRING_EXPLICIT .)
 
 
-state 67
+state 68
 
     (31) key -> STRING_IMPLICIT .
 
     :               reduce using rule 31 (key -> STRING_IMPLICIT .)
 
 
-state 68
+state 69
 
     (16) declaration -> LET declaration_content .
 
@@ -1627,35 +1686,35 @@ state 68
     ;               reduce using rule 16 (declaration -> LET declaration_content .)
 
 
-state 69
+state 70
 
     (17) declaration_content -> item . , declaration_content
     (18) declaration_content -> item .
 
-    ,               shift and go to state 91
+    ,               shift and go to state 92
     ASSIGN          reduce using rule 18 (declaration_content -> item .)
     ;               reduce using rule 18 (declaration_content -> item .)
 
 
-state 70
+state 71
 
     (19) item -> STRING_IMPLICIT . : STRING_IMPLICIT
     (20) item -> STRING_IMPLICIT .
 
-    :               shift and go to state 92
+    :               shift and go to state 93
     ,               reduce using rule 20 (item -> STRING_IMPLICIT .)
     ASSIGN          reduce using rule 20 (item -> STRING_IMPLICIT .)
     ;               reduce using rule 20 (item -> STRING_IMPLICIT .)
 
 
-state 71
+state 72
 
     (23) definition -> TYPE STRING_IMPLICIT . ASSIGN object
 
-    ASSIGN          shift and go to state 93
+    ASSIGN          shift and go to state 94
 
 
-state 72
+state 73
 
     (49) expression -> unary_operator expression .
     (48) expression -> expression . binary_operator expression
@@ -1671,48 +1730,37 @@ state 72
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for LE resolved as shift
-  ! shift/reduce conflict for EQ resolved as shift
-  ! shift/reduce conflict for GE resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
+    PLUS            reduce using rule 49 (expression -> unary_operator expression .)
+    MINUS           reduce using rule 49 (expression -> unary_operator expression .)
+    TIMES           reduce using rule 49 (expression -> unary_operator expression .)
+    DIVIDE          reduce using rule 49 (expression -> unary_operator expression .)
+    AND             reduce using rule 49 (expression -> unary_operator expression .)
+    OR              reduce using rule 49 (expression -> unary_operator expression .)
+    LT              reduce using rule 49 (expression -> unary_operator expression .)
+    LE              reduce using rule 49 (expression -> unary_operator expression .)
+    EQ              reduce using rule 49 (expression -> unary_operator expression .)
+    GE              reduce using rule 49 (expression -> unary_operator expression .)
+    GT              reduce using rule 49 (expression -> unary_operator expression .)
     ;               reduce using rule 49 (expression -> unary_operator expression .)
     )               reduce using rule 49 (expression -> unary_operator expression .)
     ,               reduce using rule 49 (expression -> unary_operator expression .)
     }               reduce using rule 49 (expression -> unary_operator expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
 
-  ! PLUS            [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! MINUS           [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! TIMES           [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! AND             [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! OR              [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! LT              [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! LE              [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! EQ              [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! GE              [ reduce using rule 49 (expression -> unary_operator expression .) ]
-  ! GT              [ reduce using rule 49 (expression -> unary_operator expression .) ]
+  ! PLUS            [ shift and go to state 41 ]
+  ! MINUS           [ shift and go to state 42 ]
+  ! TIMES           [ shift and go to state 43 ]
+  ! DIVIDE          [ shift and go to state 44 ]
+  ! AND             [ shift and go to state 45 ]
+  ! OR              [ shift and go to state 46 ]
+  ! LT              [ shift and go to state 47 ]
+  ! LE              [ shift and go to state 48 ]
+  ! EQ              [ shift and go to state 49 ]
+  ! GE              [ shift and go to state 50 ]
+  ! GT              [ shift and go to state 51 ]
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 73
+state 74
 
     (21) assignment -> declaration ASSIGN expression .
     (48) expression -> expression . binary_operator expression
@@ -1729,21 +1777,21 @@ state 73
     (61) binary_operator -> . GT
 
     ;               reduce using rule 21 (assignment -> declaration ASSIGN expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 74
+state 75
 
     (48) expression -> expression binary_operator expression .
     (48) expression -> expression . binary_operator expression
@@ -1759,48 +1807,37 @@ state 74
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for LE resolved as shift
-  ! shift/reduce conflict for EQ resolved as shift
-  ! shift/reduce conflict for GE resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
+    PLUS            reduce using rule 48 (expression -> expression binary_operator expression .)
+    MINUS           reduce using rule 48 (expression -> expression binary_operator expression .)
+    TIMES           reduce using rule 48 (expression -> expression binary_operator expression .)
+    DIVIDE          reduce using rule 48 (expression -> expression binary_operator expression .)
+    AND             reduce using rule 48 (expression -> expression binary_operator expression .)
+    OR              reduce using rule 48 (expression -> expression binary_operator expression .)
+    LT              reduce using rule 48 (expression -> expression binary_operator expression .)
+    LE              reduce using rule 48 (expression -> expression binary_operator expression .)
+    EQ              reduce using rule 48 (expression -> expression binary_operator expression .)
+    GE              reduce using rule 48 (expression -> expression binary_operator expression .)
+    GT              reduce using rule 48 (expression -> expression binary_operator expression .)
     ;               reduce using rule 48 (expression -> expression binary_operator expression .)
     )               reduce using rule 48 (expression -> expression binary_operator expression .)
     ,               reduce using rule 48 (expression -> expression binary_operator expression .)
     }               reduce using rule 48 (expression -> expression binary_operator expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
 
-  ! PLUS            [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! MINUS           [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! TIMES           [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! AND             [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! OR              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! LT              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! LE              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! EQ              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! GE              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
-  ! GT              [ reduce using rule 48 (expression -> expression binary_operator expression .) ]
+  ! PLUS            [ shift and go to state 41 ]
+  ! MINUS           [ shift and go to state 42 ]
+  ! TIMES           [ shift and go to state 43 ]
+  ! DIVIDE          [ shift and go to state 44 ]
+  ! AND             [ shift and go to state 45 ]
+  ! OR              [ shift and go to state 46 ]
+  ! LT              [ shift and go to state 47 ]
+  ! LE              [ shift and go to state 48 ]
+  ! EQ              [ shift and go to state 49 ]
+  ! GE              [ shift and go to state 50 ]
+  ! GT              [ shift and go to state 51 ]
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 75
+state 76
 
     (38) if_conditional -> IF condition block_body .
     (39) if_conditional -> IF condition block_body . ELSE block_body
@@ -1820,14 +1857,15 @@ state 75
     CHAR            reduce using rule 38 (if_conditional -> IF condition block_body .)
     TR              reduce using rule 38 (if_conditional -> IF condition block_body .)
     FL              reduce using rule 38 (if_conditional -> IF condition block_body .)
+    NULL            reduce using rule 38 (if_conditional -> IF condition block_body .)
     {               reduce using rule 38 (if_conditional -> IF condition block_body .)
     $end            reduce using rule 38 (if_conditional -> IF condition block_body .)
     }               reduce using rule 38 (if_conditional -> IF condition block_body .)
     RETURN          reduce using rule 38 (if_conditional -> IF condition block_body .)
-    ELSE            shift and go to state 94
+    ELSE            shift and go to state 95
 
 
-state 76
+state 77
 
     (15) block_body -> { . code }
     (3) code -> . statement code
@@ -1862,12 +1900,13 @@ state 76
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     IF              shift and go to state 14
@@ -1885,9 +1924,10 @@ state 76
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
+    NULL            shift and go to state 33
     {               shift and go to state 19
 
-    code                           shift and go to state 95
+    code                           shift and go to state 96
     statement                      shift and go to state 4
     block                          shift and go to state 5
     statement_content              shift and go to state 6
@@ -1901,10 +1941,10 @@ state 76
     object                         shift and go to state 22
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
 
-state 77
+state 78
 
     (41) condition -> ( expression . )
     (48) expression -> expression . binary_operator expression
@@ -1920,22 +1960,22 @@ state 77
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-    )               shift and go to state 96
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    )               shift and go to state 97
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 78
+state 79
 
     (40) while_loop -> WHILE condition block_body .
 
@@ -1954,29 +1994,30 @@ state 78
     CHAR            reduce using rule 40 (while_loop -> WHILE condition block_body .)
     TR              reduce using rule 40 (while_loop -> WHILE condition block_body .)
     FL              reduce using rule 40 (while_loop -> WHILE condition block_body .)
+    NULL            reduce using rule 40 (while_loop -> WHILE condition block_body .)
     {               reduce using rule 40 (while_loop -> WHILE condition block_body .)
     $end            reduce using rule 40 (while_loop -> WHILE condition block_body .)
     }               reduce using rule 40 (while_loop -> WHILE condition block_body .)
     RETURN          reduce using rule 40 (while_loop -> WHILE condition block_body .)
 
 
-state 79
+state 80
 
     (42) function -> FUNCTION STRING_IMPLICIT ( . argument_list ) : type { code RETURN expression ; }
     (43) argument_list -> . argument_list_nonempty
     (44) argument_list -> . empty
     (45) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
     (46) argument_list_nonempty -> . STRING_IMPLICIT : type
-    (84) empty -> .
+    (85) empty -> .
 
-    STRING_IMPLICIT shift and go to state 97
-    )               reduce using rule 84 (empty -> .)
+    STRING_IMPLICIT shift and go to state 98
+    )               reduce using rule 85 (empty -> .)
 
-    argument_list                  shift and go to state 98
-    argument_list_nonempty         shift and go to state 99
-    empty                          shift and go to state 100
+    argument_list                  shift and go to state 99
+    argument_list_nonempty         shift and go to state 100
+    empty                          shift and go to state 101
 
-state 80
+state 81
 
     (22) assignment -> STRING_IMPLICIT ASSIGN expression .
     (48) expression -> expression . binary_operator expression
@@ -1993,45 +2034,45 @@ state 80
     (61) binary_operator -> . GT
 
     ;               reduce using rule 22 (assignment -> STRING_IMPLICIT ASSIGN expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
-
-state 81
-
-    (74) function_call -> STRING_IMPLICIT ( function_call_list . )
-
-    )               shift and go to state 101
-
+    binary_operator                shift and go to state 40
 
 state 82
 
-    (75) function_call_list -> function_call_list_nonempty .
+    (75) function_call -> STRING_IMPLICIT ( function_call_list . )
 
-    )               reduce using rule 75 (function_call_list -> function_call_list_nonempty .)
+    )               shift and go to state 102
 
 
 state 83
 
-    (76) function_call_list -> empty .
+    (76) function_call_list -> function_call_list_nonempty .
 
-    )               reduce using rule 76 (function_call_list -> empty .)
+    )               reduce using rule 76 (function_call_list -> function_call_list_nonempty .)
 
 
 state 84
 
-    (77) function_call_list_nonempty -> expression . , function_call_list_nonempty
-    (78) function_call_list_nonempty -> expression .
+    (77) function_call_list -> empty .
+
+    )               reduce using rule 77 (function_call_list -> empty .)
+
+
+state 85
+
+    (78) function_call_list_nonempty -> expression . , function_call_list_nonempty
+    (79) function_call_list_nonempty -> expression .
     (48) expression -> expression . binary_operator expression
     (51) binary_operator -> . PLUS
     (52) binary_operator -> . MINUS
@@ -2045,60 +2086,60 @@ state 84
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-    ,               shift and go to state 102
-    )               reduce using rule 78 (function_call_list_nonempty -> expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    ,               shift and go to state 103
+    )               reduce using rule 79 (function_call_list_nonempty -> expression .)
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
-
-state 85
-
-    (80) object_attribute_list -> [ STRING_EXPLICIT . ] object_attribute_list
-    (82) object_attribute_list -> [ STRING_EXPLICIT . ]
-
-    ]               shift and go to state 103
-
+    binary_operator                shift and go to state 40
 
 state 86
 
-    (81) object_attribute_list -> . STRING_IMPLICIT . object_attribute_list
-    (83) object_attribute_list -> . STRING_IMPLICIT .
-    (80) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
-    (81) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
-    (82) object_attribute_list -> . [ STRING_EXPLICIT ]
-    (83) object_attribute_list -> . . STRING_IMPLICIT
+    (81) object_attribute_list -> [ STRING_EXPLICIT . ] object_attribute_list
+    (83) object_attribute_list -> [ STRING_EXPLICIT . ]
 
-    PLUS            reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    MINUS           reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    TIMES           reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    DIVIDE          reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    AND             reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    OR              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    LT              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    LE              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    EQ              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    GE              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    GT              reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    ;               reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    )               reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    ,               reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    }               reduce using rule 83 (object_attribute_list -> . STRING_IMPLICIT .)
-    [               shift and go to state 58
-    .               shift and go to state 59
+    ]               shift and go to state 104
 
-    object_attribute_list          shift and go to state 104
 
 state 87
+
+    (82) object_attribute_list -> . STRING_IMPLICIT . object_attribute_list
+    (84) object_attribute_list -> . STRING_IMPLICIT .
+    (81) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (82) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (84) object_attribute_list -> . . STRING_IMPLICIT
+
+    PLUS            reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    MINUS           reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    TIMES           reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    AND             reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    OR              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    LT              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    LE              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    EQ              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    GE              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    GT              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    ;               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    )               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    ,               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    }               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT .)
+    [               shift and go to state 59
+    .               shift and go to state 60
+
+    object_attribute_list          shift and go to state 105
+
+state 88
 
     (47) expression -> ( expression ) .
 
@@ -2119,7 +2160,7 @@ state 87
     }               reduce using rule 47 (expression -> ( expression ) .)
 
 
-state 88
+state 89
 
     (24) object -> { object_content } .
 
@@ -2140,7 +2181,7 @@ state 88
     }               reduce using rule 24 (object -> { object_content } .)
 
 
-state 89
+state 90
 
     (25) object_content -> object_item , . object_content
     (25) object_content -> . object_item , object_content
@@ -2148,20 +2189,20 @@ state 89
     (27) object_content -> . empty
     (28) object_item -> . key : basic_type
     (29) object_item -> . key : expression
-    (84) empty -> .
+    (85) empty -> .
     (30) key -> . STRING_EXPLICIT
     (31) key -> . STRING_IMPLICIT
 
-    }               reduce using rule 84 (empty -> .)
-    STRING_EXPLICIT shift and go to state 66
-    STRING_IMPLICIT shift and go to state 67
+    }               reduce using rule 85 (empty -> .)
+    STRING_EXPLICIT shift and go to state 67
+    STRING_IMPLICIT shift and go to state 68
 
-    object_item                    shift and go to state 63
-    object_content                 shift and go to state 105
-    empty                          shift and go to state 64
-    key                            shift and go to state 65
+    object_item                    shift and go to state 64
+    object_content                 shift and go to state 106
+    empty                          shift and go to state 65
+    key                            shift and go to state 66
 
-state 90
+state 91
 
     (28) object_item -> key : . basic_type
     (29) object_item -> key : . expression
@@ -2181,18 +2222,19 @@ state 90
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
-    INT             shift and go to state 108
-    FLOAT           shift and go to state 109
-    CHARACTER       shift and go to state 110
-    BOOLEAN         shift and go to state 111
+    INT             shift and go to state 109
+    FLOAT           shift and go to state 110
+    CHARACTER       shift and go to state 111
+    BOOLEAN         shift and go to state 112
     (               shift and go to state 18
     PLUS            shift and go to state 25
     MINUS           shift and go to state 26
@@ -2202,18 +2244,19 @@ state 90
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    basic_type                     shift and go to state 106
-    expression                     shift and go to state 107
+    basic_type                     shift and go to state 107
+    expression                     shift and go to state 108
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 91
+state 92
 
     (17) declaration_content -> item , . declaration_content
     (17) declaration_content -> . item , declaration_content
@@ -2221,105 +2264,105 @@ state 91
     (19) item -> . STRING_IMPLICIT : STRING_IMPLICIT
     (20) item -> . STRING_IMPLICIT
 
-    STRING_IMPLICIT shift and go to state 70
+    STRING_IMPLICIT shift and go to state 71
 
-    item                           shift and go to state 69
-    declaration_content            shift and go to state 112
+    item                           shift and go to state 70
+    declaration_content            shift and go to state 113
 
-state 92
+state 93
 
     (19) item -> STRING_IMPLICIT : . STRING_IMPLICIT
 
-    STRING_IMPLICIT shift and go to state 113
+    STRING_IMPLICIT shift and go to state 114
 
 
-state 93
+state 94
 
     (23) definition -> TYPE STRING_IMPLICIT ASSIGN . object
     (24) object -> . { object_content }
 
     {               shift and go to state 19
 
-    object                         shift and go to state 114
+    object                         shift and go to state 115
 
-state 94
+state 95
 
     (39) if_conditional -> IF condition block_body ELSE . block_body
     (15) block_body -> . { code }
 
-    {               shift and go to state 76
+    {               shift and go to state 77
 
-    block_body                     shift and go to state 115
+    block_body                     shift and go to state 116
 
-state 95
+state 96
 
     (15) block_body -> { code . }
 
-    }               shift and go to state 116
+    }               shift and go to state 117
 
 
-state 96
+state 97
 
     (41) condition -> ( expression ) .
 
     {               reduce using rule 41 (condition -> ( expression ) .)
 
 
-state 97
+state 98
 
     (45) argument_list_nonempty -> STRING_IMPLICIT . : type , argument_list_nonempty
     (46) argument_list_nonempty -> STRING_IMPLICIT . : type
 
-    :               shift and go to state 117
-
-
-state 98
-
-    (42) function -> FUNCTION STRING_IMPLICIT ( argument_list . ) : type { code RETURN expression ; }
-
-    )               shift and go to state 118
+    :               shift and go to state 118
 
 
 state 99
+
+    (42) function -> FUNCTION STRING_IMPLICIT ( argument_list . ) : type { code RETURN expression ; }
+
+    )               shift and go to state 119
+
+
+state 100
 
     (43) argument_list -> argument_list_nonempty .
 
     )               reduce using rule 43 (argument_list -> argument_list_nonempty .)
 
 
-state 100
+state 101
 
     (44) argument_list -> empty .
 
     )               reduce using rule 44 (argument_list -> empty .)
 
 
-state 101
-
-    (74) function_call -> STRING_IMPLICIT ( function_call_list ) .
-
-    PLUS            reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    MINUS           reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    TIMES           reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    DIVIDE          reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    AND             reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    OR              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    LT              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    LE              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    EQ              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    GE              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    GT              reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    ;               reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    )               reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    ,               reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-    }               reduce using rule 74 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
-
-
 state 102
 
-    (77) function_call_list_nonempty -> expression , . function_call_list_nonempty
-    (77) function_call_list_nonempty -> . expression , function_call_list_nonempty
-    (78) function_call_list_nonempty -> . expression
+    (75) function_call -> STRING_IMPLICIT ( function_call_list ) .
+
+    PLUS            reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    MINUS           reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    TIMES           reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    DIVIDE          reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    AND             reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    OR              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    LT              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    LE              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    EQ              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    GE              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    GT              reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    ;               reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    )               reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    ,               reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    }               reduce using rule 75 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+
+
+state 103
+
+    (78) function_call_list_nonempty -> expression , . function_call_list_nonempty
+    (78) function_call_list_nonempty -> . expression , function_call_list_nonempty
+    (79) function_call_list_nonempty -> . expression
     (47) expression -> . ( expression )
     (48) expression -> . expression binary_operator expression
     (49) expression -> . unary_operator expression
@@ -2332,12 +2375,13 @@ state 102
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -2349,75 +2393,76 @@ state 102
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 84
-    function_call_list_nonempty    shift and go to state 119
+    expression                     shift and go to state 85
+    function_call_list_nonempty    shift and go to state 120
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
-
-state 103
-
-    (80) object_attribute_list -> [ STRING_EXPLICIT ] . object_attribute_list
-    (82) object_attribute_list -> [ STRING_EXPLICIT ] .
-    (80) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
-    (81) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
-    (82) object_attribute_list -> . [ STRING_EXPLICIT ]
-    (83) object_attribute_list -> . . STRING_IMPLICIT
-
-    PLUS            reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    MINUS           reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    TIMES           reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    DIVIDE          reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    AND             reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    OR              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    LT              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    LE              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    EQ              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    GE              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    GT              reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    ;               reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    )               reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    ,               reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    }               reduce using rule 82 (object_attribute_list -> [ STRING_EXPLICIT ] .)
-    [               shift and go to state 58
-    .               shift and go to state 59
-
-    object_attribute_list          shift and go to state 120
 
 state 104
 
-    (81) object_attribute_list -> . STRING_IMPLICIT object_attribute_list .
+    (81) object_attribute_list -> [ STRING_EXPLICIT ] . object_attribute_list
+    (83) object_attribute_list -> [ STRING_EXPLICIT ] .
+    (81) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (82) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (84) object_attribute_list -> . . STRING_IMPLICIT
 
-    PLUS            reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    MINUS           reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    TIMES           reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    DIVIDE          reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    AND             reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    OR              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    LT              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    LE              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    EQ              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    GE              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    GT              reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    ;               reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    )               reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    ,               reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
-    }               reduce using rule 81 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    PLUS            reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    MINUS           reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    TIMES           reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    DIVIDE          reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    AND             reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    OR              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    LT              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    LE              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    EQ              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    GE              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    GT              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    ;               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    )               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    ,               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    }               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    [               shift and go to state 59
+    .               shift and go to state 60
 
+    object_attribute_list          shift and go to state 121
 
 state 105
+
+    (82) object_attribute_list -> . STRING_IMPLICIT object_attribute_list .
+
+    PLUS            reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    MINUS           reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    TIMES           reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    DIVIDE          reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    AND             reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    OR              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    LT              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    LE              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    EQ              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    GE              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    GT              reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    ;               reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    )               reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    ,               reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    }               reduce using rule 82 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+
+
+state 106
 
     (25) object_content -> object_item , object_content .
 
     }               reduce using rule 25 (object_content -> object_item , object_content .)
 
 
-state 106
+state 107
 
     (28) object_item -> key : basic_type .
 
@@ -2425,7 +2470,7 @@ state 106
     }               reduce using rule 28 (object_item -> key : basic_type .)
 
 
-state 107
+state 108
 
     (29) object_item -> key : expression .
     (48) expression -> expression . binary_operator expression
@@ -2443,21 +2488,21 @@ state 107
 
     ,               reduce using rule 29 (object_item -> key : expression .)
     }               reduce using rule 29 (object_item -> key : expression .)
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 108
+state 109
 
     (34) basic_type -> INT .
 
@@ -2467,7 +2512,7 @@ state 108
     {               reduce using rule 34 (basic_type -> INT .)
 
 
-state 109
+state 110
 
     (35) basic_type -> FLOAT .
 
@@ -2477,7 +2522,7 @@ state 109
     {               reduce using rule 35 (basic_type -> FLOAT .)
 
 
-state 110
+state 111
 
     (36) basic_type -> CHARACTER .
 
@@ -2487,7 +2532,7 @@ state 110
     {               reduce using rule 36 (basic_type -> CHARACTER .)
 
 
-state 111
+state 112
 
     (37) basic_type -> BOOLEAN .
 
@@ -2497,7 +2542,7 @@ state 111
     {               reduce using rule 37 (basic_type -> BOOLEAN .)
 
 
-state 112
+state 113
 
     (17) declaration_content -> item , declaration_content .
 
@@ -2505,7 +2550,7 @@ state 112
     ;               reduce using rule 17 (declaration_content -> item , declaration_content .)
 
 
-state 113
+state 114
 
     (19) item -> STRING_IMPLICIT : STRING_IMPLICIT .
 
@@ -2514,14 +2559,14 @@ state 113
     ;               reduce using rule 19 (item -> STRING_IMPLICIT : STRING_IMPLICIT .)
 
 
-state 114
+state 115
 
     (23) definition -> TYPE STRING_IMPLICIT ASSIGN object .
 
     ;               reduce using rule 23 (definition -> TYPE STRING_IMPLICIT ASSIGN object .)
 
 
-state 115
+state 116
 
     (39) if_conditional -> IF condition block_body ELSE block_body .
 
@@ -2540,13 +2585,14 @@ state 115
     CHAR            reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     TR              reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     FL              reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
+    NULL            reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     {               reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     $end            reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     }               reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
     RETURN          reduce using rule 39 (if_conditional -> IF condition block_body ELSE block_body .)
 
 
-state 116
+state 117
 
     (15) block_body -> { code } .
 
@@ -2566,13 +2612,14 @@ state 116
     CHAR            reduce using rule 15 (block_body -> { code } .)
     TR              reduce using rule 15 (block_body -> { code } .)
     FL              reduce using rule 15 (block_body -> { code } .)
+    NULL            reduce using rule 15 (block_body -> { code } .)
     {               reduce using rule 15 (block_body -> { code } .)
     $end            reduce using rule 15 (block_body -> { code } .)
     }               reduce using rule 15 (block_body -> { code } .)
     RETURN          reduce using rule 15 (block_body -> { code } .)
 
 
-state 117
+state 118
 
     (45) argument_list_nonempty -> STRING_IMPLICIT : . type , argument_list_nonempty
     (46) argument_list_nonempty -> STRING_IMPLICIT : . type
@@ -2583,51 +2630,51 @@ state 117
     (36) basic_type -> . CHARACTER
     (37) basic_type -> . BOOLEAN
 
-    STRING_IMPLICIT shift and go to state 121
-    INT             shift and go to state 108
-    FLOAT           shift and go to state 109
-    CHARACTER       shift and go to state 110
-    BOOLEAN         shift and go to state 111
+    STRING_IMPLICIT shift and go to state 122
+    INT             shift and go to state 109
+    FLOAT           shift and go to state 110
+    CHARACTER       shift and go to state 111
+    BOOLEAN         shift and go to state 112
 
-    type                           shift and go to state 122
-    basic_type                     shift and go to state 123
-
-state 118
-
-    (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) . : type { code RETURN expression ; }
-
-    :               shift and go to state 124
-
+    type                           shift and go to state 123
+    basic_type                     shift and go to state 124
 
 state 119
 
-    (77) function_call_list_nonempty -> expression , function_call_list_nonempty .
+    (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) . : type { code RETURN expression ; }
 
-    )               reduce using rule 77 (function_call_list_nonempty -> expression , function_call_list_nonempty .)
+    :               shift and go to state 125
 
 
 state 120
 
-    (80) object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .
+    (78) function_call_list_nonempty -> expression , function_call_list_nonempty .
 
-    PLUS            reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    MINUS           reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    TIMES           reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    DIVIDE          reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    AND             reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    OR              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    LT              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    LE              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    EQ              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    GE              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    GT              reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    ;               reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    )               reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    ,               reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
-    }               reduce using rule 80 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    )               reduce using rule 78 (function_call_list_nonempty -> expression , function_call_list_nonempty .)
 
 
 state 121
+
+    (81) object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .
+
+    PLUS            reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    MINUS           reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    TIMES           reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    DIVIDE          reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    AND             reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    OR              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    LT              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    LE              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    EQ              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    GE              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    GT              reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    ;               reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    )               reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    ,               reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    }               reduce using rule 81 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+
+
+state 122
 
     (33) type -> STRING_IMPLICIT .
 
@@ -2636,16 +2683,16 @@ state 121
     {               reduce using rule 33 (type -> STRING_IMPLICIT .)
 
 
-state 122
+state 123
 
     (45) argument_list_nonempty -> STRING_IMPLICIT : type . , argument_list_nonempty
     (46) argument_list_nonempty -> STRING_IMPLICIT : type .
 
-    ,               shift and go to state 125
+    ,               shift and go to state 126
     )               reduce using rule 46 (argument_list_nonempty -> STRING_IMPLICIT : type .)
 
 
-state 123
+state 124
 
     (32) type -> basic_type .
 
@@ -2654,7 +2701,7 @@ state 123
     {               reduce using rule 32 (type -> basic_type .)
 
 
-state 124
+state 125
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : . type { code RETURN expression ; }
     (32) type -> . basic_type
@@ -2664,40 +2711,40 @@ state 124
     (36) basic_type -> . CHARACTER
     (37) basic_type -> . BOOLEAN
 
-    STRING_IMPLICIT shift and go to state 121
-    INT             shift and go to state 108
-    FLOAT           shift and go to state 109
-    CHARACTER       shift and go to state 110
-    BOOLEAN         shift and go to state 111
+    STRING_IMPLICIT shift and go to state 122
+    INT             shift and go to state 109
+    FLOAT           shift and go to state 110
+    CHARACTER       shift and go to state 111
+    BOOLEAN         shift and go to state 112
 
-    type                           shift and go to state 126
-    basic_type                     shift and go to state 123
+    type                           shift and go to state 127
+    basic_type                     shift and go to state 124
 
-state 125
+state 126
 
     (45) argument_list_nonempty -> STRING_IMPLICIT : type , . argument_list_nonempty
     (45) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
     (46) argument_list_nonempty -> . STRING_IMPLICIT : type
 
-    STRING_IMPLICIT shift and go to state 97
+    STRING_IMPLICIT shift and go to state 98
 
-    argument_list_nonempty         shift and go to state 127
+    argument_list_nonempty         shift and go to state 128
 
-state 126
+state 127
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type . { code RETURN expression ; }
 
-    {               shift and go to state 128
+    {               shift and go to state 129
 
 
-state 127
+state 128
 
     (45) argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .
 
     )               reduce using rule 45 (argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .)
 
 
-state 128
+state 129
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { . code RETURN expression ; }
     (3) code -> . statement code
@@ -2732,12 +2779,13 @@ state 128
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     IF              shift and go to state 14
@@ -2755,9 +2803,10 @@ state 128
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
+    NULL            shift and go to state 33
     {               shift and go to state 19
 
-    code                           shift and go to state 129
+    code                           shift and go to state 130
     expression                     shift and go to state 13
     statement                      shift and go to state 4
     block                          shift and go to state 5
@@ -2771,17 +2820,17 @@ state 128
     object                         shift and go to state 22
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
 
-state 129
+state 130
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code . RETURN expression ; }
 
-    RETURN          shift and go to state 130
+    RETURN          shift and go to state 131
 
 
-state 130
+state 131
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN . expression ; }
     (47) expression -> . ( expression )
@@ -2796,12 +2845,13 @@ state 130
     (67) term -> . CHAR
     (68) term -> . TR
     (69) term -> . FL
-    (70) term -> . STRING_IMPLICIT
-    (71) term -> . function_call
-    (72) term -> . object_call
-    (73) term -> . object
-    (74) function_call -> . STRING_IMPLICIT ( function_call_list )
-    (79) object_call -> . STRING_IMPLICIT object_attribute_list
+    (70) term -> . NULL
+    (71) term -> . STRING_IMPLICIT
+    (72) term -> . function_call
+    (73) term -> . object_call
+    (74) term -> . object
+    (75) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (80) object_call -> . STRING_IMPLICIT object_attribute_list
     (24) object -> . { object_content }
 
     (               shift and go to state 18
@@ -2813,17 +2863,18 @@ state 130
     CHAR            shift and go to state 30
     TR              shift and go to state 31
     FL              shift and go to state 32
-    STRING_IMPLICIT shift and go to state 61
+    NULL            shift and go to state 33
+    STRING_IMPLICIT shift and go to state 62
     {               shift and go to state 19
 
-    expression                     shift and go to state 131
+    expression                     shift and go to state 132
     unary_operator                 shift and go to state 23
     term                           shift and go to state 24
-    function_call                  shift and go to state 33
-    object_call                    shift and go to state 34
+    function_call                  shift and go to state 34
+    object_call                    shift and go to state 35
     object                         shift and go to state 22
 
-state 131
+state 132
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression . ; }
     (48) expression -> expression . binary_operator expression
@@ -2839,29 +2890,29 @@ state 131
     (60) binary_operator -> . GE
     (61) binary_operator -> . GT
 
-    ;               shift and go to state 132
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-    TIMES           shift and go to state 42
-    DIVIDE          shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-    LT              shift and go to state 46
-    LE              shift and go to state 47
-    EQ              shift and go to state 48
-    GE              shift and go to state 49
-    GT              shift and go to state 50
+    ;               shift and go to state 133
+    PLUS            shift and go to state 41
+    MINUS           shift and go to state 42
+    TIMES           shift and go to state 43
+    DIVIDE          shift and go to state 44
+    AND             shift and go to state 45
+    OR              shift and go to state 46
+    LT              shift and go to state 47
+    LE              shift and go to state 48
+    EQ              shift and go to state 49
+    GE              shift and go to state 50
+    GT              shift and go to state 51
 
-    binary_operator                shift and go to state 39
+    binary_operator                shift and go to state 40
 
-state 132
+state 133
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; . }
 
-    }               shift and go to state 133
+    }               shift and go to state 134
 
 
-state 133
+state 134
 
     (42) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .
 
@@ -2880,33 +2931,9 @@ state 133
     CHAR            reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     TR              reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     FL              reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
+    NULL            reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     {               reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     $end            reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     }               reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
     RETURN          reduce using rule 42 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { code RETURN expression ; } .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 72 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 72 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 72 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 72 resolved as shift
-WARNING: shift/reduce conflict for AND in state 72 resolved as shift
-WARNING: shift/reduce conflict for OR in state 72 resolved as shift
-WARNING: shift/reduce conflict for LT in state 72 resolved as shift
-WARNING: shift/reduce conflict for LE in state 72 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 72 resolved as shift
-WARNING: shift/reduce conflict for GE in state 72 resolved as shift
-WARNING: shift/reduce conflict for GT in state 72 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 74 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 74 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 74 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 74 resolved as shift
-WARNING: shift/reduce conflict for AND in state 74 resolved as shift
-WARNING: shift/reduce conflict for OR in state 74 resolved as shift
-WARNING: shift/reduce conflict for LT in state 74 resolved as shift
-WARNING: shift/reduce conflict for LE in state 74 resolved as shift
-WARNING: shift/reduce conflict for EQ in state 74 resolved as shift
-WARNING: shift/reduce conflict for GE in state 74 resolved as shift
-WARNING: shift/reduce conflict for GT in state 74 resolved as shift

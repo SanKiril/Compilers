@@ -19,7 +19,8 @@ class AJSParser:
         ("nonassoc", "LE", "LT", "EQ", "GE", "GT"),
         ("left", "PLUS", "MINUS"),
         ("left", "TIMES", "DIVIDE"),
-        ("right", "UPLUS", "UMINUS", "NOT"),
+        ("left", "BINARY"),
+        ("right", "UNARY", "NOT"),
     )
 
     # DEFINE PRODUCTION RULES
@@ -175,8 +176,8 @@ class AJSParser:
     def p_expression(self, p):
         """
         expression : '(' expression ')'
-            | expression binary_operator expression
-            | unary_operator expression
+            | expression binary_operator expression %prec BINARY
+            | unary_operator expression %prec UNARY
             | term
         """
     
@@ -197,8 +198,8 @@ class AJSParser:
     
     def p_unary_operator(self, p):
         """
-        unary_operator : PLUS %prec UPLUS
-            | MINUS %prec UMINUS
+        unary_operator : PLUS %prec UNARY
+            | MINUS %prec UNARY
             | NOT
         """
 
@@ -209,6 +210,7 @@ class AJSParser:
             | CHAR
             | TR
             | FL
+            | NULL
             | STRING_IMPLICIT
             | function_call
             | object_call
