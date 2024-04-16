@@ -18,56 +18,58 @@ class AJSParser:
         ("left", "OR", "AND"),
         ("nonassoc", "LE", "LT", "EQ", "GE", "GT"),
         ("left", "PLUS", "MINUS"),
-        ("left", "TIMES", "DIVIDE"),
         ("left", "BINARY"),
+        ("left", "TIMES", "DIVIDE"),
         ("right", "UNARY", "NOT"),
     )
 
     # DEFINE PRODUCTION RULES
     def p_file(self, p):
         """
-        file : code
+        file : statement file
+            | block file
             | empty
         """
         p[0] = {} if p[1] is None else p[1]
     
-    def p_code(self, p):
-        """
-        code : statement code
-            | block code
-            | statement
-            | block
-        """
-    
     def p_statement(self, p):
         """
-        statement : statement_content ';'
-        """
-        p[0] = p[1]
-    
-    def p_statement_content(self, p):
-        """
-        statement_content : declaration
-            | assignment
-            | definition
-            | expression
+        statement : declaration ';'
+            | assignment ';'
+            | definition ';'
+            | expression ';'
         """
         p[0] = p[1]
     
     def p_block(self, p):
         """
-        block : if_conditional
-            | while_loop
+        block : simple_block
             | function
+        """
+        p[0] = p[1]
+    
+    def p_simple_block(self, p):
+        """
+        simple_block : if_conditional
+            | while_loop
         """
         p[0] = p[1]
     
     def p_block_body(self, p):
         """
-        block_body : '{' code '}'
+        block_body : '{' block_body_code '}'
         """
         p[0] = p[2]
     
+    def p_block_body_code(self, p):
+        """
+        block_body_code : statement block_body_code
+            | simple_block block_body_code
+            | statement
+            | simple_block
+        """
+        p[0] = p[2]
+
     def p_declaration(self, p):
         """
         declaration : LET declaration_content
@@ -158,7 +160,7 @@ class AJSParser:
     
     def p_function(self, p):
         """
-        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' code RETURN expression ';' '}'
+        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' block_body_code RETURN expression ';' '}'
         """
     
     def p_argument_list(self, p):
@@ -178,9 +180,40 @@ class AJSParser:
         expression : '(' expression ')'
             | expression binary_operator expression %prec BINARY
             | unary_operator expression %prec UNARY
-            | term
+            | INTEGER
+            | REAL
+            | CHAR
+            | TR
+            | FL
+            | NULL
+            | STRING_IMPLICIT
+            | function_call
+            | object_call
+            | object
         """
+        if len(p) == 4:
+            print(p[1], p[2], p[3])
+            p[0] = eval(f"{p[1]} {p[2]} {p[3]}")
+            print(p[0])
+        if len(p) == 3:
+            print(p[1], p[2])
+        if len(p) == 2:
+            p[0] = p[1]
+            print(p[0])
     
+    '''
+    def p_expression_unary(self, p):
+        """
+        expression : unary_operator expression %prec UNARY
+        """
+        if p[1][0] == "logic" and p[2][0] == "boolean":
+            p[0] = (p[2][0], eval(f"{p[1][1]}{p[2][1]}"))
+        elif p[1][0] == "arithmetic" and (p[2][0] == "int" or p[2][0] == "float" or p[2][0] == "character"):
+            p[0] = (p[2][0], eval(f"{p[1][1]}{p[2][1]}"))
+        else:
+            print("!!!!!!!!!!!!! CANOT APPLY UNARY OPERATION !!!!!!!!!!!!!!!")
+    '''
+
     def p_binary_operator(self, p):
         """
         binary_operator : PLUS
@@ -195,6 +228,7 @@ class AJSParser:
             | GE
             | GT
         """
+        p[0] = p[1]
     
     def p_unary_operator(self, p):
         """
@@ -202,21 +236,8 @@ class AJSParser:
             | MINUS %prec UNARY
             | NOT
         """
+        p[0] = p[1]
 
-    def p_term(self, p):
-        """
-        term : INTEGER
-            | REAL
-            | CHAR
-            | TR
-            | FL
-            | NULL
-            | STRING_IMPLICIT
-            | function_call
-            | object_call
-            | object
-        """
-    
     def p_function_call(self, p):
         """
         function_call : STRING_IMPLICIT '(' function_call_list ')'

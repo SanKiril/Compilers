@@ -48,12 +48,11 @@ class AJSLexer:
         "STRING_EXPLICIT",
         "STRING_IMPLICIT",
         "CHAR",
-        "COMMENT",
         "REAL",
         "INTEGER"
     ] + list(reserved.keys())
 
-    # DEFINE COMPLEX PATTERNS
+    # REGEX PATTERNS
     binary = r'0[bB][01]+'
     octal = r'0[0-7]+'
     hexadecimal = r'0[xX][0-9a-fA-F]+'
@@ -68,9 +67,18 @@ class AJSLexer:
     t_MINUS = r'\-'
     t_TIMES = r'\*'
     t_DIVIDE = r'\/'
-    t_NOT = r'\!'
-    t_AND = r'\&\&'
-    t_OR = r'\|\|'
+    def t_NOT(self, t):
+        r'\!'
+        t.value = "not"
+        return t
+    def t_AND(self, t):
+        r'\&\&'
+        t.value = "and"
+        return t
+    def t_OR(self, t):
+        r'\|\|'
+        t.value = "or"
+        return t
     t_LE = r'\<\='
     t_LT = r'\<'
     t_EQ = r'\=\='
@@ -95,7 +103,7 @@ class AJSLexer:
         t.value = t.value[1:-1]
         return t
 
-    def t_COMMENT(self, t):
+    def t_comment(self, t):
         r'(\/\/.*)|(\/\*(?:(?!\*\/).|\n)*\*\/)'
         pass
 
