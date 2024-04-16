@@ -18,9 +18,8 @@ class AJSParser:
         ("left", "OR", "AND"),
         ("nonassoc", "LE", "LT", "EQ", "GE", "GT"),
         ("left", "PLUS", "MINUS"),
-        ("left", "BINARY"),
         ("left", "TIMES", "DIVIDE"),
-        ("right", "UNARY", "NOT"),
+        ("right", "UPLUS", "UMINUS", "NOT"),
     )
 
     # DEFINE PRODUCTION RULES
@@ -57,18 +56,11 @@ class AJSParser:
     
     def p_block_body(self, p):
         """
-        block_body : '{' block_body_code '}'
-        """
-        p[0] = p[2]
-    
-    def p_block_body_code(self, p):
-        """
-        block_body_code : statement block_body_code
-            | simple_block block_body_code
+        block_body : statement block_body
+            | simple_block block_body
             | statement
             | simple_block
         """
-        p[0] = p[2]
 
     def p_declaration(self, p):
         """
@@ -144,23 +136,18 @@ class AJSParser:
     
     def p_if_conditional(self, p):
         """
-        if_conditional : IF condition block_body
-            | IF condition block_body ELSE block_body
+        if_conditional : IF '(' expression ')' '{' block_body '}'
+            | IF '(' expression ')' '{' block_body '}' ELSE '{' block_body '}'
         """
     
     def p_while_loop(self, p):
         """
-        while_loop : WHILE condition block_body
-        """
-    
-    def p_condition(self, p):
-        """
-        condition : '(' expression ')'
+        while_loop : WHILE '(' expression ')' '{' block_body '}'
         """
     
     def p_function(self, p):
         """
-        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' block_body_code RETURN expression ';' '}'
+        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' block_body RETURN expression ';' '}'
         """
     
     def p_argument_list(self, p):
@@ -178,8 +165,20 @@ class AJSParser:
     def p_expression(self, p):
         """
         expression : '(' expression ')'
-            | expression binary_operator expression %prec BINARY
-            | unary_operator expression %prec UNARY
+            | expression PLUS expression
+            | expression MINUS expression
+            | expression TIMES expression
+            | expression DIVIDE expression
+            | expression AND expression
+            | expression OR expression
+            | expression LT expression
+            | expression LE expression
+            | expression EQ expression
+            | expression GE expression
+            | expression GT expression
+            | PLUS expression %prec UPLUS
+            | MINUS expression %prec UMINUS
+            | NOT expression
             | INTEGER
             | REAL
             | CHAR
@@ -213,30 +212,6 @@ class AJSParser:
         else:
             print("!!!!!!!!!!!!! CANOT APPLY UNARY OPERATION !!!!!!!!!!!!!!!")
     '''
-
-    def p_binary_operator(self, p):
-        """
-        binary_operator : PLUS
-            | MINUS
-            | TIMES
-            | DIVIDE
-            | AND
-            | OR
-            | LT
-            | LE
-            | EQ
-            | GE
-            | GT
-        """
-        p[0] = p[1]
-    
-    def p_unary_operator(self, p):
-        """
-        unary_operator : PLUS %prec UNARY
-            | MINUS %prec UNARY
-            | NOT
-        """
-        p[0] = p[1]
 
     def p_function_call(self, p):
         """
