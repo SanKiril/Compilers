@@ -1,11 +1,13 @@
 import os
-import ply.yacc as yacc
+from ply.yacc import yacc
 from ajs_lexer import AJSLexer
+from ajs_object import AJSObject
+from ajs_operator import AJSOperator
 
 
 class AJSParser:
     def __init__(self):
-        self.parser = yacc.yacc(module=self)
+        self.parser = yacc(module=self)
         self.__symbols = {}
         self.__registers = {}
 
@@ -83,9 +85,16 @@ class AJSParser:
     
     def p_assignment(self, p):
         """
-        assignment : declaration ASSIGN expression
-            | STRING_IMPLICIT ASSIGN expression
+        assignment : declaration ASSIGN assignment_content
+            | STRING_IMPLICIT ASSIGN assignment_content
         """
+    
+    def p_assignment_content(self, p):
+        """
+        assignment_content : expression
+            | object
+        """
+        p[0] = p[1]
     
     def p_definition(self, p):
         """
@@ -165,7 +174,94 @@ class AJSParser:
     def p_expression(self, p):
         """
         expression : '(' expression ')'
-            | expression PLUS expression
+            | function_call
+            | object_call
+        """
+        if len(p) == 4:
+            p[0] = p[2]
+        else:
+            p[0] = p[1]
+    
+    def p_int(self, p):
+        """
+        expression : INTEGER
+        """
+        p[0] = AJSObject("INT", p[1])
+    
+    def p_float(self, p):
+        """
+        expression : REAL
+        """
+        p[0] = AJSObject("FLOAT", p[1])
+    
+    def p_character(self, p):
+        """
+        expression : CHAR
+        """
+        p[0] = AJSObject("CHARACTER", p[1])
+    
+    def p_boolean(self, p):
+        """
+        expression : TR
+            | FL
+        """
+        p[0] = AJSObject("BOOLEAN", p[1])
+    
+    def p_null(self, p):
+        """
+        expression : NULL
+        """
+        p[0] = AJSObject("NULL", p[1])
+    
+    def p_string_implicit(self, p):
+        """
+        expression : STRING_IMPLICIT
+        """
+        """
+        if p[1] in self.__symbols:
+            p[0] = p[1]
+        elif p[1] in self.__registers:
+            p[0] = p[1]
+        else:
+            print("ERROR")
+        """
+
+    def p_plus(self, p):
+        """
+        expression : PLUS expression %prec UPLUS
+        """
+        """
+        p[1] = AJSOperator(p[2].type, "PLUS", p[1])
+        if not p[1].return_type:
+            print("ERROR")
+        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        """
+    
+    def p_minus(self, p):
+        """
+        expression : MINUS expression %prec UMINUS
+        """
+        """
+        p[1] = AJSOperator(p[2].type, "MINUS", p[1])
+        if not p[1].return_type:
+            print("ERROR")
+        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        """
+    
+    def p_not(self, p):
+        """
+        expression : NOT expression
+        """
+        """
+        p[1] = AJSOperator(p[2].type, "NOT", p[1])
+        if not p[1].return_type:
+            print("ERROR")
+        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        """
+
+    def p_binary_expression(self, p):
+        """
+        expression : expression PLUS expression
             | expression MINUS expression
             | expression TIMES expression
             | expression DIVIDE expression
@@ -176,42 +272,13 @@ class AJSParser:
             | expression EQ expression
             | expression GE expression
             | expression GT expression
-            | PLUS expression %prec UPLUS
-            | MINUS expression %prec UMINUS
-            | NOT expression
-            | INTEGER
-            | REAL
-            | CHAR
-            | TR
-            | FL
-            | NULL
-            | STRING_IMPLICIT
-            | function_call
-            | object_call
-            | object
         """
-        if len(p) == 4:
-            print(p[1], p[2], p[3])
-            p[0] = eval(f"{p[1]} {p[2]} {p[3]}")
-            print(p[0])
-        if len(p) == 3:
-            print(p[1], p[2])
-        if len(p) == 2:
-            p[0] = p[1]
-            print(p[0])
-    
-    '''
-    def p_expression_unary(self, p):
         """
-        expression : unary_operator expression %prec UNARY
+        p[2] = AJSOperator([p[1].type, p[3].type], p[2])
+        if not p[2].return_type:
+            print("ERROR")
+        p[0] = AJSObject(p[2].return_type, eval(f"{p[1].value} {p[2].value} {p[3].value}"))
         """
-        if p[1][0] == "logic" and p[2][0] == "boolean":
-            p[0] = (p[2][0], eval(f"{p[1][1]}{p[2][1]}"))
-        elif p[1][0] == "arithmetic" and (p[2][0] == "int" or p[2][0] == "float" or p[2][0] == "character"):
-            p[0] = (p[2][0], eval(f"{p[1][1]}{p[2][1]}"))
-        else:
-            print("!!!!!!!!!!!!! CANOT APPLY UNARY OPERATION !!!!!!!!!!!!!!!")
-    '''
 
     def p_function_call(self, p):
         """

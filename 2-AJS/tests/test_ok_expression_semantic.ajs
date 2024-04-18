@@ -1,0 +1,26 @@
+// SINGLE EXPRESSIONS
+12;  // INTEGER (INT)
+12.34;  // REAL (FLOAT)
+'a';  // CHAR (CHARACTER)
+tr;  // TR (BOOLEAN)
+fl;  // FL (BOOLEAN)
+null;  // NULL (NULL)
+var1;  // STRING_IMPLICIT (?)
+
+// UNARY EXPRESSIONS
+// PLUS (INT, FLOAT, CHARACTER)
++12;  // INT [OK]
++12.34;  // FLOAT [OK]
++'a';  // CHARACTER [OK]
+
+// MINUS (INT, FLOAT, CHARACTER)
+-12;  // INT [OK] -> INT
+-12.34;  // FLOAT [OK] -> FLOAT
+-'a';  // CHARACTER [OK] -> CHARACTER
+
+// NOT (BOOLEAN)
+!tr;  // BOOLEAN [OK] -> BOOLEAN
+
+// BINARY EXPRESSIONS
+
+5 + 6 * (10 - 5) / 2;

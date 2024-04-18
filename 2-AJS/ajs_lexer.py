@@ -1,16 +1,15 @@
 import os
 import re
 from decimal import Decimal
-from ply.lex import TOKEN
-import ply.lex as lex
+from ply.lex import lex, TOKEN
 
 
 class AJSLexer:
     def __init__(self):
-        self.lexer = lex.lex(module=self)
+        self.lexer = lex(module=self)
     
     # DEFINE LITERALS
-    literals = ['{', '}', '(', ')', '[', ']', ':', ',', ';']
+    literals = ['{', '}', '(', ')', '[', ']', ':', ',', '.', ';']
     
     # DEFINE RESERVED TOKENS
     reserved = {
@@ -58,7 +57,7 @@ class AJSLexer:
     hexadecimal = r'0[xX][0-9a-fA-F]+'
     decimal = r'[1-9]\d*|0'
     integer = rf'({binary})|({octal})|({hexadecimal})|({decimal})'
-    scientific = rf'(?:(?:(?:{decimal})\.\d*)|(?:\.\d+))[eE](?:{decimal})'
+    scientific = rf'(?:(?:(?:{decimal})\.\d*)|(?:\.\d+)|(?:{decimal}))[eE](?:\-?{decimal})'
     floating = rf'(?:(?:{decimal})\.\d*)|(?:\.\d+)'
     real = rf'({scientific})|({floating})'
     
@@ -159,5 +158,5 @@ class AJSLexer:
             os.makedirs("./output/")
 
         # output file
-        with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".lexer", 'w', encoding="UTF-8") as file:
+        with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".token", 'w', encoding="UTF-8") as file:
             file.write("\n".join([f"{t.type} {t.value}" for t in self.lexer]))
