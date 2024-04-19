@@ -1,0 +1,15 @@
+// PARENTHESIS EXPRESSIONS
+(((12);
+
+// UNARY EXPRESSIONS
+++12;
+--12.34;
+!!'a';
+
+// SIMPLE BINARY EXPRESSIONS
+12 +++ 12;
+12 +;
+12 + 12 +;
+12 + 12 +-;
+12 + 12.34 - var1 = 4;
+== 12;

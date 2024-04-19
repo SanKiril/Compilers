@@ -1,0 +1,18 @@
+// INCORRECT OBJECT CALLS
+obj."attr1";
+obj".attr1";
+obj"".attr1;
+obj.attr1"";
+obj[attr1];
+obj.["attr1"];
+obj["attr1"]"";
+obj""["attr1"];
+obj["""attr1"];
+obj["attr1"""];
+obj[."attr1"];
+obj"[attr1]";
+obj".[attr1]";
+obj"[.attr1]";
+obj"["attr1"]";
+obj[.attr1];
+obj.[attr1];

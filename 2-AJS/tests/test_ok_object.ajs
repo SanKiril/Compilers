@@ -1,0 +1,13 @@
+// SINGLE OBJECT CALLS
+obj.attr1;
+obj["attr1"];
+
+// MULTIPLE OBJECT CALLS
+obj.attr1["attr2"];
+obj["attr1"].attr2;
+obj.attr1["attr2"].attr3;
+obj["attr1"].attr2["attr3"];
+obj.attr1.attr2;
+obj["attr1"]["attr2"];
+obj.attr1.attr2["attr3"];
+obj["attr1"]["attr2"].attr3;

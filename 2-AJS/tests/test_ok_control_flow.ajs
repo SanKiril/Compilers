@@ -1,0 +1,35 @@
+// IF CONDITIONAL
+if (a) {b;}
+
+// IF-ELSE CONDITIONAL
+if (a) {b;} else {c;}
+
+// WHILE LOOP
+while (a) {b;}
+
+// NESTED IF CONDITIONAL
+if (a) {if (b) {c;}}
+
+// NESTED IF-ELSE CONDITIONAL
+if (a) {if (b) {c;} else {d;}} else {if (e) {f;} else {g;}}
+
+// NESTED WHILE LOOP
+while (a) {while (b) {c;}}
+
+// MIXED NESTED CONDITIONALS
+if (a) {if (b) {c;} else {d;}}
+if (a) {if (b) {c;}} else {if (d) {e;}}
+
+// COMPLEX MIXED CONTROL FLOW STRUCTURES
+if (!a) {
+	12 / 12.34;
+	if (0.01 - tr >= '.') {
+		obj.attr1["attr2"];
+	}
+} else {
+	sum(a, b == obj);
+	let var1 = obj["attr1"].attr2;
+	while (-fl >= !null) {
+		if_var > !(else_var == while_var);
+	}
+}

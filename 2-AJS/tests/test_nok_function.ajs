@@ -1,0 +1,14 @@
+// INCORRECT FUNCTION DEFINITIONS
+
+
+// INCORRECT FUNCTION CALLS
+sum(,);
+sum(a,);
+sum(,a);
+sum(,a, b, c);
+sum(a, b, c,);
+sum(a, b, c, ,d);
+sum(a, b, c, ,d,);
+sum(a, b, c: int);
+sum(a, b, sum(,));
+sum(a, b, sum(c),);

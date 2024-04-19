@@ -1,0 +1,38 @@
+// SINGLE DECLARATIONS
+let a;
+
+// MULTIPLE DECLARATIONS
+let a, b, c;
+
+// SINGLE TYPED DECLARATIONS
+let a: Obj1;
+
+// MULTIPLE TYPED DECLARATIONS
+let a: Obj1, b: Obj2, c: Obj3;
+
+// MIXED DECLARATIONS
+let a, b: Obj1, c, d: Obj2;
+
+// SIMPLE ASSIGNMENTS
+a = 12;
+a = {};
+a = a;
+
+// SINGLE DECLARATIONS & ASSIGNMENTS
+let a = 12;
+
+// MULTIPLE DECLARATIONS & ASSIGNMENTS
+let a, b, c = 12;
+
+// SINGLE TYPED DECLARATIONS & ASSIGNMENTS
+let a: Obj = 12;
+
+// MULTIPLE TYPED DECLARATIONS & ASSIGNMENTS
+let a: Obj1, b: Obj2, c: Obj3 = 12;
+
+// MIXED DECLARATIONS & ASSIGNMENTS
+let a, b: Obj1, c, d: Obj2 = 12;
+
+// DEFINITIONS
+type Obj1 = {};
+type Obj1 = {attr1: int, "attr2": Obj2};

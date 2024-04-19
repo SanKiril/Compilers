@@ -1,0 +1,40 @@
+if (a) then {b;}
+(a) => {b;}
+(a) {b;}
+(a) if {b;}
+if (a) {}
+if (a) {;}
+IF (a) {b;}
+ifa {b;}
+if (a) {b;};
+if (a;) {b;}
+if (a); {b;}
+if (a) {b;} else (c) {d;}
+if (a)
+if (a) else {b;}
+else (a) {b;} if {c;}
+if {a} {b;}
+if (a) {b;} else if (c) {d;}
+if (a) {b;} {c;}
+if (a) (b) {c;}
+while if (a) {b;}
+if while (a) {b;}
+while (a) if {b};
+do {a;} while (b)
+if () {b;}
+while () {b;}
+while (a) {}
+WHILE (a) {b;}
+(if (a) {b;});
+Шhile (a) {b;}
+if (a) {
+    function sum(a: int, b: int): int {return a+b;}
+}
+if (a) {
+    a+b;
+} else {
+    function sum(a: int, b: int): int {return a+b;}
+}
+while (a) {
+    function sum(a: int, b: int): int {return a+b;}
+}

@@ -1,0 +1,15 @@
+// EMPTY ARGUMENT FUNCTION
+function sum(): int {return null;}
+
+// EMPTY FUNCTION CALLS
+sum();
+
+// ONE ARGUMENT FUNCTION CALLS
+sum(a);
+
+// MULTIPLE ARGUMENTS FUNCTION CALLS
+sum(a, b, c);
+
+// COMPLEX FUNCTION CALLS
+sum(sub(a));
+sum(sub(a), 12 * 12.34, 1e-3 < !tr / mul(fl, 'a'));

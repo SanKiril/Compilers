@@ -58,8 +58,14 @@ class AJSParser:
     
     def p_block_body(self, p):
         """
-        block_body : statement block_body
-            | simple_block block_body
+        block_body : block_body_nonempty
+            | empty
+        """
+    
+    def p_block_body_nonempty(self, p):
+        """
+        block_body_nonempty : statement block_body_nonempty
+            | simple_block block_body_nonempty
             | statement
             | simple_block
         """
@@ -145,13 +151,13 @@ class AJSParser:
     
     def p_if_conditional(self, p):
         """
-        if_conditional : IF '(' expression ')' '{' block_body '}'
-            | IF '(' expression ')' '{' block_body '}' ELSE '{' block_body '}'
+        if_conditional : IF '(' expression ')' '{' block_body_nonempty '}'
+            | IF '(' expression ')' '{' block_body_nonempty '}' ELSE '{' block_body_nonempty '}'
         """
     
     def p_while_loop(self, p):
         """
-        while_loop : WHILE '(' expression ')' '{' block_body '}'
+        while_loop : WHILE '(' expression ')' '{' block_body_nonempty '}'
         """
     
     def p_function(self, p):
