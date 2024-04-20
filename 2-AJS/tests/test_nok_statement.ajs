@@ -30,3 +30,4 @@ a <= 12;
 a <- 12;
 let a > 12;
 let a > int 12;
+let a = {b: int};
