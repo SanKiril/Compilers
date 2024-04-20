@@ -13,9 +13,11 @@ let a: Obj1, b: Obj2, c: Obj3;
 // MIXED DECLARATIONS
 let a, b: Obj1, c, d: Obj2;
 
-// SIMPLE ASSIGNMENTS
+// ASSIGNMENTS
 a = 12;
 a = {};
+a = {attr1: 12};
+a = {attr1: {attr2: 12}};
 a = a;
 
 // SINGLE DECLARATIONS & ASSIGNMENTS
@@ -32,6 +34,7 @@ let a: Obj1, b: Obj2, c: Obj3 = 12;
 
 // MIXED DECLARATIONS & ASSIGNMENTS
 let a, b: Obj1, c, d: Obj2 = 12;
+let a, b: Obj1, c, d: Obj2 = {attr1: 12};
 
 // DEFINITIONS
 type Obj1 = {};

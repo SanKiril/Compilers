@@ -1,3 +1,14 @@
+// INCORRECT OBJECTS
+let obj = {;
+let obj = };
+let obj = }{;
+let obj = {,};
+let obj = {;};
+let obj = {,key:12};
+let obj = {key1: 12;};
+let obj = {key1: int};
+let obj = {12: key1};
+
 // INCORRECT OBJECT CALLS
 obj."attr1";
 obj".attr1";

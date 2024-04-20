@@ -309,8 +309,8 @@ class AJSParser:
     
     def p_function_call_list_nonempty(self, p):
         """
-        function_call_list_nonempty : basic_expression ',' function_call_list_nonempty
-            | basic_expression
+        function_call_list_nonempty : expression ',' function_call_list_nonempty
+            | expression
         """
     
     def p_object_call(self, p):

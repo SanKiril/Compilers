@@ -1,3 +1,28 @@
+// EMPTY OBJECTS
+let obj = {};
+
+// SIMPLE OBJECTS
+let obj = {
+    key1: 12
+};
+let obj = {
+    key1: 12,
+};
+let obj = {
+    key1: 12,
+    "key2": tr,
+};
+
+// COMPLEX OBJECTS
+let obj = {
+    key1: 12,
+    "key2": tr,
+    key_3: {
+        key4: 7 < sum(a, b),
+        "5 key": Obj,
+    }
+};
+
 // SINGLE OBJECT CALLS
 obj.attr1;
 obj["attr1"];

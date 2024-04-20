@@ -1,5 +1,46 @@
 // INCORRECT FUNCTION DEFINITIONS
-
+function sum(); int {return null};
+function sum(): int; {return null};
+function sum(): int {return null}
+function sum(): int {return null;};
+function sum{}: int {return null;}
+function sum(): int (return null;)
+function sum(): {return null;}
+function sum(): int {}
+function sum(): int {return}
+function sum(): int {return;}
+FUNCTION sum(): int {return null;}
+function sum(): int {RETURN null;}
+def sum(): int {return null;}
+fun sum(): int {return null;}
+function sum(): int {return return null;}
+int sum() {return null;}
+int sum(): {return null;}
+functionsum(): int {return null;}
+sum(): int {return null;}
+function sum(): fl {return null;}
+function int(): int {return null;}
+function sum(int): int {return null;}
+function sum(int a): int {return null;}
+function sum(int: a): int {return null;}
+function sum(int type): int {return null;}
+function sum(a: int, b: boolean, c: ): int {return null;}
+function sum(a: int, b: boolean, c: 12): int {return null;}
+function sum(): int {return {attr1: int, "attr2": boolean};}
+function sum(): {} {return null;}
+function sum(): int {
+    function sum(): int {return null;}
+    return null;
+}
+function sum(): int {
+    return null;
+    return null;
+}
+function sum(): int {
+    if (a) {
+        return null;
+    }
+}
 
 // INCORRECT FUNCTION CALLS
 sum(,);
@@ -12,3 +53,4 @@ sum(a, b, c, ,d,);
 sum(a, b, c: int);
 sum(a, b, sum(,));
 sum(a, b, sum(c),);
+sum({attr1: int})
