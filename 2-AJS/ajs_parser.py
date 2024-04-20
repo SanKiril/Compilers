@@ -15,7 +15,6 @@ class AJSParser:
 
     # DEFINE TOKEN PRECEDENCE
     precedence = (
-        ("nonassoc", "STRING_IMPLICIT"),
         ("right", "ASSIGN"),
         ("left", "OR", "AND"),
         ("nonassoc", "LE", "LT", "EQ", "GE", "GT"),
@@ -104,7 +103,25 @@ class AJSParser:
     
     def p_definition(self, p):
         """
-        definition : TYPE STRING_IMPLICIT ASSIGN object
+        definition : TYPE STRING_IMPLICIT ASSIGN definition_object
+        """
+    
+    def p_definition_object(self, p):
+        """
+        definition_object : '{' definition_object_content '}'
+        """
+        p[0] = p[2]
+    
+    def p_definition_object_content(self, p):
+        """
+        definition_object_content : definition_object_item ',' definition_object_content
+            | definition_object_item
+            | empty
+        """
+    
+    def p_definition_object_item(self, p):
+        """
+        definition_object_item : key ':' type
         """
     
     def p_object(self, p):
@@ -122,8 +139,7 @@ class AJSParser:
 
     def p_object_item(self, p):
         """
-        object_item : key ':' basic_type
-            | key ':' basic_expression
+        object_item : key ':' expression
         """
     
     def p_key(self, p):
@@ -135,17 +151,11 @@ class AJSParser:
     
     def p_type(self, p):
         """
-        type : basic_type
-            | STRING_IMPLICIT
-        """
-        p[0] = p[1]
-    
-    def p_basic_type(self, p):
-        """
-        basic_type : INT
+        type : INT
             | FLOAT
             | CHARACTER
             | BOOLEAN
+            | STRING_IMPLICIT
         """
         p[0] = p[1]
     
