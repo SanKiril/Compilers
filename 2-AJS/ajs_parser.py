@@ -37,7 +37,7 @@ class AJSParser:
         statement : declaration ';'
             | assignment ';'
             | definition ';'
-            | basic_expression ';'
+            | expression ';'
         """
         p[0] = p[1]
     
@@ -90,13 +90,13 @@ class AJSParser:
     
     def p_assignment(self, p):
         """
-        assignment : declaration ASSIGN expression
-            | STRING_IMPLICIT ASSIGN expression
+        assignment : declaration ASSIGN assignment_content
+            | STRING_IMPLICIT ASSIGN assignment_content
         """
     
-    def p_expression(self, p):
+    def p_assignment_content(self, p):
         """
-        expression : basic_expression
+        assignment_content : expression
             | object
         """
         p[0] = p[1]
@@ -139,7 +139,7 @@ class AJSParser:
 
     def p_object_item(self, p):
         """
-        object_item : key ':' expression
+        object_item : key ':' assignment_content
         """
     
     def p_key(self, p):
@@ -161,13 +161,13 @@ class AJSParser:
     
     def p_if_conditional(self, p):
         """
-        if_conditional : IF '(' basic_expression ')' '{' block_body_nonempty '}'
-            | IF '(' basic_expression ')' '{' block_body_nonempty '}' ELSE '{' block_body_nonempty '}'
+        if_conditional : IF '(' expression ')' '{' block_body_nonempty '}'
+            | IF '(' expression ')' '{' block_body_nonempty '}' ELSE '{' block_body_nonempty '}'
         """
     
     def p_while_loop(self, p):
         """
-        while_loop : WHILE '(' basic_expression ')' '{' block_body_nonempty '}'
+        while_loop : WHILE '(' expression ')' '{' block_body_nonempty '}'
         """
     
     def p_function(self, p):
@@ -187,9 +187,9 @@ class AJSParser:
             | STRING_IMPLICIT ':' type
         """
     
-    def p_basic_expression(self, p):
+    def p_expression(self, p):
         """
-        basic_expression : '(' basic_expression ')'
+        expression : '(' expression ')'
             | function_call
             | object_call
         """
@@ -200,38 +200,38 @@ class AJSParser:
     
     def p_int(self, p):
         """
-        basic_expression : INTEGER
+        expression : INTEGER
         """
         p[0] = AJSObject("INT", p[1])
     
     def p_float(self, p):
         """
-        basic_expression : REAL
+        expression : REAL
         """
         p[0] = AJSObject("FLOAT", p[1])
     
     def p_character(self, p):
         """
-        basic_expression : CHAR
+        expression : CHAR
         """
         p[0] = AJSObject("CHARACTER", p[1])
     
     def p_boolean(self, p):
         """
-        basic_expression : TR
+        expression : TR
             | FL
         """
         p[0] = AJSObject("BOOLEAN", p[1])
     
     def p_null(self, p):
         """
-        basic_expression : NULL
+        expression : NULL
         """
         p[0] = AJSObject("NULL", p[1])
     
     def p_string_implicit(self, p):
         """
-        basic_expression : STRING_IMPLICIT
+        expression : STRING_IMPLICIT
         """
         """
         if p[1] in self.__symbols:
@@ -244,44 +244,44 @@ class AJSParser:
 
     def p_plus(self, p):
         """
-        basic_expression : PLUS basic_expression %prec UPLUS
+        expression : PLUS expression %prec UPLUS
         """
         p[1] = AJSOperator(p[2].type, "PLUS", p[1])
         if not p[1].return_type:
             print("ERROR")
-        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        p[0] = AJSObject(p[1].return_type, p[1].return_value)
     
     def p_minus(self, p):
         """
-        basic_expression : MINUS basic_expression %prec UMINUS
+        expression : MINUS expression %prec UMINUS
         """
         p[1] = AJSOperator(p[2].type, "MINUS", p[1])
         if not p[1].return_type:
             print("ERROR")
-        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        p[0] = AJSObject(p[1].return_type, p[1].return_value)
     
     def p_not(self, p):
         """
-        basic_expression : NOT basic_expression
+        expression : NOT expression
         """
         p[1] = AJSOperator(p[2].type, "NOT", p[1])
         if not p[1].return_type:
             print("ERROR")
         p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
 
-    def p_binary_basic_expression(self, p):
+    def p_binary_expression(self, p):
         """
-        basic_expression : basic_expression PLUS basic_expression
-            | basic_expression MINUS basic_expression
-            | basic_expression TIMES basic_expression
-            | basic_expression DIVIDE basic_expression
-            | basic_expression AND basic_expression
-            | basic_expression OR basic_expression
-            | basic_expression LT basic_expression
-            | basic_expression LE basic_expression
-            | basic_expression EQ basic_expression
-            | basic_expression GE basic_expression
-            | basic_expression GT basic_expression
+        expression : expression PLUS expression
+            | expression MINUS expression
+            | expression TIMES expression
+            | expression DIVIDE expression
+            | expression AND expression
+            | expression OR expression
+            | expression LT expression
+            | expression LE expression
+            | expression EQ expression
+            | expression GE expression
+            | expression GT expression
         """
         """
         p[2] = AJSOperator([p[1].type, p[3].type], p[2])

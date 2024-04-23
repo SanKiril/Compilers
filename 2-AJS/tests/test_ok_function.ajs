@@ -7,9 +7,6 @@ function sum(a: int, b: boolean, c: Obj): int {return null;}
 // SIMPLE RETURN FUNCTION
 function sum(): int {return tr;}
 
-// OBJECT RETURN FUNCTION
-function sum(): int {return {attr1: 12, "attr2": tr};}
-
 // SIMPLE FUNCTION
 function sum(a: int, b: boolean, c: Obj): int {
     a = 12;
@@ -24,7 +21,7 @@ function sum(a: int, b: boolean, c: Obj): int {
             3e6 == null || 6 * !1;
         }
     }
-    return {attr1: 12, "attr2": sum()};
+    return a;
 }
 
 // EMPTY FUNCTION CALLS
@@ -39,5 +36,3 @@ sum(a, b, c);
 // COMPLEX FUNCTION CALLS
 sum(sub(a));
 sum(sub(a), 12 * 12.34, 1e-3 < !tr / mul(fl, 'a'));
-sum({attr1: 12, "attr2": tr});
-sum(sub(a), {attr1: 12, "attr2": tr}, tr < fl);

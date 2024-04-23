@@ -27,6 +27,7 @@ function sum(int type): int {return null;}
 function sum(a: int, b: boolean, c: ): int {return null;}
 function sum(a: int, b: boolean, c: 12): int {return null;}
 function sum(): int {return {attr1: int, "attr2": boolean};}
+function sum(): int {return {attr1: 12, "attr2": tr};}
 function sum(): {} {return null;}
 function sum(): int {
     function sum(): int {return null;}
@@ -53,4 +54,4 @@ sum(a, b, c, ,d,);
 sum(a, b, c: int);
 sum(a, b, sum(,));
 sum(a, b, sum(c),);
-sum({attr1: int})
+sum({attr1: 12, "attr2": tr});
