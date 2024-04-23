@@ -35,3 +35,4 @@ let a = {b: int};
 type a = {b: 12};
 type a;
 type a > 12;
+type Obj1 = {};

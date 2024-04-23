@@ -26,6 +26,7 @@ if (!a) {
 	if (0.01 - tr >= '.') {
 		obj.attr1["attr2"];
 	}
+	type Obj = {attr1: int};
 } else {
 	sum(a, b == obj);
 	let var1 = obj["attr1"].attr2;

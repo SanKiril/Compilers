@@ -85,11 +85,18 @@ class AJSOperator:
         self.return_type = self.__map_types(operator_input_type)
     
     def __map_types(self, operator_input_type: List[str]) -> Union[str, None]:
+        # unary operators
         if len(operator_input_type) == 1:
             # try to get the type of the input
             try:
                 return type_map[self.type][operator_input_type[0]]
             except KeyError:
                 return
+        # binary operators
         else:
-            return
+            # try to get the type of the input
+            try:
+                type_map[self.type][operator_input_type[0]]
+                type_map[self.type][operator_input_type[1]]
+            except KeyError:
+                return

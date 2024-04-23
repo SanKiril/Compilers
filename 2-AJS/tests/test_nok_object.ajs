@@ -2,6 +2,7 @@
 let obj = {;
 let obj = };
 let obj = }{;
+let obj = {};
 let obj = {,};
 let obj = {;};
 let obj = {,key:12};

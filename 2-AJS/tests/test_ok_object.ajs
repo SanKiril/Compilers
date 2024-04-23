@@ -1,6 +1,3 @@
-// EMPTY OBJECTS
-let obj = {};
-
 // SIMPLE OBJECTS
 let obj = {
     key1: 12

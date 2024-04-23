@@ -114,9 +114,9 @@ class AJSParser:
     
     def p_definition_object_content(self, p):
         """
-        definition_object_content : definition_object_item ',' definition_object_content
+        definition_object_content : definition_object_item ',' definition_object_content_nonempty
             | definition_object_item
-            | empty
+            | definition_object_item ','
         """
     
     def p_definition_object_item(self, p):
@@ -134,7 +134,7 @@ class AJSParser:
         """
         object_content : object_item ',' object_content
             | object_item
-            | empty
+            | object_item ','
         """
 
     def p_object_item(self, p):
@@ -246,34 +246,28 @@ class AJSParser:
         """
         basic_expression : PLUS basic_expression %prec UPLUS
         """
-        """
         p[1] = AJSOperator(p[2].type, "PLUS", p[1])
         if not p[1].return_type:
             print("ERROR")
         p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
-        """
     
     def p_minus(self, p):
         """
         basic_expression : MINUS basic_expression %prec UMINUS
         """
-        """
         p[1] = AJSOperator(p[2].type, "MINUS", p[1])
         if not p[1].return_type:
             print("ERROR")
         p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
-        """
     
     def p_not(self, p):
         """
         basic_expression : NOT basic_expression
         """
-        """
         p[1] = AJSOperator(p[2].type, "NOT", p[1])
         if not p[1].return_type:
             print("ERROR")
         p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
-        """
 
     def p_binary_basic_expression(self, p):
         """
