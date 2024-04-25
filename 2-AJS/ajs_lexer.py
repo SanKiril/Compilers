@@ -99,7 +99,7 @@ class AJSLexer:
 
     def t_CHAR(self, t):
         r'\'[\x00-\x7F]\''
-        t.value = t.value[1:-1]
+        t.value = ord(t.value[1:-1])
         return t
 
     def t_comment(self, t):

@@ -1,0 +1,4206 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> file
+Rule 1     file -> statement file
+Rule 2     file -> block file
+Rule 3     file -> empty
+Rule 4     statement -> declaration ;
+Rule 5     statement -> assignment ;
+Rule 6     statement -> definition ;
+Rule 7     statement -> expression ;
+Rule 8     block -> simple_block
+Rule 9     block -> function
+Rule 10    simple_block -> if_conditional
+Rule 11    simple_block -> while_loop
+Rule 12    block_body -> block_body_nonempty
+Rule 13    block_body -> empty
+Rule 14    block_body_nonempty -> statement block_body_nonempty
+Rule 15    block_body_nonempty -> simple_block block_body_nonempty
+Rule 16    block_body_nonempty -> statement
+Rule 17    block_body_nonempty -> simple_block
+Rule 18    declaration -> LET declaration_content
+Rule 19    declaration_content -> item , declaration_content
+Rule 20    declaration_content -> item
+Rule 21    item -> STRING_IMPLICIT : STRING_IMPLICIT
+Rule 22    item -> STRING_IMPLICIT
+Rule 23    assignment -> declaration ASSIGN assignment_content
+Rule 24    assignment -> STRING_IMPLICIT ASSIGN assignment_content
+Rule 25    assignment_content -> expression
+Rule 26    assignment_content -> object
+Rule 27    definition -> TYPE STRING_IMPLICIT ASSIGN definition_object
+Rule 28    definition_object -> { definition_object_content }
+Rule 29    definition_object_content -> definition_object_item , definition_object_content
+Rule 30    definition_object_content -> definition_object_item
+Rule 31    definition_object_content -> definition_object_item ,
+Rule 32    definition_object_item -> key : type
+Rule 33    object -> { object_content }
+Rule 34    object_content -> object_item , object_content
+Rule 35    object_content -> object_item
+Rule 36    object_content -> object_item ,
+Rule 37    object_item -> key : assignment_content
+Rule 38    key -> STRING_EXPLICIT
+Rule 39    key -> STRING_IMPLICIT
+Rule 40    type -> INT
+Rule 41    type -> FLOAT
+Rule 42    type -> CHARACTER
+Rule 43    type -> BOOLEAN
+Rule 44    type -> STRING_IMPLICIT
+Rule 45    if_conditional -> IF ( expression ) { block_body_nonempty }
+Rule 46    if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+Rule 47    while_loop -> WHILE ( expression ) { block_body_nonempty }
+Rule 48    function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; }
+Rule 49    argument_list -> argument_list_nonempty
+Rule 50    argument_list -> empty
+Rule 51    argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty
+Rule 52    argument_list_nonempty -> STRING_IMPLICIT : type
+Rule 53    expression -> ( expression )
+Rule 54    expression -> function_call
+Rule 55    expression -> object_call
+Rule 56    expression -> INTEGER
+Rule 57    expression -> REAL
+Rule 58    expression -> CHAR
+Rule 59    expression -> TR
+Rule 60    expression -> FL
+Rule 61    expression -> NULL
+Rule 62    expression -> STRING_IMPLICIT
+Rule 63    expression -> PLUS expression
+Rule 64    expression -> expression PLUS expression
+Rule 65    expression -> MINUS expression
+Rule 66    expression -> expression MINUS expression
+Rule 67    expression -> NOT expression
+Rule 68    expression -> expression TIMES expression
+Rule 69    expression -> expression DIVIDE expression
+Rule 70    expression -> expression AND expression
+Rule 71    expression -> expression OR expression
+Rule 72    expression -> expression LT expression
+Rule 73    expression -> expression LE expression
+Rule 74    expression -> expression EQ expression
+Rule 75    expression -> expression GE expression
+Rule 76    expression -> expression GT expression
+Rule 77    function_call -> STRING_IMPLICIT ( function_call_list )
+Rule 78    function_call_list -> function_call_list_nonempty
+Rule 79    function_call_list -> empty
+Rule 80    function_call_list_nonempty -> expression , function_call_list_nonempty
+Rule 81    function_call_list_nonempty -> expression
+Rule 82    object_call -> STRING_IMPLICIT object_attribute_list
+Rule 83    object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list
+Rule 84    object_attribute_list -> . STRING_IMPLICIT object_attribute_list
+Rule 85    object_attribute_list -> [ STRING_EXPLICIT ]
+Rule 86    object_attribute_list -> . STRING_IMPLICIT
+Rule 87    empty -> <empty>
+
+Terminals, with rules where they appear
+
+(                    : 45 46 47 48 53 77
+)                    : 45 46 47 48 53 77
+,                    : 19 29 31 34 36 51 80
+.                    : 84 86
+:                    : 21 32 37 48 51 52
+;                    : 4 5 6 7 48
+AND                  : 70
+ASSIGN               : 23 24 27
+BOOLEAN              : 43
+CHAR                 : 58
+CHARACTER            : 42
+DIVIDE               : 69
+ELSE                 : 46
+EQ                   : 74
+FL                   : 60
+FLOAT                : 41
+FUNCTION             : 48
+GE                   : 75
+GT                   : 76
+IF                   : 45 46
+INT                  : 40
+INTEGER              : 56
+LE                   : 73
+LET                  : 18
+LT                   : 72
+MINUS                : 65 66
+NOT                  : 67
+NULL                 : 61
+OR                   : 71
+PLUS                 : 63 64
+REAL                 : 57
+RETURN               : 48
+STRING_EXPLICIT      : 38 83 85
+STRING_IMPLICIT      : 21 21 22 24 27 39 44 48 51 52 62 77 82 84 86
+TIMES                : 68
+TR                   : 59
+TYPE                 : 27
+WHILE                : 47
+[                    : 83 85
+]                    : 83 85
+error                : 
+{                    : 28 33 45 46 46 47 48
+}                    : 28 33 45 46 46 47 48
+
+Nonterminals, with rules where they appear
+
+argument_list        : 48
+argument_list_nonempty : 49 51
+assignment           : 5
+assignment_content   : 23 24 37
+block                : 2
+block_body           : 48
+block_body_nonempty  : 12 14 15 45 46 46 47
+declaration          : 4 23
+declaration_content  : 18 19
+definition           : 6
+definition_object    : 27
+definition_object_content : 28 29
+definition_object_item : 29 30 31
+empty                : 3 13 50 79
+expression           : 7 25 45 46 47 48 53 63 64 64 65 66 66 67 68 68 69 69 70 70 71 71 72 72 73 73 74 74 75 75 76 76 80 81
+file                 : 1 2 0
+function             : 9
+function_call        : 54
+function_call_list   : 77
+function_call_list_nonempty : 78 80
+if_conditional       : 10
+item                 : 19 20
+key                  : 32 37
+object               : 26
+object_attribute_list : 82 83 84
+object_call          : 55
+object_content       : 33 34
+object_item          : 34 35 36
+simple_block         : 8 15 17
+statement            : 1 14 16
+type                 : 32 48 51 52
+while_loop           : 11
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . file
+    (1) file -> . statement file
+    (2) file -> . block file
+    (3) file -> . empty
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (8) block -> . simple_block
+    (9) block -> . function
+    (87) empty -> .
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (48) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+
+    $end            reduce using rule 87 (empty -> .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    FUNCTION        shift and go to state 28
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    file                           shift and go to state 1
+    statement                      shift and go to state 2
+    block                          shift and go to state 3
+    empty                          shift and go to state 4
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    expression                     shift and go to state 8
+    simple_block                   shift and go to state 9
+    function                       shift and go to state 10
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+
+state 1
+
+    (0) S' -> file .
+
+
+
+state 2
+
+    (1) file -> statement . file
+    (1) file -> . statement file
+    (2) file -> . block file
+    (3) file -> . empty
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (8) block -> . simple_block
+    (9) block -> . function
+    (87) empty -> .
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (48) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+
+    $end            reduce using rule 87 (empty -> .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    FUNCTION        shift and go to state 28
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    statement                      shift and go to state 2
+    file                           shift and go to state 31
+    block                          shift and go to state 3
+    empty                          shift and go to state 4
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    expression                     shift and go to state 8
+    simple_block                   shift and go to state 9
+    function                       shift and go to state 10
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+
+state 3
+
+    (2) file -> block . file
+    (1) file -> . statement file
+    (2) file -> . block file
+    (3) file -> . empty
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (8) block -> . simple_block
+    (9) block -> . function
+    (87) empty -> .
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (48) function -> . FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+
+    $end            reduce using rule 87 (empty -> .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    FUNCTION        shift and go to state 28
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    block                          shift and go to state 3
+    file                           shift and go to state 32
+    statement                      shift and go to state 2
+    empty                          shift and go to state 4
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    expression                     shift and go to state 8
+    simple_block                   shift and go to state 9
+    function                       shift and go to state 10
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+
+state 4
+
+    (3) file -> empty .
+
+    $end            reduce using rule 3 (file -> empty .)
+
+
+state 5
+
+    (4) statement -> declaration . ;
+    (23) assignment -> declaration . ASSIGN assignment_content
+
+    ;               shift and go to state 33
+    ASSIGN          shift and go to state 34
+
+
+state 6
+
+    (5) statement -> assignment . ;
+
+    ;               shift and go to state 35
+
+
+state 7
+
+    (6) statement -> definition . ;
+
+    ;               shift and go to state 36
+
+
+state 8
+
+    (7) statement -> expression . ;
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               shift and go to state 37
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 9
+
+    (8) block -> simple_block .
+
+    LET             reduce using rule 8 (block -> simple_block .)
+    STRING_IMPLICIT reduce using rule 8 (block -> simple_block .)
+    TYPE            reduce using rule 8 (block -> simple_block .)
+    (               reduce using rule 8 (block -> simple_block .)
+    INTEGER         reduce using rule 8 (block -> simple_block .)
+    REAL            reduce using rule 8 (block -> simple_block .)
+    CHAR            reduce using rule 8 (block -> simple_block .)
+    TR              reduce using rule 8 (block -> simple_block .)
+    FL              reduce using rule 8 (block -> simple_block .)
+    NULL            reduce using rule 8 (block -> simple_block .)
+    PLUS            reduce using rule 8 (block -> simple_block .)
+    MINUS           reduce using rule 8 (block -> simple_block .)
+    NOT             reduce using rule 8 (block -> simple_block .)
+    FUNCTION        reduce using rule 8 (block -> simple_block .)
+    IF              reduce using rule 8 (block -> simple_block .)
+    WHILE           reduce using rule 8 (block -> simple_block .)
+    $end            reduce using rule 8 (block -> simple_block .)
+
+
+state 10
+
+    (9) block -> function .
+
+    LET             reduce using rule 9 (block -> function .)
+    STRING_IMPLICIT reduce using rule 9 (block -> function .)
+    TYPE            reduce using rule 9 (block -> function .)
+    (               reduce using rule 9 (block -> function .)
+    INTEGER         reduce using rule 9 (block -> function .)
+    REAL            reduce using rule 9 (block -> function .)
+    CHAR            reduce using rule 9 (block -> function .)
+    TR              reduce using rule 9 (block -> function .)
+    FL              reduce using rule 9 (block -> function .)
+    NULL            reduce using rule 9 (block -> function .)
+    PLUS            reduce using rule 9 (block -> function .)
+    MINUS           reduce using rule 9 (block -> function .)
+    NOT             reduce using rule 9 (block -> function .)
+    FUNCTION        reduce using rule 9 (block -> function .)
+    IF              reduce using rule 9 (block -> function .)
+    WHILE           reduce using rule 9 (block -> function .)
+    $end            reduce using rule 9 (block -> function .)
+
+
+state 11
+
+    (18) declaration -> LET . declaration_content
+    (19) declaration_content -> . item , declaration_content
+    (20) declaration_content -> . item
+    (21) item -> . STRING_IMPLICIT : STRING_IMPLICIT
+    (22) item -> . STRING_IMPLICIT
+
+    STRING_IMPLICIT shift and go to state 51
+
+    declaration_content            shift and go to state 49
+    item                           shift and go to state 50
+
+state 12
+
+    (24) assignment -> STRING_IMPLICIT . ASSIGN assignment_content
+    (62) expression -> STRING_IMPLICIT .
+    (77) function_call -> STRING_IMPLICIT . ( function_call_list )
+    (82) object_call -> STRING_IMPLICIT . object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (84) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (85) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (86) object_attribute_list -> . . STRING_IMPLICIT
+
+    ASSIGN          shift and go to state 52
+    ;               reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    PLUS            reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    MINUS           reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    TIMES           reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    AND             reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    OR              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    LT              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    LE              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    EQ              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    GE              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    GT              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    (               shift and go to state 53
+    [               shift and go to state 55
+    .               shift and go to state 56
+
+    object_attribute_list          shift and go to state 54
+
+state 13
+
+    (27) definition -> TYPE . STRING_IMPLICIT ASSIGN definition_object
+
+    STRING_IMPLICIT shift and go to state 57
+
+
+state 14
+
+    (53) expression -> ( . expression )
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 58
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 15
+
+    (54) expression -> function_call .
+
+    ;               reduce using rule 54 (expression -> function_call .)
+    PLUS            reduce using rule 54 (expression -> function_call .)
+    MINUS           reduce using rule 54 (expression -> function_call .)
+    TIMES           reduce using rule 54 (expression -> function_call .)
+    DIVIDE          reduce using rule 54 (expression -> function_call .)
+    AND             reduce using rule 54 (expression -> function_call .)
+    OR              reduce using rule 54 (expression -> function_call .)
+    LT              reduce using rule 54 (expression -> function_call .)
+    LE              reduce using rule 54 (expression -> function_call .)
+    EQ              reduce using rule 54 (expression -> function_call .)
+    GE              reduce using rule 54 (expression -> function_call .)
+    GT              reduce using rule 54 (expression -> function_call .)
+    )               reduce using rule 54 (expression -> function_call .)
+    ,               reduce using rule 54 (expression -> function_call .)
+    }               reduce using rule 54 (expression -> function_call .)
+
+
+state 16
+
+    (55) expression -> object_call .
+
+    ;               reduce using rule 55 (expression -> object_call .)
+    PLUS            reduce using rule 55 (expression -> object_call .)
+    MINUS           reduce using rule 55 (expression -> object_call .)
+    TIMES           reduce using rule 55 (expression -> object_call .)
+    DIVIDE          reduce using rule 55 (expression -> object_call .)
+    AND             reduce using rule 55 (expression -> object_call .)
+    OR              reduce using rule 55 (expression -> object_call .)
+    LT              reduce using rule 55 (expression -> object_call .)
+    LE              reduce using rule 55 (expression -> object_call .)
+    EQ              reduce using rule 55 (expression -> object_call .)
+    GE              reduce using rule 55 (expression -> object_call .)
+    GT              reduce using rule 55 (expression -> object_call .)
+    )               reduce using rule 55 (expression -> object_call .)
+    ,               reduce using rule 55 (expression -> object_call .)
+    }               reduce using rule 55 (expression -> object_call .)
+
+
+state 17
+
+    (56) expression -> INTEGER .
+
+    ;               reduce using rule 56 (expression -> INTEGER .)
+    PLUS            reduce using rule 56 (expression -> INTEGER .)
+    MINUS           reduce using rule 56 (expression -> INTEGER .)
+    TIMES           reduce using rule 56 (expression -> INTEGER .)
+    DIVIDE          reduce using rule 56 (expression -> INTEGER .)
+    AND             reduce using rule 56 (expression -> INTEGER .)
+    OR              reduce using rule 56 (expression -> INTEGER .)
+    LT              reduce using rule 56 (expression -> INTEGER .)
+    LE              reduce using rule 56 (expression -> INTEGER .)
+    EQ              reduce using rule 56 (expression -> INTEGER .)
+    GE              reduce using rule 56 (expression -> INTEGER .)
+    GT              reduce using rule 56 (expression -> INTEGER .)
+    )               reduce using rule 56 (expression -> INTEGER .)
+    ,               reduce using rule 56 (expression -> INTEGER .)
+    }               reduce using rule 56 (expression -> INTEGER .)
+
+
+state 18
+
+    (57) expression -> REAL .
+
+    ;               reduce using rule 57 (expression -> REAL .)
+    PLUS            reduce using rule 57 (expression -> REAL .)
+    MINUS           reduce using rule 57 (expression -> REAL .)
+    TIMES           reduce using rule 57 (expression -> REAL .)
+    DIVIDE          reduce using rule 57 (expression -> REAL .)
+    AND             reduce using rule 57 (expression -> REAL .)
+    OR              reduce using rule 57 (expression -> REAL .)
+    LT              reduce using rule 57 (expression -> REAL .)
+    LE              reduce using rule 57 (expression -> REAL .)
+    EQ              reduce using rule 57 (expression -> REAL .)
+    GE              reduce using rule 57 (expression -> REAL .)
+    GT              reduce using rule 57 (expression -> REAL .)
+    )               reduce using rule 57 (expression -> REAL .)
+    ,               reduce using rule 57 (expression -> REAL .)
+    }               reduce using rule 57 (expression -> REAL .)
+
+
+state 19
+
+    (58) expression -> CHAR .
+
+    ;               reduce using rule 58 (expression -> CHAR .)
+    PLUS            reduce using rule 58 (expression -> CHAR .)
+    MINUS           reduce using rule 58 (expression -> CHAR .)
+    TIMES           reduce using rule 58 (expression -> CHAR .)
+    DIVIDE          reduce using rule 58 (expression -> CHAR .)
+    AND             reduce using rule 58 (expression -> CHAR .)
+    OR              reduce using rule 58 (expression -> CHAR .)
+    LT              reduce using rule 58 (expression -> CHAR .)
+    LE              reduce using rule 58 (expression -> CHAR .)
+    EQ              reduce using rule 58 (expression -> CHAR .)
+    GE              reduce using rule 58 (expression -> CHAR .)
+    GT              reduce using rule 58 (expression -> CHAR .)
+    )               reduce using rule 58 (expression -> CHAR .)
+    ,               reduce using rule 58 (expression -> CHAR .)
+    }               reduce using rule 58 (expression -> CHAR .)
+
+
+state 20
+
+    (59) expression -> TR .
+
+    ;               reduce using rule 59 (expression -> TR .)
+    PLUS            reduce using rule 59 (expression -> TR .)
+    MINUS           reduce using rule 59 (expression -> TR .)
+    TIMES           reduce using rule 59 (expression -> TR .)
+    DIVIDE          reduce using rule 59 (expression -> TR .)
+    AND             reduce using rule 59 (expression -> TR .)
+    OR              reduce using rule 59 (expression -> TR .)
+    LT              reduce using rule 59 (expression -> TR .)
+    LE              reduce using rule 59 (expression -> TR .)
+    EQ              reduce using rule 59 (expression -> TR .)
+    GE              reduce using rule 59 (expression -> TR .)
+    GT              reduce using rule 59 (expression -> TR .)
+    )               reduce using rule 59 (expression -> TR .)
+    ,               reduce using rule 59 (expression -> TR .)
+    }               reduce using rule 59 (expression -> TR .)
+
+
+state 21
+
+    (60) expression -> FL .
+
+    ;               reduce using rule 60 (expression -> FL .)
+    PLUS            reduce using rule 60 (expression -> FL .)
+    MINUS           reduce using rule 60 (expression -> FL .)
+    TIMES           reduce using rule 60 (expression -> FL .)
+    DIVIDE          reduce using rule 60 (expression -> FL .)
+    AND             reduce using rule 60 (expression -> FL .)
+    OR              reduce using rule 60 (expression -> FL .)
+    LT              reduce using rule 60 (expression -> FL .)
+    LE              reduce using rule 60 (expression -> FL .)
+    EQ              reduce using rule 60 (expression -> FL .)
+    GE              reduce using rule 60 (expression -> FL .)
+    GT              reduce using rule 60 (expression -> FL .)
+    )               reduce using rule 60 (expression -> FL .)
+    ,               reduce using rule 60 (expression -> FL .)
+    }               reduce using rule 60 (expression -> FL .)
+
+
+state 22
+
+    (61) expression -> NULL .
+
+    ;               reduce using rule 61 (expression -> NULL .)
+    PLUS            reduce using rule 61 (expression -> NULL .)
+    MINUS           reduce using rule 61 (expression -> NULL .)
+    TIMES           reduce using rule 61 (expression -> NULL .)
+    DIVIDE          reduce using rule 61 (expression -> NULL .)
+    AND             reduce using rule 61 (expression -> NULL .)
+    OR              reduce using rule 61 (expression -> NULL .)
+    LT              reduce using rule 61 (expression -> NULL .)
+    LE              reduce using rule 61 (expression -> NULL .)
+    EQ              reduce using rule 61 (expression -> NULL .)
+    GE              reduce using rule 61 (expression -> NULL .)
+    GT              reduce using rule 61 (expression -> NULL .)
+    )               reduce using rule 61 (expression -> NULL .)
+    ,               reduce using rule 61 (expression -> NULL .)
+    }               reduce using rule 61 (expression -> NULL .)
+
+
+state 23
+
+    (63) expression -> PLUS . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 60
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 24
+
+    (65) expression -> MINUS . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 61
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 25
+
+    (67) expression -> NOT . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 62
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 26
+
+    (10) simple_block -> if_conditional .
+
+    LET             reduce using rule 10 (simple_block -> if_conditional .)
+    STRING_IMPLICIT reduce using rule 10 (simple_block -> if_conditional .)
+    TYPE            reduce using rule 10 (simple_block -> if_conditional .)
+    (               reduce using rule 10 (simple_block -> if_conditional .)
+    INTEGER         reduce using rule 10 (simple_block -> if_conditional .)
+    REAL            reduce using rule 10 (simple_block -> if_conditional .)
+    CHAR            reduce using rule 10 (simple_block -> if_conditional .)
+    TR              reduce using rule 10 (simple_block -> if_conditional .)
+    FL              reduce using rule 10 (simple_block -> if_conditional .)
+    NULL            reduce using rule 10 (simple_block -> if_conditional .)
+    PLUS            reduce using rule 10 (simple_block -> if_conditional .)
+    MINUS           reduce using rule 10 (simple_block -> if_conditional .)
+    NOT             reduce using rule 10 (simple_block -> if_conditional .)
+    FUNCTION        reduce using rule 10 (simple_block -> if_conditional .)
+    IF              reduce using rule 10 (simple_block -> if_conditional .)
+    WHILE           reduce using rule 10 (simple_block -> if_conditional .)
+    $end            reduce using rule 10 (simple_block -> if_conditional .)
+    }               reduce using rule 10 (simple_block -> if_conditional .)
+    RETURN          reduce using rule 10 (simple_block -> if_conditional .)
+
+
+state 27
+
+    (11) simple_block -> while_loop .
+
+    LET             reduce using rule 11 (simple_block -> while_loop .)
+    STRING_IMPLICIT reduce using rule 11 (simple_block -> while_loop .)
+    TYPE            reduce using rule 11 (simple_block -> while_loop .)
+    (               reduce using rule 11 (simple_block -> while_loop .)
+    INTEGER         reduce using rule 11 (simple_block -> while_loop .)
+    REAL            reduce using rule 11 (simple_block -> while_loop .)
+    CHAR            reduce using rule 11 (simple_block -> while_loop .)
+    TR              reduce using rule 11 (simple_block -> while_loop .)
+    FL              reduce using rule 11 (simple_block -> while_loop .)
+    NULL            reduce using rule 11 (simple_block -> while_loop .)
+    PLUS            reduce using rule 11 (simple_block -> while_loop .)
+    MINUS           reduce using rule 11 (simple_block -> while_loop .)
+    NOT             reduce using rule 11 (simple_block -> while_loop .)
+    FUNCTION        reduce using rule 11 (simple_block -> while_loop .)
+    IF              reduce using rule 11 (simple_block -> while_loop .)
+    WHILE           reduce using rule 11 (simple_block -> while_loop .)
+    $end            reduce using rule 11 (simple_block -> while_loop .)
+    }               reduce using rule 11 (simple_block -> while_loop .)
+    RETURN          reduce using rule 11 (simple_block -> while_loop .)
+
+
+state 28
+
+    (48) function -> FUNCTION . STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; }
+
+    STRING_IMPLICIT shift and go to state 63
+
+
+state 29
+
+    (45) if_conditional -> IF . ( expression ) { block_body_nonempty }
+    (46) if_conditional -> IF . ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+
+    (               shift and go to state 64
+
+
+state 30
+
+    (47) while_loop -> WHILE . ( expression ) { block_body_nonempty }
+
+    (               shift and go to state 65
+
+
+state 31
+
+    (1) file -> statement file .
+
+    $end            reduce using rule 1 (file -> statement file .)
+
+
+state 32
+
+    (2) file -> block file .
+
+    $end            reduce using rule 2 (file -> block file .)
+
+
+state 33
+
+    (4) statement -> declaration ; .
+
+    LET             reduce using rule 4 (statement -> declaration ; .)
+    STRING_IMPLICIT reduce using rule 4 (statement -> declaration ; .)
+    TYPE            reduce using rule 4 (statement -> declaration ; .)
+    (               reduce using rule 4 (statement -> declaration ; .)
+    INTEGER         reduce using rule 4 (statement -> declaration ; .)
+    REAL            reduce using rule 4 (statement -> declaration ; .)
+    CHAR            reduce using rule 4 (statement -> declaration ; .)
+    TR              reduce using rule 4 (statement -> declaration ; .)
+    FL              reduce using rule 4 (statement -> declaration ; .)
+    NULL            reduce using rule 4 (statement -> declaration ; .)
+    PLUS            reduce using rule 4 (statement -> declaration ; .)
+    MINUS           reduce using rule 4 (statement -> declaration ; .)
+    NOT             reduce using rule 4 (statement -> declaration ; .)
+    FUNCTION        reduce using rule 4 (statement -> declaration ; .)
+    IF              reduce using rule 4 (statement -> declaration ; .)
+    WHILE           reduce using rule 4 (statement -> declaration ; .)
+    $end            reduce using rule 4 (statement -> declaration ; .)
+    }               reduce using rule 4 (statement -> declaration ; .)
+    RETURN          reduce using rule 4 (statement -> declaration ; .)
+
+
+state 34
+
+    (23) assignment -> declaration ASSIGN . assignment_content
+    (25) assignment_content -> . expression
+    (26) assignment_content -> . object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (33) object -> . { object_content }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    {               shift and go to state 69
+
+    assignment_content             shift and go to state 66
+    expression                     shift and go to state 67
+    object                         shift and go to state 68
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 35
+
+    (5) statement -> assignment ; .
+
+    LET             reduce using rule 5 (statement -> assignment ; .)
+    STRING_IMPLICIT reduce using rule 5 (statement -> assignment ; .)
+    TYPE            reduce using rule 5 (statement -> assignment ; .)
+    (               reduce using rule 5 (statement -> assignment ; .)
+    INTEGER         reduce using rule 5 (statement -> assignment ; .)
+    REAL            reduce using rule 5 (statement -> assignment ; .)
+    CHAR            reduce using rule 5 (statement -> assignment ; .)
+    TR              reduce using rule 5 (statement -> assignment ; .)
+    FL              reduce using rule 5 (statement -> assignment ; .)
+    NULL            reduce using rule 5 (statement -> assignment ; .)
+    PLUS            reduce using rule 5 (statement -> assignment ; .)
+    MINUS           reduce using rule 5 (statement -> assignment ; .)
+    NOT             reduce using rule 5 (statement -> assignment ; .)
+    FUNCTION        reduce using rule 5 (statement -> assignment ; .)
+    IF              reduce using rule 5 (statement -> assignment ; .)
+    WHILE           reduce using rule 5 (statement -> assignment ; .)
+    $end            reduce using rule 5 (statement -> assignment ; .)
+    }               reduce using rule 5 (statement -> assignment ; .)
+    RETURN          reduce using rule 5 (statement -> assignment ; .)
+
+
+state 36
+
+    (6) statement -> definition ; .
+
+    LET             reduce using rule 6 (statement -> definition ; .)
+    STRING_IMPLICIT reduce using rule 6 (statement -> definition ; .)
+    TYPE            reduce using rule 6 (statement -> definition ; .)
+    (               reduce using rule 6 (statement -> definition ; .)
+    INTEGER         reduce using rule 6 (statement -> definition ; .)
+    REAL            reduce using rule 6 (statement -> definition ; .)
+    CHAR            reduce using rule 6 (statement -> definition ; .)
+    TR              reduce using rule 6 (statement -> definition ; .)
+    FL              reduce using rule 6 (statement -> definition ; .)
+    NULL            reduce using rule 6 (statement -> definition ; .)
+    PLUS            reduce using rule 6 (statement -> definition ; .)
+    MINUS           reduce using rule 6 (statement -> definition ; .)
+    NOT             reduce using rule 6 (statement -> definition ; .)
+    FUNCTION        reduce using rule 6 (statement -> definition ; .)
+    IF              reduce using rule 6 (statement -> definition ; .)
+    WHILE           reduce using rule 6 (statement -> definition ; .)
+    $end            reduce using rule 6 (statement -> definition ; .)
+    }               reduce using rule 6 (statement -> definition ; .)
+    RETURN          reduce using rule 6 (statement -> definition ; .)
+
+
+state 37
+
+    (7) statement -> expression ; .
+
+    LET             reduce using rule 7 (statement -> expression ; .)
+    STRING_IMPLICIT reduce using rule 7 (statement -> expression ; .)
+    TYPE            reduce using rule 7 (statement -> expression ; .)
+    (               reduce using rule 7 (statement -> expression ; .)
+    INTEGER         reduce using rule 7 (statement -> expression ; .)
+    REAL            reduce using rule 7 (statement -> expression ; .)
+    CHAR            reduce using rule 7 (statement -> expression ; .)
+    TR              reduce using rule 7 (statement -> expression ; .)
+    FL              reduce using rule 7 (statement -> expression ; .)
+    NULL            reduce using rule 7 (statement -> expression ; .)
+    PLUS            reduce using rule 7 (statement -> expression ; .)
+    MINUS           reduce using rule 7 (statement -> expression ; .)
+    NOT             reduce using rule 7 (statement -> expression ; .)
+    FUNCTION        reduce using rule 7 (statement -> expression ; .)
+    IF              reduce using rule 7 (statement -> expression ; .)
+    WHILE           reduce using rule 7 (statement -> expression ; .)
+    $end            reduce using rule 7 (statement -> expression ; .)
+    }               reduce using rule 7 (statement -> expression ; .)
+    RETURN          reduce using rule 7 (statement -> expression ; .)
+
+
+state 38
+
+    (64) expression -> expression PLUS . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 70
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 39
+
+    (66) expression -> expression MINUS . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 71
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 40
+
+    (68) expression -> expression TIMES . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 72
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 41
+
+    (69) expression -> expression DIVIDE . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 73
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 42
+
+    (70) expression -> expression AND . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 74
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 43
+
+    (71) expression -> expression OR . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 75
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 44
+
+    (72) expression -> expression LT . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 76
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 45
+
+    (73) expression -> expression LE . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 77
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 46
+
+    (74) expression -> expression EQ . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 78
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 47
+
+    (75) expression -> expression GE . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 79
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 48
+
+    (76) expression -> expression GT . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 80
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 49
+
+    (18) declaration -> LET declaration_content .
+
+    ;               reduce using rule 18 (declaration -> LET declaration_content .)
+    ASSIGN          reduce using rule 18 (declaration -> LET declaration_content .)
+
+
+state 50
+
+    (19) declaration_content -> item . , declaration_content
+    (20) declaration_content -> item .
+
+    ,               shift and go to state 81
+    ;               reduce using rule 20 (declaration_content -> item .)
+    ASSIGN          reduce using rule 20 (declaration_content -> item .)
+
+
+state 51
+
+    (21) item -> STRING_IMPLICIT . : STRING_IMPLICIT
+    (22) item -> STRING_IMPLICIT .
+
+    :               shift and go to state 82
+    ,               reduce using rule 22 (item -> STRING_IMPLICIT .)
+    ;               reduce using rule 22 (item -> STRING_IMPLICIT .)
+    ASSIGN          reduce using rule 22 (item -> STRING_IMPLICIT .)
+
+
+state 52
+
+    (24) assignment -> STRING_IMPLICIT ASSIGN . assignment_content
+    (25) assignment_content -> . expression
+    (26) assignment_content -> . object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (33) object -> . { object_content }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    {               shift and go to state 69
+
+    assignment_content             shift and go to state 83
+    expression                     shift and go to state 67
+    object                         shift and go to state 68
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 53
+
+    (77) function_call -> STRING_IMPLICIT ( . function_call_list )
+    (78) function_call_list -> . function_call_list_nonempty
+    (79) function_call_list -> . empty
+    (80) function_call_list_nonempty -> . expression , function_call_list_nonempty
+    (81) function_call_list_nonempty -> . expression
+    (87) empty -> .
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    )               reduce using rule 87 (empty -> .)
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    function_call_list             shift and go to state 84
+    function_call_list_nonempty    shift and go to state 85
+    empty                          shift and go to state 86
+    expression                     shift and go to state 87
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 54
+
+    (82) object_call -> STRING_IMPLICIT object_attribute_list .
+
+    ;               reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    PLUS            reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    MINUS           reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    TIMES           reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    DIVIDE          reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    AND             reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    OR              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    LT              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    LE              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    EQ              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    GE              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    GT              reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    )               reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    ,               reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+    }               reduce using rule 82 (object_call -> STRING_IMPLICIT object_attribute_list .)
+
+
+state 55
+
+    (83) object_attribute_list -> [ . STRING_EXPLICIT ] object_attribute_list
+    (85) object_attribute_list -> [ . STRING_EXPLICIT ]
+
+    STRING_EXPLICIT shift and go to state 88
+
+
+state 56
+
+    (84) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (86) object_attribute_list -> . . STRING_IMPLICIT
+
+    STRING_IMPLICIT shift and go to state 89
+
+
+state 57
+
+    (27) definition -> TYPE STRING_IMPLICIT . ASSIGN definition_object
+
+    ASSIGN          shift and go to state 90
+
+
+state 58
+
+    (53) expression -> ( expression . )
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    )               shift and go to state 91
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 59
+
+    (62) expression -> STRING_IMPLICIT .
+    (77) function_call -> STRING_IMPLICIT . ( function_call_list )
+    (82) object_call -> STRING_IMPLICIT . object_attribute_list
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (84) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (85) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (86) object_attribute_list -> . . STRING_IMPLICIT
+
+    )               reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    PLUS            reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    MINUS           reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    TIMES           reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    AND             reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    OR              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    LT              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    LE              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    EQ              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    GE              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    GT              reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    ;               reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    ,               reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    }               reduce using rule 62 (expression -> STRING_IMPLICIT .)
+    (               shift and go to state 53
+    [               shift and go to state 55
+    .               shift and go to state 56
+
+    object_attribute_list          shift and go to state 54
+
+state 60
+
+    (63) expression -> PLUS expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 63 (expression -> PLUS expression .)
+    PLUS            reduce using rule 63 (expression -> PLUS expression .)
+    MINUS           reduce using rule 63 (expression -> PLUS expression .)
+    TIMES           reduce using rule 63 (expression -> PLUS expression .)
+    DIVIDE          reduce using rule 63 (expression -> PLUS expression .)
+    AND             reduce using rule 63 (expression -> PLUS expression .)
+    OR              reduce using rule 63 (expression -> PLUS expression .)
+    LT              reduce using rule 63 (expression -> PLUS expression .)
+    LE              reduce using rule 63 (expression -> PLUS expression .)
+    EQ              reduce using rule 63 (expression -> PLUS expression .)
+    GE              reduce using rule 63 (expression -> PLUS expression .)
+    GT              reduce using rule 63 (expression -> PLUS expression .)
+    )               reduce using rule 63 (expression -> PLUS expression .)
+    ,               reduce using rule 63 (expression -> PLUS expression .)
+    }               reduce using rule 63 (expression -> PLUS expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 61
+
+    (65) expression -> MINUS expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 65 (expression -> MINUS expression .)
+    PLUS            reduce using rule 65 (expression -> MINUS expression .)
+    MINUS           reduce using rule 65 (expression -> MINUS expression .)
+    TIMES           reduce using rule 65 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 65 (expression -> MINUS expression .)
+    AND             reduce using rule 65 (expression -> MINUS expression .)
+    OR              reduce using rule 65 (expression -> MINUS expression .)
+    LT              reduce using rule 65 (expression -> MINUS expression .)
+    LE              reduce using rule 65 (expression -> MINUS expression .)
+    EQ              reduce using rule 65 (expression -> MINUS expression .)
+    GE              reduce using rule 65 (expression -> MINUS expression .)
+    GT              reduce using rule 65 (expression -> MINUS expression .)
+    )               reduce using rule 65 (expression -> MINUS expression .)
+    ,               reduce using rule 65 (expression -> MINUS expression .)
+    }               reduce using rule 65 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 62
+
+    (67) expression -> NOT expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 67 (expression -> NOT expression .)
+    PLUS            reduce using rule 67 (expression -> NOT expression .)
+    MINUS           reduce using rule 67 (expression -> NOT expression .)
+    TIMES           reduce using rule 67 (expression -> NOT expression .)
+    DIVIDE          reduce using rule 67 (expression -> NOT expression .)
+    AND             reduce using rule 67 (expression -> NOT expression .)
+    OR              reduce using rule 67 (expression -> NOT expression .)
+    LT              reduce using rule 67 (expression -> NOT expression .)
+    LE              reduce using rule 67 (expression -> NOT expression .)
+    EQ              reduce using rule 67 (expression -> NOT expression .)
+    GE              reduce using rule 67 (expression -> NOT expression .)
+    GT              reduce using rule 67 (expression -> NOT expression .)
+    )               reduce using rule 67 (expression -> NOT expression .)
+    ,               reduce using rule 67 (expression -> NOT expression .)
+    }               reduce using rule 67 (expression -> NOT expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 63
+
+    (48) function -> FUNCTION STRING_IMPLICIT . ( argument_list ) : type { block_body RETURN expression ; }
+
+    (               shift and go to state 92
+
+
+state 64
+
+    (45) if_conditional -> IF ( . expression ) { block_body_nonempty }
+    (46) if_conditional -> IF ( . expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 93
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 65
+
+    (47) while_loop -> WHILE ( . expression ) { block_body_nonempty }
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 94
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 66
+
+    (23) assignment -> declaration ASSIGN assignment_content .
+
+    ;               reduce using rule 23 (assignment -> declaration ASSIGN assignment_content .)
+
+
+state 67
+
+    (25) assignment_content -> expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 25 (assignment_content -> expression .)
+    ,               reduce using rule 25 (assignment_content -> expression .)
+    }               reduce using rule 25 (assignment_content -> expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 68
+
+    (26) assignment_content -> object .
+
+    ;               reduce using rule 26 (assignment_content -> object .)
+    ,               reduce using rule 26 (assignment_content -> object .)
+    }               reduce using rule 26 (assignment_content -> object .)
+
+
+state 69
+
+    (33) object -> { . object_content }
+    (34) object_content -> . object_item , object_content
+    (35) object_content -> . object_item
+    (36) object_content -> . object_item ,
+    (37) object_item -> . key : assignment_content
+    (38) key -> . STRING_EXPLICIT
+    (39) key -> . STRING_IMPLICIT
+
+    STRING_EXPLICIT shift and go to state 98
+    STRING_IMPLICIT shift and go to state 99
+
+    object_content                 shift and go to state 95
+    object_item                    shift and go to state 96
+    key                            shift and go to state 97
+
+state 70
+
+    (64) expression -> expression PLUS expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 64 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 64 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 64 (expression -> expression PLUS expression .)
+    AND             reduce using rule 64 (expression -> expression PLUS expression .)
+    OR              reduce using rule 64 (expression -> expression PLUS expression .)
+    LT              reduce using rule 64 (expression -> expression PLUS expression .)
+    LE              reduce using rule 64 (expression -> expression PLUS expression .)
+    EQ              reduce using rule 64 (expression -> expression PLUS expression .)
+    GE              reduce using rule 64 (expression -> expression PLUS expression .)
+    GT              reduce using rule 64 (expression -> expression PLUS expression .)
+    )               reduce using rule 64 (expression -> expression PLUS expression .)
+    ,               reduce using rule 64 (expression -> expression PLUS expression .)
+    }               reduce using rule 64 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! TIMES           [ reduce using rule 64 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 64 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 71
+
+    (66) expression -> expression MINUS expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 66 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 66 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 66 (expression -> expression MINUS expression .)
+    AND             reduce using rule 66 (expression -> expression MINUS expression .)
+    OR              reduce using rule 66 (expression -> expression MINUS expression .)
+    LT              reduce using rule 66 (expression -> expression MINUS expression .)
+    LE              reduce using rule 66 (expression -> expression MINUS expression .)
+    EQ              reduce using rule 66 (expression -> expression MINUS expression .)
+    GE              reduce using rule 66 (expression -> expression MINUS expression .)
+    GT              reduce using rule 66 (expression -> expression MINUS expression .)
+    )               reduce using rule 66 (expression -> expression MINUS expression .)
+    ,               reduce using rule 66 (expression -> expression MINUS expression .)
+    }               reduce using rule 66 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! TIMES           [ reduce using rule 66 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 66 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 72
+
+    (68) expression -> expression TIMES expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 68 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 68 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 68 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 68 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 68 (expression -> expression TIMES expression .)
+    AND             reduce using rule 68 (expression -> expression TIMES expression .)
+    OR              reduce using rule 68 (expression -> expression TIMES expression .)
+    LT              reduce using rule 68 (expression -> expression TIMES expression .)
+    LE              reduce using rule 68 (expression -> expression TIMES expression .)
+    EQ              reduce using rule 68 (expression -> expression TIMES expression .)
+    GE              reduce using rule 68 (expression -> expression TIMES expression .)
+    GT              reduce using rule 68 (expression -> expression TIMES expression .)
+    )               reduce using rule 68 (expression -> expression TIMES expression .)
+    ,               reduce using rule 68 (expression -> expression TIMES expression .)
+    }               reduce using rule 68 (expression -> expression TIMES expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 73
+
+    (69) expression -> expression DIVIDE expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 69 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 69 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 69 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 69 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 69 (expression -> expression DIVIDE expression .)
+    AND             reduce using rule 69 (expression -> expression DIVIDE expression .)
+    OR              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    LE              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    EQ              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    GE              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 69 (expression -> expression DIVIDE expression .)
+    )               reduce using rule 69 (expression -> expression DIVIDE expression .)
+    ,               reduce using rule 69 (expression -> expression DIVIDE expression .)
+    }               reduce using rule 69 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 74
+
+    (70) expression -> expression AND expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 70 (expression -> expression AND expression .)
+    AND             reduce using rule 70 (expression -> expression AND expression .)
+    OR              reduce using rule 70 (expression -> expression AND expression .)
+    )               reduce using rule 70 (expression -> expression AND expression .)
+    ,               reduce using rule 70 (expression -> expression AND expression .)
+    }               reduce using rule 70 (expression -> expression AND expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+  ! PLUS            [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! MINUS           [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! TIMES           [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! DIVIDE          [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! LT              [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! LE              [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! EQ              [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! GE              [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! GT              [ reduce using rule 70 (expression -> expression AND expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+
+
+state 75
+
+    (71) expression -> expression OR expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 71 (expression -> expression OR expression .)
+    AND             reduce using rule 71 (expression -> expression OR expression .)
+    OR              reduce using rule 71 (expression -> expression OR expression .)
+    )               reduce using rule 71 (expression -> expression OR expression .)
+    ,               reduce using rule 71 (expression -> expression OR expression .)
+    }               reduce using rule 71 (expression -> expression OR expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+  ! PLUS            [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! MINUS           [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! TIMES           [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! DIVIDE          [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! LT              [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! LE              [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! EQ              [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! GE              [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! GT              [ reduce using rule 71 (expression -> expression OR expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+
+
+state 76
+
+    (72) expression -> expression LT expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 72 (expression -> expression LT expression .)
+    AND             reduce using rule 72 (expression -> expression LT expression .)
+    OR              reduce using rule 72 (expression -> expression LT expression .)
+    LT              reduce using rule 72 (expression -> expression LT expression .)
+    LE              reduce using rule 72 (expression -> expression LT expression .)
+    EQ              reduce using rule 72 (expression -> expression LT expression .)
+    GE              reduce using rule 72 (expression -> expression LT expression .)
+    GT              reduce using rule 72 (expression -> expression LT expression .)
+    )               reduce using rule 72 (expression -> expression LT expression .)
+    ,               reduce using rule 72 (expression -> expression LT expression .)
+    }               reduce using rule 72 (expression -> expression LT expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 72 (expression -> expression LT expression .) ]
+  ! MINUS           [ reduce using rule 72 (expression -> expression LT expression .) ]
+  ! TIMES           [ reduce using rule 72 (expression -> expression LT expression .) ]
+  ! DIVIDE          [ reduce using rule 72 (expression -> expression LT expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 77
+
+    (73) expression -> expression LE expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 73 (expression -> expression LE expression .)
+    AND             reduce using rule 73 (expression -> expression LE expression .)
+    OR              reduce using rule 73 (expression -> expression LE expression .)
+    LT              reduce using rule 73 (expression -> expression LE expression .)
+    LE              reduce using rule 73 (expression -> expression LE expression .)
+    EQ              reduce using rule 73 (expression -> expression LE expression .)
+    GE              reduce using rule 73 (expression -> expression LE expression .)
+    GT              reduce using rule 73 (expression -> expression LE expression .)
+    )               reduce using rule 73 (expression -> expression LE expression .)
+    ,               reduce using rule 73 (expression -> expression LE expression .)
+    }               reduce using rule 73 (expression -> expression LE expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 73 (expression -> expression LE expression .) ]
+  ! MINUS           [ reduce using rule 73 (expression -> expression LE expression .) ]
+  ! TIMES           [ reduce using rule 73 (expression -> expression LE expression .) ]
+  ! DIVIDE          [ reduce using rule 73 (expression -> expression LE expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 78
+
+    (74) expression -> expression EQ expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 74 (expression -> expression EQ expression .)
+    AND             reduce using rule 74 (expression -> expression EQ expression .)
+    OR              reduce using rule 74 (expression -> expression EQ expression .)
+    LT              reduce using rule 74 (expression -> expression EQ expression .)
+    LE              reduce using rule 74 (expression -> expression EQ expression .)
+    EQ              reduce using rule 74 (expression -> expression EQ expression .)
+    GE              reduce using rule 74 (expression -> expression EQ expression .)
+    GT              reduce using rule 74 (expression -> expression EQ expression .)
+    )               reduce using rule 74 (expression -> expression EQ expression .)
+    ,               reduce using rule 74 (expression -> expression EQ expression .)
+    }               reduce using rule 74 (expression -> expression EQ expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 74 (expression -> expression EQ expression .) ]
+  ! MINUS           [ reduce using rule 74 (expression -> expression EQ expression .) ]
+  ! TIMES           [ reduce using rule 74 (expression -> expression EQ expression .) ]
+  ! DIVIDE          [ reduce using rule 74 (expression -> expression EQ expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 79
+
+    (75) expression -> expression GE expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 75 (expression -> expression GE expression .)
+    AND             reduce using rule 75 (expression -> expression GE expression .)
+    OR              reduce using rule 75 (expression -> expression GE expression .)
+    LT              reduce using rule 75 (expression -> expression GE expression .)
+    LE              reduce using rule 75 (expression -> expression GE expression .)
+    EQ              reduce using rule 75 (expression -> expression GE expression .)
+    GE              reduce using rule 75 (expression -> expression GE expression .)
+    GT              reduce using rule 75 (expression -> expression GE expression .)
+    )               reduce using rule 75 (expression -> expression GE expression .)
+    ,               reduce using rule 75 (expression -> expression GE expression .)
+    }               reduce using rule 75 (expression -> expression GE expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 75 (expression -> expression GE expression .) ]
+  ! MINUS           [ reduce using rule 75 (expression -> expression GE expression .) ]
+  ! TIMES           [ reduce using rule 75 (expression -> expression GE expression .) ]
+  ! DIVIDE          [ reduce using rule 75 (expression -> expression GE expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 80
+
+    (76) expression -> expression GT expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               reduce using rule 76 (expression -> expression GT expression .)
+    AND             reduce using rule 76 (expression -> expression GT expression .)
+    OR              reduce using rule 76 (expression -> expression GT expression .)
+    LT              reduce using rule 76 (expression -> expression GT expression .)
+    LE              reduce using rule 76 (expression -> expression GT expression .)
+    EQ              reduce using rule 76 (expression -> expression GT expression .)
+    GE              reduce using rule 76 (expression -> expression GT expression .)
+    GT              reduce using rule 76 (expression -> expression GT expression .)
+    )               reduce using rule 76 (expression -> expression GT expression .)
+    ,               reduce using rule 76 (expression -> expression GT expression .)
+    }               reduce using rule 76 (expression -> expression GT expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 76 (expression -> expression GT expression .) ]
+  ! MINUS           [ reduce using rule 76 (expression -> expression GT expression .) ]
+  ! TIMES           [ reduce using rule 76 (expression -> expression GT expression .) ]
+  ! DIVIDE          [ reduce using rule 76 (expression -> expression GT expression .) ]
+  ! AND             [ shift and go to state 42 ]
+  ! OR              [ shift and go to state 43 ]
+  ! LT              [ shift and go to state 44 ]
+  ! LE              [ shift and go to state 45 ]
+  ! EQ              [ shift and go to state 46 ]
+  ! GE              [ shift and go to state 47 ]
+  ! GT              [ shift and go to state 48 ]
+
+
+state 81
+
+    (19) declaration_content -> item , . declaration_content
+    (19) declaration_content -> . item , declaration_content
+    (20) declaration_content -> . item
+    (21) item -> . STRING_IMPLICIT : STRING_IMPLICIT
+    (22) item -> . STRING_IMPLICIT
+
+    STRING_IMPLICIT shift and go to state 51
+
+    item                           shift and go to state 50
+    declaration_content            shift and go to state 100
+
+state 82
+
+    (21) item -> STRING_IMPLICIT : . STRING_IMPLICIT
+
+    STRING_IMPLICIT shift and go to state 101
+
+
+state 83
+
+    (24) assignment -> STRING_IMPLICIT ASSIGN assignment_content .
+
+    ;               reduce using rule 24 (assignment -> STRING_IMPLICIT ASSIGN assignment_content .)
+
+
+state 84
+
+    (77) function_call -> STRING_IMPLICIT ( function_call_list . )
+
+    )               shift and go to state 102
+
+
+state 85
+
+    (78) function_call_list -> function_call_list_nonempty .
+
+    )               reduce using rule 78 (function_call_list -> function_call_list_nonempty .)
+
+
+state 86
+
+    (79) function_call_list -> empty .
+
+    )               reduce using rule 79 (function_call_list -> empty .)
+
+
+state 87
+
+    (80) function_call_list_nonempty -> expression . , function_call_list_nonempty
+    (81) function_call_list_nonempty -> expression .
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ,               shift and go to state 103
+    )               reduce using rule 81 (function_call_list_nonempty -> expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 88
+
+    (83) object_attribute_list -> [ STRING_EXPLICIT . ] object_attribute_list
+    (85) object_attribute_list -> [ STRING_EXPLICIT . ]
+
+    ]               shift and go to state 104
+
+
+state 89
+
+    (84) object_attribute_list -> . STRING_IMPLICIT . object_attribute_list
+    (86) object_attribute_list -> . STRING_IMPLICIT .
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (84) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (85) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (86) object_attribute_list -> . . STRING_IMPLICIT
+
+    ;               reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    PLUS            reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    MINUS           reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    TIMES           reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    DIVIDE          reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    AND             reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    OR              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    LT              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    LE              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    EQ              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    GE              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    GT              reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    )               reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    ,               reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    }               reduce using rule 86 (object_attribute_list -> . STRING_IMPLICIT .)
+    [               shift and go to state 55
+    .               shift and go to state 56
+
+    object_attribute_list          shift and go to state 105
+
+state 90
+
+    (27) definition -> TYPE STRING_IMPLICIT ASSIGN . definition_object
+    (28) definition_object -> . { definition_object_content }
+
+    {               shift and go to state 107
+
+    definition_object              shift and go to state 106
+
+state 91
+
+    (53) expression -> ( expression ) .
+
+    ;               reduce using rule 53 (expression -> ( expression ) .)
+    PLUS            reduce using rule 53 (expression -> ( expression ) .)
+    MINUS           reduce using rule 53 (expression -> ( expression ) .)
+    TIMES           reduce using rule 53 (expression -> ( expression ) .)
+    DIVIDE          reduce using rule 53 (expression -> ( expression ) .)
+    AND             reduce using rule 53 (expression -> ( expression ) .)
+    OR              reduce using rule 53 (expression -> ( expression ) .)
+    LT              reduce using rule 53 (expression -> ( expression ) .)
+    LE              reduce using rule 53 (expression -> ( expression ) .)
+    EQ              reduce using rule 53 (expression -> ( expression ) .)
+    GE              reduce using rule 53 (expression -> ( expression ) .)
+    GT              reduce using rule 53 (expression -> ( expression ) .)
+    )               reduce using rule 53 (expression -> ( expression ) .)
+    ,               reduce using rule 53 (expression -> ( expression ) .)
+    }               reduce using rule 53 (expression -> ( expression ) .)
+
+
+state 92
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( . argument_list ) : type { block_body RETURN expression ; }
+    (49) argument_list -> . argument_list_nonempty
+    (50) argument_list -> . empty
+    (51) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
+    (52) argument_list_nonempty -> . STRING_IMPLICIT : type
+    (87) empty -> .
+
+    STRING_IMPLICIT shift and go to state 108
+    )               reduce using rule 87 (empty -> .)
+
+    argument_list                  shift and go to state 109
+    argument_list_nonempty         shift and go to state 110
+    empty                          shift and go to state 111
+
+state 93
+
+    (45) if_conditional -> IF ( expression . ) { block_body_nonempty }
+    (46) if_conditional -> IF ( expression . ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    )               shift and go to state 112
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 94
+
+    (47) while_loop -> WHILE ( expression . ) { block_body_nonempty }
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    )               shift and go to state 113
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 95
+
+    (33) object -> { object_content . }
+
+    }               shift and go to state 114
+
+
+state 96
+
+    (34) object_content -> object_item . , object_content
+    (35) object_content -> object_item .
+    (36) object_content -> object_item . ,
+
+    ,               shift and go to state 115
+    }               reduce using rule 35 (object_content -> object_item .)
+
+
+state 97
+
+    (37) object_item -> key . : assignment_content
+
+    :               shift and go to state 116
+
+
+state 98
+
+    (38) key -> STRING_EXPLICIT .
+
+    :               reduce using rule 38 (key -> STRING_EXPLICIT .)
+
+
+state 99
+
+    (39) key -> STRING_IMPLICIT .
+
+    :               reduce using rule 39 (key -> STRING_IMPLICIT .)
+
+
+state 100
+
+    (19) declaration_content -> item , declaration_content .
+
+    ;               reduce using rule 19 (declaration_content -> item , declaration_content .)
+    ASSIGN          reduce using rule 19 (declaration_content -> item , declaration_content .)
+
+
+state 101
+
+    (21) item -> STRING_IMPLICIT : STRING_IMPLICIT .
+
+    ,               reduce using rule 21 (item -> STRING_IMPLICIT : STRING_IMPLICIT .)
+    ;               reduce using rule 21 (item -> STRING_IMPLICIT : STRING_IMPLICIT .)
+    ASSIGN          reduce using rule 21 (item -> STRING_IMPLICIT : STRING_IMPLICIT .)
+
+
+state 102
+
+    (77) function_call -> STRING_IMPLICIT ( function_call_list ) .
+
+    ;               reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    PLUS            reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    MINUS           reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    TIMES           reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    DIVIDE          reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    AND             reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    OR              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    LT              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    LE              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    EQ              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    GE              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    GT              reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    )               reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    ,               reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+    }               reduce using rule 77 (function_call -> STRING_IMPLICIT ( function_call_list ) .)
+
+
+state 103
+
+    (80) function_call_list_nonempty -> expression , . function_call_list_nonempty
+    (80) function_call_list_nonempty -> . expression , function_call_list_nonempty
+    (81) function_call_list_nonempty -> . expression
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 87
+    function_call_list_nonempty    shift and go to state 117
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 104
+
+    (83) object_attribute_list -> [ STRING_EXPLICIT ] . object_attribute_list
+    (85) object_attribute_list -> [ STRING_EXPLICIT ] .
+    (83) object_attribute_list -> . [ STRING_EXPLICIT ] object_attribute_list
+    (84) object_attribute_list -> . . STRING_IMPLICIT object_attribute_list
+    (85) object_attribute_list -> . [ STRING_EXPLICIT ]
+    (86) object_attribute_list -> . . STRING_IMPLICIT
+
+    ;               reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    PLUS            reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    MINUS           reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    TIMES           reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    DIVIDE          reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    AND             reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    OR              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    LT              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    LE              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    EQ              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    GE              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    GT              reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    )               reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    ,               reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    }               reduce using rule 85 (object_attribute_list -> [ STRING_EXPLICIT ] .)
+    [               shift and go to state 55
+    .               shift and go to state 56
+
+    object_attribute_list          shift and go to state 118
+
+state 105
+
+    (84) object_attribute_list -> . STRING_IMPLICIT object_attribute_list .
+
+    ;               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    PLUS            reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    MINUS           reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    TIMES           reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    DIVIDE          reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    AND             reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    OR              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    LT              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    LE              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    EQ              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    GE              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    GT              reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    )               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    ,               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+    }               reduce using rule 84 (object_attribute_list -> . STRING_IMPLICIT object_attribute_list .)
+
+
+state 106
+
+    (27) definition -> TYPE STRING_IMPLICIT ASSIGN definition_object .
+
+    ;               reduce using rule 27 (definition -> TYPE STRING_IMPLICIT ASSIGN definition_object .)
+
+
+state 107
+
+    (28) definition_object -> { . definition_object_content }
+    (29) definition_object_content -> . definition_object_item , definition_object_content
+    (30) definition_object_content -> . definition_object_item
+    (31) definition_object_content -> . definition_object_item ,
+    (32) definition_object_item -> . key : type
+    (38) key -> . STRING_EXPLICIT
+    (39) key -> . STRING_IMPLICIT
+
+    STRING_EXPLICIT shift and go to state 98
+    STRING_IMPLICIT shift and go to state 99
+
+    definition_object_content      shift and go to state 119
+    definition_object_item         shift and go to state 120
+    key                            shift and go to state 121
+
+state 108
+
+    (51) argument_list_nonempty -> STRING_IMPLICIT . : type , argument_list_nonempty
+    (52) argument_list_nonempty -> STRING_IMPLICIT . : type
+
+    :               shift and go to state 122
+
+
+state 109
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list . ) : type { block_body RETURN expression ; }
+
+    )               shift and go to state 123
+
+
+state 110
+
+    (49) argument_list -> argument_list_nonempty .
+
+    )               reduce using rule 49 (argument_list -> argument_list_nonempty .)
+
+
+state 111
+
+    (50) argument_list -> empty .
+
+    )               reduce using rule 50 (argument_list -> empty .)
+
+
+state 112
+
+    (45) if_conditional -> IF ( expression ) . { block_body_nonempty }
+    (46) if_conditional -> IF ( expression ) . { block_body_nonempty } ELSE { block_body_nonempty }
+
+    {               shift and go to state 124
+
+
+state 113
+
+    (47) while_loop -> WHILE ( expression ) . { block_body_nonempty }
+
+    {               shift and go to state 125
+
+
+state 114
+
+    (33) object -> { object_content } .
+
+    ;               reduce using rule 33 (object -> { object_content } .)
+    ,               reduce using rule 33 (object -> { object_content } .)
+    }               reduce using rule 33 (object -> { object_content } .)
+
+
+state 115
+
+    (34) object_content -> object_item , . object_content
+    (36) object_content -> object_item , .
+    (34) object_content -> . object_item , object_content
+    (35) object_content -> . object_item
+    (36) object_content -> . object_item ,
+    (37) object_item -> . key : assignment_content
+    (38) key -> . STRING_EXPLICIT
+    (39) key -> . STRING_IMPLICIT
+
+    }               reduce using rule 36 (object_content -> object_item , .)
+    STRING_EXPLICIT shift and go to state 98
+    STRING_IMPLICIT shift and go to state 99
+
+    object_item                    shift and go to state 96
+    object_content                 shift and go to state 126
+    key                            shift and go to state 97
+
+state 116
+
+    (37) object_item -> key : . assignment_content
+    (25) assignment_content -> . expression
+    (26) assignment_content -> . object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (33) object -> . { object_content }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    {               shift and go to state 69
+
+    assignment_content             shift and go to state 127
+    expression                     shift and go to state 67
+    object                         shift and go to state 68
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 117
+
+    (80) function_call_list_nonempty -> expression , function_call_list_nonempty .
+
+    )               reduce using rule 80 (function_call_list_nonempty -> expression , function_call_list_nonempty .)
+
+
+state 118
+
+    (83) object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .
+
+    ;               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    PLUS            reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    MINUS           reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    TIMES           reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    DIVIDE          reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    AND             reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    OR              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    LT              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    LE              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    EQ              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    GE              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    GT              reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    )               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    ,               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+    }               reduce using rule 83 (object_attribute_list -> [ STRING_EXPLICIT ] object_attribute_list .)
+
+
+state 119
+
+    (28) definition_object -> { definition_object_content . }
+
+    }               shift and go to state 128
+
+
+state 120
+
+    (29) definition_object_content -> definition_object_item . , definition_object_content
+    (30) definition_object_content -> definition_object_item .
+    (31) definition_object_content -> definition_object_item . ,
+
+    ,               shift and go to state 129
+    }               reduce using rule 30 (definition_object_content -> definition_object_item .)
+
+
+state 121
+
+    (32) definition_object_item -> key . : type
+
+    :               shift and go to state 130
+
+
+state 122
+
+    (51) argument_list_nonempty -> STRING_IMPLICIT : . type , argument_list_nonempty
+    (52) argument_list_nonempty -> STRING_IMPLICIT : . type
+    (40) type -> . INT
+    (41) type -> . FLOAT
+    (42) type -> . CHARACTER
+    (43) type -> . BOOLEAN
+    (44) type -> . STRING_IMPLICIT
+
+    INT             shift and go to state 133
+    FLOAT           shift and go to state 134
+    CHARACTER       shift and go to state 135
+    BOOLEAN         shift and go to state 136
+    STRING_IMPLICIT shift and go to state 131
+
+    type                           shift and go to state 132
+
+state 123
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) . : type { block_body RETURN expression ; }
+
+    :               shift and go to state 137
+
+
+state 124
+
+    (45) if_conditional -> IF ( expression ) { . block_body_nonempty }
+    (46) if_conditional -> IF ( expression ) { . block_body_nonempty } ELSE { block_body_nonempty }
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    expression                     shift and go to state 8
+    block_body_nonempty            shift and go to state 138
+    statement                      shift and go to state 139
+    simple_block                   shift and go to state 140
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 125
+
+    (47) while_loop -> WHILE ( expression ) { . block_body_nonempty }
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    expression                     shift and go to state 8
+    block_body_nonempty            shift and go to state 141
+    statement                      shift and go to state 139
+    simple_block                   shift and go to state 140
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 126
+
+    (34) object_content -> object_item , object_content .
+
+    }               reduce using rule 34 (object_content -> object_item , object_content .)
+
+
+state 127
+
+    (37) object_item -> key : assignment_content .
+
+    ,               reduce using rule 37 (object_item -> key : assignment_content .)
+    }               reduce using rule 37 (object_item -> key : assignment_content .)
+
+
+state 128
+
+    (28) definition_object -> { definition_object_content } .
+
+    ;               reduce using rule 28 (definition_object -> { definition_object_content } .)
+
+
+state 129
+
+    (29) definition_object_content -> definition_object_item , . definition_object_content
+    (31) definition_object_content -> definition_object_item , .
+    (29) definition_object_content -> . definition_object_item , definition_object_content
+    (30) definition_object_content -> . definition_object_item
+    (31) definition_object_content -> . definition_object_item ,
+    (32) definition_object_item -> . key : type
+    (38) key -> . STRING_EXPLICIT
+    (39) key -> . STRING_IMPLICIT
+
+    }               reduce using rule 31 (definition_object_content -> definition_object_item , .)
+    STRING_EXPLICIT shift and go to state 98
+    STRING_IMPLICIT shift and go to state 99
+
+    definition_object_item         shift and go to state 120
+    definition_object_content      shift and go to state 142
+    key                            shift and go to state 121
+
+state 130
+
+    (32) definition_object_item -> key : . type
+    (40) type -> . INT
+    (41) type -> . FLOAT
+    (42) type -> . CHARACTER
+    (43) type -> . BOOLEAN
+    (44) type -> . STRING_IMPLICIT
+
+    INT             shift and go to state 133
+    FLOAT           shift and go to state 134
+    CHARACTER       shift and go to state 135
+    BOOLEAN         shift and go to state 136
+    STRING_IMPLICIT shift and go to state 131
+
+    type                           shift and go to state 143
+
+state 131
+
+    (44) type -> STRING_IMPLICIT .
+
+    ,               reduce using rule 44 (type -> STRING_IMPLICIT .)
+    )               reduce using rule 44 (type -> STRING_IMPLICIT .)
+    }               reduce using rule 44 (type -> STRING_IMPLICIT .)
+    {               reduce using rule 44 (type -> STRING_IMPLICIT .)
+
+
+state 132
+
+    (51) argument_list_nonempty -> STRING_IMPLICIT : type . , argument_list_nonempty
+    (52) argument_list_nonempty -> STRING_IMPLICIT : type .
+
+    ,               shift and go to state 144
+    )               reduce using rule 52 (argument_list_nonempty -> STRING_IMPLICIT : type .)
+
+
+state 133
+
+    (40) type -> INT .
+
+    ,               reduce using rule 40 (type -> INT .)
+    )               reduce using rule 40 (type -> INT .)
+    }               reduce using rule 40 (type -> INT .)
+    {               reduce using rule 40 (type -> INT .)
+
+
+state 134
+
+    (41) type -> FLOAT .
+
+    ,               reduce using rule 41 (type -> FLOAT .)
+    )               reduce using rule 41 (type -> FLOAT .)
+    }               reduce using rule 41 (type -> FLOAT .)
+    {               reduce using rule 41 (type -> FLOAT .)
+
+
+state 135
+
+    (42) type -> CHARACTER .
+
+    ,               reduce using rule 42 (type -> CHARACTER .)
+    )               reduce using rule 42 (type -> CHARACTER .)
+    }               reduce using rule 42 (type -> CHARACTER .)
+    {               reduce using rule 42 (type -> CHARACTER .)
+
+
+state 136
+
+    (43) type -> BOOLEAN .
+
+    ,               reduce using rule 43 (type -> BOOLEAN .)
+    )               reduce using rule 43 (type -> BOOLEAN .)
+    }               reduce using rule 43 (type -> BOOLEAN .)
+    {               reduce using rule 43 (type -> BOOLEAN .)
+
+
+state 137
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : . type { block_body RETURN expression ; }
+    (40) type -> . INT
+    (41) type -> . FLOAT
+    (42) type -> . CHARACTER
+    (43) type -> . BOOLEAN
+    (44) type -> . STRING_IMPLICIT
+
+    INT             shift and go to state 133
+    FLOAT           shift and go to state 134
+    CHARACTER       shift and go to state 135
+    BOOLEAN         shift and go to state 136
+    STRING_IMPLICIT shift and go to state 131
+
+    type                           shift and go to state 145
+
+state 138
+
+    (45) if_conditional -> IF ( expression ) { block_body_nonempty . }
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty . } ELSE { block_body_nonempty }
+
+    }               shift and go to state 146
+
+
+state 139
+
+    (14) block_body_nonempty -> statement . block_body_nonempty
+    (16) block_body_nonempty -> statement .
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    }               reduce using rule 16 (block_body_nonempty -> statement .)
+    RETURN          reduce using rule 16 (block_body_nonempty -> statement .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    statement                      shift and go to state 139
+    block_body_nonempty            shift and go to state 147
+    simple_block                   shift and go to state 140
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    expression                     shift and go to state 8
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 140
+
+    (15) block_body_nonempty -> simple_block . block_body_nonempty
+    (17) block_body_nonempty -> simple_block .
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    }               reduce using rule 17 (block_body_nonempty -> simple_block .)
+    RETURN          reduce using rule 17 (block_body_nonempty -> simple_block .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    simple_block                   shift and go to state 140
+    block_body_nonempty            shift and go to state 148
+    statement                      shift and go to state 139
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    expression                     shift and go to state 8
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 141
+
+    (47) while_loop -> WHILE ( expression ) { block_body_nonempty . }
+
+    }               shift and go to state 149
+
+
+state 142
+
+    (29) definition_object_content -> definition_object_item , definition_object_content .
+
+    }               reduce using rule 29 (definition_object_content -> definition_object_item , definition_object_content .)
+
+
+state 143
+
+    (32) definition_object_item -> key : type .
+
+    ,               reduce using rule 32 (definition_object_item -> key : type .)
+    }               reduce using rule 32 (definition_object_item -> key : type .)
+
+
+state 144
+
+    (51) argument_list_nonempty -> STRING_IMPLICIT : type , . argument_list_nonempty
+    (51) argument_list_nonempty -> . STRING_IMPLICIT : type , argument_list_nonempty
+    (52) argument_list_nonempty -> . STRING_IMPLICIT : type
+
+    STRING_IMPLICIT shift and go to state 108
+
+    argument_list_nonempty         shift and go to state 150
+
+state 145
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type . { block_body RETURN expression ; }
+
+    {               shift and go to state 151
+
+
+state 146
+
+    (45) if_conditional -> IF ( expression ) { block_body_nonempty } .
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty } . ELSE { block_body_nonempty }
+
+    LET             reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    STRING_IMPLICIT reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    TYPE            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    (               reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    INTEGER         reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    REAL            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    CHAR            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    TR              reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    FL              reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    NULL            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    PLUS            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    MINUS           reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    NOT             reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    FUNCTION        reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    IF              reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    WHILE           reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    $end            reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    }               reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    RETURN          reduce using rule 45 (if_conditional -> IF ( expression ) { block_body_nonempty } .)
+    ELSE            shift and go to state 152
+
+
+state 147
+
+    (14) block_body_nonempty -> statement block_body_nonempty .
+
+    }               reduce using rule 14 (block_body_nonempty -> statement block_body_nonempty .)
+    RETURN          reduce using rule 14 (block_body_nonempty -> statement block_body_nonempty .)
+
+
+state 148
+
+    (15) block_body_nonempty -> simple_block block_body_nonempty .
+
+    }               reduce using rule 15 (block_body_nonempty -> simple_block block_body_nonempty .)
+    RETURN          reduce using rule 15 (block_body_nonempty -> simple_block block_body_nonempty .)
+
+
+state 149
+
+    (47) while_loop -> WHILE ( expression ) { block_body_nonempty } .
+
+    LET             reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    STRING_IMPLICIT reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    TYPE            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    (               reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    INTEGER         reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    REAL            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    CHAR            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    TR              reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    FL              reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    NULL            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    PLUS            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    MINUS           reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    NOT             reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    FUNCTION        reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    IF              reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    WHILE           reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    $end            reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    }               reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+    RETURN          reduce using rule 47 (while_loop -> WHILE ( expression ) { block_body_nonempty } .)
+
+
+state 150
+
+    (51) argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .
+
+    )               reduce using rule 51 (argument_list_nonempty -> STRING_IMPLICIT : type , argument_list_nonempty .)
+
+
+state 151
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { . block_body RETURN expression ; }
+    (12) block_body -> . block_body_nonempty
+    (13) block_body -> . empty
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (87) empty -> .
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    RETURN          reduce using rule 87 (empty -> .)
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    block_body                     shift and go to state 153
+    expression                     shift and go to state 8
+    block_body_nonempty            shift and go to state 154
+    empty                          shift and go to state 155
+    statement                      shift and go to state 139
+    simple_block                   shift and go to state 140
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 152
+
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty } ELSE . { block_body_nonempty }
+
+    {               shift and go to state 156
+
+
+state 153
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body . RETURN expression ; }
+
+    RETURN          shift and go to state 157
+
+
+state 154
+
+    (12) block_body -> block_body_nonempty .
+
+    RETURN          reduce using rule 12 (block_body -> block_body_nonempty .)
+
+
+state 155
+
+    (13) block_body -> empty .
+
+    RETURN          reduce using rule 13 (block_body -> empty .)
+
+
+state 156
+
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { . block_body_nonempty }
+    (14) block_body_nonempty -> . statement block_body_nonempty
+    (15) block_body_nonempty -> . simple_block block_body_nonempty
+    (16) block_body_nonempty -> . statement
+    (17) block_body_nonempty -> . simple_block
+    (4) statement -> . declaration ;
+    (5) statement -> . assignment ;
+    (6) statement -> . definition ;
+    (7) statement -> . expression ;
+    (10) simple_block -> . if_conditional
+    (11) simple_block -> . while_loop
+    (18) declaration -> . LET declaration_content
+    (23) assignment -> . declaration ASSIGN assignment_content
+    (24) assignment -> . STRING_IMPLICIT ASSIGN assignment_content
+    (27) definition -> . TYPE STRING_IMPLICIT ASSIGN definition_object
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (45) if_conditional -> . IF ( expression ) { block_body_nonempty }
+    (46) if_conditional -> . IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty }
+    (47) while_loop -> . WHILE ( expression ) { block_body_nonempty }
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    LET             shift and go to state 11
+    STRING_IMPLICIT shift and go to state 12
+    TYPE            shift and go to state 13
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+
+    expression                     shift and go to state 8
+    block_body_nonempty            shift and go to state 158
+    statement                      shift and go to state 139
+    simple_block                   shift and go to state 140
+    declaration                    shift and go to state 5
+    assignment                     shift and go to state 6
+    definition                     shift and go to state 7
+    if_conditional                 shift and go to state 26
+    while_loop                     shift and go to state 27
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 157
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN . expression ; }
+    (53) expression -> . ( expression )
+    (54) expression -> . function_call
+    (55) expression -> . object_call
+    (56) expression -> . INTEGER
+    (57) expression -> . REAL
+    (58) expression -> . CHAR
+    (59) expression -> . TR
+    (60) expression -> . FL
+    (61) expression -> . NULL
+    (62) expression -> . STRING_IMPLICIT
+    (63) expression -> . PLUS expression
+    (64) expression -> . expression PLUS expression
+    (65) expression -> . MINUS expression
+    (66) expression -> . expression MINUS expression
+    (67) expression -> . NOT expression
+    (68) expression -> . expression TIMES expression
+    (69) expression -> . expression DIVIDE expression
+    (70) expression -> . expression AND expression
+    (71) expression -> . expression OR expression
+    (72) expression -> . expression LT expression
+    (73) expression -> . expression LE expression
+    (74) expression -> . expression EQ expression
+    (75) expression -> . expression GE expression
+    (76) expression -> . expression GT expression
+    (77) function_call -> . STRING_IMPLICIT ( function_call_list )
+    (82) object_call -> . STRING_IMPLICIT object_attribute_list
+
+    (               shift and go to state 14
+    INTEGER         shift and go to state 17
+    REAL            shift and go to state 18
+    CHAR            shift and go to state 19
+    TR              shift and go to state 20
+    FL              shift and go to state 21
+    NULL            shift and go to state 22
+    STRING_IMPLICIT shift and go to state 59
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    NOT             shift and go to state 25
+
+    expression                     shift and go to state 159
+    function_call                  shift and go to state 15
+    object_call                    shift and go to state 16
+
+state 158
+
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty . }
+
+    }               shift and go to state 160
+
+
+state 159
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression . ; }
+    (64) expression -> expression . PLUS expression
+    (66) expression -> expression . MINUS expression
+    (68) expression -> expression . TIMES expression
+    (69) expression -> expression . DIVIDE expression
+    (70) expression -> expression . AND expression
+    (71) expression -> expression . OR expression
+    (72) expression -> expression . LT expression
+    (73) expression -> expression . LE expression
+    (74) expression -> expression . EQ expression
+    (75) expression -> expression . GE expression
+    (76) expression -> expression . GT expression
+
+    ;               shift and go to state 161
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    AND             shift and go to state 42
+    OR              shift and go to state 43
+    LT              shift and go to state 44
+    LE              shift and go to state 45
+    EQ              shift and go to state 46
+    GE              shift and go to state 47
+    GT              shift and go to state 48
+
+
+state 160
+
+    (46) if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .
+
+    LET             reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    STRING_IMPLICIT reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    TYPE            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    (               reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    INTEGER         reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    REAL            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    CHAR            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    TR              reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    FL              reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    NULL            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    PLUS            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    MINUS           reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    NOT             reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    FUNCTION        reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    IF              reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    WHILE           reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    $end            reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    }               reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+    RETURN          reduce using rule 46 (if_conditional -> IF ( expression ) { block_body_nonempty } ELSE { block_body_nonempty } .)
+
+
+state 161
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; . }
+
+    }               shift and go to state 162
+
+
+state 162
+
+    (48) function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .
+
+    LET             reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    STRING_IMPLICIT reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    TYPE            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    (               reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    INTEGER         reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    REAL            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    CHAR            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    TR              reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    FL              reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    NULL            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    PLUS            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    MINUS           reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    NOT             reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    FUNCTION        reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    IF              reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    WHILE           reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+    $end            reduce using rule 48 (function -> FUNCTION STRING_IMPLICIT ( argument_list ) : type { block_body RETURN expression ; } .)
+

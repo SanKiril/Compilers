@@ -1,102 +1,110 @@
 from typing import Any, List, Union
-from ajs_lexer import AJSLexer
+from ajs_object import AJSObject
 
 
-type_map = {
-    "PLUS": {
-        "INT": "INT",
-        "FLOAT": "FLOAT",
-        "CHARACTER": "CHARACTER"
-    },
-    "MINUS": {
-        "INT": "INT",
-        "FLOAT": "FLOAT",
-        "CHARACTER": "CHARACTER"
-    },
-    "TIMES": {
-        "INT": "INT",
-        "FLOAT": "FLOAT"
-    },
-    "DIVIDE": {
-        "INT": "INT",
-        "FLOAT": "FLOAT"
-    },
-    "LE": {
-        "INT": "BOOLEAN",
-        "FLOAT": "BOOLEAN",
-        "CHARACTER": "BOOLEAN"
-    },
-    "LT": {
-        "INT": "BOOLEAN",
-        "FLOAT": "BOOLEAN",
-        "CHARACTER": "BOOLEAN"
-    },
-    "GE": {
-        "INT": "BOOLEAN",
-        "FLOAT": "BOOLEAN",
-        "CHARACTER": "BOOLEAN"
-    },
-    "GT": {
-        "INT": "BOOLEAN",
-        "FLOAT": "BOOLEAN",
-        "CHARACTER": "BOOLEAN"
-    },
-    "EQ": {
-        "INT": "BOOLEAN",
-        "FLOAT": "BOOLEAN",
-        "CHARACTER": "BOOLEAN",
-        "BOOLEAN": "BOOLEAN"
-    },
-    "AND": {
-        "BOOLEAN": "BOOLEAN"
-    },
-    "OR": {
-        "BOOLEAN": "BOOLEAN"
-    },
-    "NOT": {
-        "BOOLEAN": "BOOLEAN"
+class AJSOperator(AJSObject):
+    type_map = {
+        "PLUS": {
+            "INT": "INT",
+            "FLOAT": "FLOAT",
+            "CHARACTER": "CHARACTER"
+        },
+        "MINUS": {
+            "INT": "INT",
+            "FLOAT": "FLOAT",
+            "CHARACTER": "CHARACTER"
+        },
+        "TIMES": {
+            "INT": "INT",
+            "FLOAT": "FLOAT"
+        },
+        "DIVIDE": {
+            "INT": "INT",
+            "FLOAT": "FLOAT"
+        },
+        "LE": {
+            "INT": "BOOLEAN",
+            "FLOAT": "BOOLEAN",
+            "CHARACTER": "BOOLEAN"
+        },
+        "LT": {
+            "INT": "BOOLEAN",
+            "FLOAT": "BOOLEAN",
+            "CHARACTER": "BOOLEAN"
+        },
+        "GE": {
+            "INT": "BOOLEAN",
+            "FLOAT": "BOOLEAN",
+            "CHARACTER": "BOOLEAN"
+        },
+        "GT": {
+            "INT": "BOOLEAN",
+            "FLOAT": "BOOLEAN",
+            "CHARACTER": "BOOLEAN"
+        },
+        "EQ": {
+            "INT": "BOOLEAN",
+            "FLOAT": "BOOLEAN",
+            "CHARACTER": "BOOLEAN",
+            "BOOLEAN": "BOOLEAN"
+        },
+        "AND": {
+            "BOOLEAN": "BOOLEAN"
+        },
+        "OR": {
+            "BOOLEAN": "BOOLEAN"
+        },
+        "NOT": {
+            "BOOLEAN": "BOOLEAN"
+        }
     }
-}
 
-type_conversions = ["CHARACTER", "INT", "FLOAT"]
+    type_conversions = ["CHARACTER", "INT", "FLOAT"]
 
-
-class AJSOperator:
-    def __init__(self, operator_input_type: Union[str, List[str]], operator_type: str, operator_value: Any):
-        # ERROR HANDLING
-        if not isinstance(operator_input_type, (str, list)):
-            raise TypeError(f"INCORRECT TYPE FOR `operator_input_type`:\n"
-                f"# PROVIDED: {type(operator_input_type)}\n"
-                f"# EXPECTED: `list` || `str`")
-        
-        if not isinstance(operator_type, str):
-            raise TypeError(f"INCORRECT TYPE FOR `operator_type`:\n"
-                f"# PROVIDED: {type(operator_type)}\n"
-                f"# EXPECTED: `str`")
-        
-        operator_input_type = list(operator_input_type)
-        if not all(item in list(AJSLexer().reserved.keys()) for item in operator_input_type):
-            raise ValueError(f"INCORRECT VALUE FOR `operator_input_type`:\n"
-                f"# PROVIDED: {operator_input_type}\n"
-                f"# EXPECTED: Any of {list(AJSLexer().reserved.keys())}")
-
-        self.type = operator_type
-        self.value = operator_value
-        self.return_type = self.__map_types(operator_input_type)
+    def __init__(self, type: str, value: Any):
+        super().__init__(type, value)
     
-    def __map_types(self, operator_input_type: List[str]) -> Union[str, None]:
+    def evaluate(self, operands: List[AJSObject]) -> AJSObject:
+        # ERROR HANDLING
+        if not isinstance(operands, list):
+            raise TypeError(f"INCORRECT TYPE FOR `operands`:\n"
+                f"# PROVIDED: {type(operands)}\n"
+                f"# EXPECTED: `list`")
+        
+        for operand in operands:
+            if not isinstance(operand, AJSObject):
+                raise ValueError(f"INCORRECT TYPE FOR `operand` in `operands`:\n"
+                    f"# PROVIDED: {type(operand)}\n"
+                    f"# EXPECTED: `AJSObject`")
+        
         # unary operators
-        if len(operator_input_type) == 1:
-            # try to get the type of the input
+        if len(operands) == 1:
             try:
-                return type_map[self.type][operator_input_type[0]]
+                return AJSObject(self.type_map[self.type][operands[0].type], eval(f"{self.value} {operands[0].value}"))
             except KeyError:
                 return
         # binary operators
         else:
-            # try to get the type of the input
             try:
-                type_map[self.type][operator_input_type[0]]
-                type_map[self.type][operator_input_type[1]]
+                return AJSObject(self.__common_type(operands), eval(f"{operands[0].value} {self.value} {operands[1].value}"))
             except KeyError:
                 return
+    
+    def __common_type(self, operands: List[AJSObject]) -> str:
+        try:
+            first_retype = self.type_map[self.type][operands[0].type]
+            second_retype = self.type_map[self.type][operands[1].type]
+            if self.type_conversions.index(first_retype) >= self.type_conversions.index(second_retype):
+                self.__type_cast(operands[0].type, operands[1])
+                return operands[0].type
+            else:
+                self.__type_cast(operands[1].type, operands[0])
+                return operands[1].type
+        except ValueError:
+            return operands[0].type  # == operands[1].type
+    
+    def __type_cast(self, type: str, operand: AJSObject):
+        if type == "FLOAT":
+            operand.value = float(operand.value)
+        if type == "INT":
+            operand.value = int(operand.value)

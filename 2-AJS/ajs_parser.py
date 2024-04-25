@@ -30,7 +30,6 @@ class AJSParser:
             | block file
             | empty
         """
-        p[0] = {} if p[1] is None else p[1]
     
     def p_statement(self, p):
         """
@@ -39,21 +38,19 @@ class AJSParser:
             | definition ';'
             | expression ';'
         """
-        p[0] = p[1]
+        print("statement", p[1])
     
     def p_block(self, p):
         """
         block : simple_block
             | function
         """
-        p[0] = p[1]
     
     def p_simple_block(self, p):
         """
         simple_block : if_conditional
             | while_loop
         """
-        p[0] = p[1]
     
     def p_block_body(self, p):
         """
@@ -73,7 +70,6 @@ class AJSParser:
         """
         declaration : LET declaration_content
         """
-        p[0] = p[2]
     
     def p_declaration_content(self, p):
         """
@@ -86,7 +82,6 @@ class AJSParser:
         item : STRING_IMPLICIT ':' STRING_IMPLICIT
             | STRING_IMPLICIT
         """
-        p[0] = p[1]
     
     def p_assignment(self, p):
         """
@@ -99,7 +94,6 @@ class AJSParser:
         assignment_content : expression
             | object
         """
-        p[0] = p[1]
     
     def p_definition(self, p):
         """
@@ -110,11 +104,10 @@ class AJSParser:
         """
         definition_object : '{' definition_object_content '}'
         """
-        p[0] = p[2]
     
     def p_definition_object_content(self, p):
         """
-        definition_object_content : definition_object_item ',' definition_object_content_nonempty
+        definition_object_content : definition_object_item ',' definition_object_content
             | definition_object_item
             | definition_object_item ','
         """
@@ -128,7 +121,6 @@ class AJSParser:
         """
         object : '{' object_content '}'
         """
-        p[0] = p[2]
     
     def p_object_content(self, p):
         """
@@ -147,7 +139,6 @@ class AJSParser:
         key : STRING_EXPLICIT
             | STRING_IMPLICIT
         """
-        p[0] = p[1]
     
     def p_type(self, p):
         """
@@ -157,7 +148,6 @@ class AJSParser:
             | BOOLEAN
             | STRING_IMPLICIT
         """
-        p[0] = p[1]
     
     def p_if_conditional(self, p):
         """
@@ -241,54 +231,100 @@ class AJSParser:
         else:
             print("ERROR")
         """
-
+    
     def p_plus(self, p):
         """
         expression : PLUS expression %prec UPLUS
+            | expression PLUS expression
         """
-        p[1] = AJSOperator(p[2].type, "PLUS", p[1])
-        if not p[1].return_type:
-            print("ERROR")
-        p[0] = AJSObject(p[1].return_type, p[1].return_value)
+        if len(p) == 3:
+            p[1] = AJSOperator("PLUS", p[1])
+            p[0] = p[1].evaluate([p[2]])
+        else:
+            p[2] = AJSOperator("PLUS", p[2])
+            p[0] = p[2].evaluate([p[1], p[3]])
     
     def p_minus(self, p):
         """
         expression : MINUS expression %prec UMINUS
+            | expression MINUS expression
         """
-        p[1] = AJSOperator(p[2].type, "MINUS", p[1])
-        if not p[1].return_type:
-            print("ERROR")
-        p[0] = AJSObject(p[1].return_type, p[1].return_value)
+        if len(p) == 3:
+            p[1] = AJSOperator("MINUS", p[1])
+            p[0] = p[1].evaluate([p[2]])
+        else:
+            p[2] = AJSOperator("MINUS", p[2])
+            p[0] = p[2].evaluate([p[1], p[3]])
     
     def p_not(self, p):
         """
         expression : NOT expression
         """
-        p[1] = AJSOperator(p[2].type, "NOT", p[1])
-        if not p[1].return_type:
-            print("ERROR")
-        p[0] = AJSObject(p[1].return_type, eval(f"{p[1].value} {p[2].value}"))
+        p[1] = AJSOperator("NOT", p[1])
+        p[0] = p[1].evaluate([p[2]])
 
-    def p_binary_expression(self, p):
+    def p_times(self, p):
         """
-        expression : expression PLUS expression
-            | expression MINUS expression
-            | expression TIMES expression
-            | expression DIVIDE expression
-            | expression AND expression
-            | expression OR expression
-            | expression LT expression
-            | expression LE expression
-            | expression EQ expression
-            | expression GE expression
-            | expression GT expression
+        expression : expression TIMES expression
         """
+        p[2] = AJSOperator("TIMES", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_divide(self, p):
         """
-        p[2] = AJSOperator([p[1].type, p[3].type], p[2])
-        if not p[2].return_type:
-            print("ERROR")
-        p[0] = AJSObject(p[2].return_type, eval(f"{p[1].value} {p[2].value} {p[3].value}"))
+        expression : expression DIVIDE expression
         """
+        p[2] = AJSOperator("DIVIDE", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_and(self, p):
+        """
+        expression : expression AND expression
+        """
+        p[2] = AJSOperator("AND", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_or(self, p):
+        """
+        expression : expression OR expression
+        """
+        p[2] = AJSOperator("OR", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_lt(self, p):
+        """
+        expression : expression LT expression
+        """
+        p[2] = AJSOperator("LT", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_le(self, p):
+        """
+        expression : expression LE expression
+        """
+        p[2] = AJSOperator("LE", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_eq(self, p):
+        """
+        expression : expression EQ expression
+        """
+        p[2] = AJSOperator("EQ", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_ge(self, p):
+        """
+        expression : expression GE expression
+        """
+        p[2] = AJSOperator("GE", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
+    
+    def p_gt(self, p):
+        """
+        expression : expression GT expression
+        """
+        p[2] = AJSOperator("GT", p[2])
+        p[0] = p[2].evaluate([p[1], p[3]])
 
     def p_function_call(self, p):
         """
@@ -343,7 +379,7 @@ class AJSParser:
                 f"# PROVIDED: {file_path}")
         
         # parse
-        print(self.parser.parse(data))
+        self.parser.parse(data)
 
         # output directory
         if not os.path.exists("./output/"):
