@@ -1,0 +1,88 @@
+// SINGLE EXPRESSIONS
+12;  // INTEGER (INT)
+12.34;  // REAL (FLOAT)
+'a';  // CHAR (CHARACTER)
+tr;  // TR (BOOLEAN)
+fl;  // FL (BOOLEAN)
+null;  // NULL (NULL)
+
+// SIMPLE UNARY EXPRESSIONS
+// PLUS
++12;  // INT [OK] -> INT
++12.34;  // FLOAT [OK] -> FLOAT
++'a';  // CHARACTER [OK] -> CHARACTER
+
+// MINUS
+-12;  // INT [OK] -> INT
+-12.34;  // FLOAT [OK] -> FLOAT
+-'a';  // CHARACTER [OK] -> CHARACTER
+
+// NOT
+!tr;  // BOOLEAN [OK] -> BOOLEAN
+
+// SIMPLE BINARY EXPRESSIONS
+// PLUS
+12 + 12;  // INT [OK], INT [OK] -> INT
+12 + 12.34;  // INT [OK], FLOAT [OK] -> FLOAT, FLOAT -> FLOAT
+12 + 'a';  // INT [OK], CHARACTER [OK] -> INT, INT -> INT
+12.34 + 'a';  // FLOAT [OK], CHARACTER [OK] -> FLOAT, FLOAT -> FLOAT
+
+// MINUS
+12 - 12;  // INT [OK], INT [OK] -> INT
+12 - 12.34;  // INT [OK], FLOAT [OK] -> FLOAT, FLOAT -> FLOAT
+12 - 'a';  // INT [OK], CHARACTER [OK] -> INT, INT -> INT
+12.34 - 'a';  // FLOAT [OK], CHARACTER [OK] -> FLOAT, FLOAT -> FLOAT
+
+// TIMES
+12 * 12;  // INT [OK], INT [OK] -> INT
+12 * 12.34;  // INT [OK], FLOAT [OK] -> FLOAT, FLOAT -> FLOAT
+
+// DIVIDE
+12 / 12;  // INT [OK], INT [OK] -> INT
+12 / 12.34;  // INT [OK], FLOAT [OK] -> FLOAT, FLOAT -> FLOAT
+
+// LE
+12 <= 12;  // INT [OK], INT [OK] -> BOOLEAN
+12 <= 12.34;  // INT [OK], FLOAT [OK] -> BOOLEAN
+12 <= 'a';  // INT [OK], CHARACTER [OK] -> BOOLEAN
+12.34 <= 'a';  // FLOAT [OK], CHARACTER [OK] -> BOOLEAN
+
+// LT
+12 < 12;  // INT [OK], INT [OK] -> BOOLEAN
+12 < 12.34;  // INT [OK], FLOAT [OK] -> BOOLEAN
+12 < 'a';  // INT [OK], CHARACTER [OK] -> BOOLEAN
+12.34 < 'a';  // FLOAT [OK], CHARACTER [OK] -> BOOLEAN
+
+// GE
+12 >= 12;  // INT [OK], INT [OK] -> BOOLEAN
+12 >= 12.34;  // INT [OK], FLOAT [OK] -> BOOLEAN
+12 >= 'a';  // INT [OK], CHARACTER [OK] -> BOOLEAN
+12.34 >= 'a';  // FLOAT [OK], CHARACTER [OK] -> BOOLEAN
+
+// GT
+12 > 12;  // INT [OK], INT [OK] -> BOOLEAN
+12 > 12.34;  // INT [OK], FLOAT [OK] -> BOOLEAN
+12 > 'a';  // INT [OK], CHARACTER [OK] -> BOOLEAN
+12.34 > 'a';  // FLOAT [OK], CHARACTER [OK] -> BOOLEAN
+
+// EQ
+12 == 12;  // INT [OK], INT [OK] -> BOOLEAN
+12 == 12.34;  // INT [OK], FLOAT [OK] -> BOOLEAN
+12 == 'a';  // INT [OK], CHARACTER [OK] -> BOOLEAN
+12 == null;  // INT [OK], NULL [OK] -> BOOLEAN
+12 == tr;  // INT [OK], BOOLEAN [OK] -> BOOLEAN
+12.34 == 'a';  // FLOAT [OK], CHARACTER [OK] -> BOOLEAN
+
+// AND
+tr && fl;  // BOOLEAN [OK], BOOLEAN [OK] -> BOOLEAN
+
+// OR
+tr || fl;  // BOOLEAN [OK], BOOLEAN [OK] -> BOOLEAN
+
+// COMPLEX EXPRESSIONS
+5 + 6 * (10 - 5) / 2;
+!(tr && (tr || fl && !tr));
+0b11 <= -0056 || -0xff >= 12;
+null == !(1 < 1);
+30 == (20 > (10 / 10));
+((((-5))) * ((((0.0)))));

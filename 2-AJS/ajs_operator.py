@@ -46,7 +46,8 @@ class AJSOperator(AJSObject):
             "INT": "BOOLEAN",
             "FLOAT": "BOOLEAN",
             "CHARACTER": "BOOLEAN",
-            "BOOLEAN": "BOOLEAN"
+            "BOOLEAN": "BOOLEAN",
+            "NULL": "BOOLEAN"
         },
         "AND": {
             "BOOLEAN": "BOOLEAN"
@@ -73,7 +74,7 @@ class AJSOperator(AJSObject):
         
         for operand in operands:
             if not isinstance(operand, AJSObject):
-                raise ValueError(f"INCORRECT TYPE FOR `operand` in `operands`:\n"
+                raise TypeError(f"INCORRECT TYPE FOR `operand` in `operands`:\n"
                     f"# PROVIDED: {type(operand)}\n"
                     f"# EXPECTED: `AJSObject`")
         
@@ -82,13 +83,13 @@ class AJSOperator(AJSObject):
             try:
                 return AJSObject(self.type_map[self.type][operands[0].type], eval(f"{self.value} {operands[0].value}"))
             except KeyError:
-                return
+                raise ValueError(f"[ERROR][SEMANTIC]: Operaion not supported: {self.value} {operands[0].value}")
         # binary operators
         else:
             try:
                 return AJSObject(self.__common_type(operands), eval(f"{operands[0].value} {self.value} {operands[1].value}"))
             except KeyError:
-                return
+                raise ValueError(f"[ERROR][SEMANTIC]: Operaion not supported: {operands[0].value} {self.value} {operands[1].value}")
     
     def __common_type(self, operands: List[AJSObject]) -> str:
         try:
@@ -101,7 +102,7 @@ class AJSOperator(AJSObject):
                 self.__type_cast(operands[1].type, operands[0])
                 return operands[1].type
         except ValueError:
-            return operands[0].type  # == operands[1].type
+            return first_retype  # == second_retype
     
     def __type_cast(self, type: str, operand: AJSObject):
         if type == "FLOAT":

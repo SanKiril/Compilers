@@ -38,7 +38,6 @@ class AJSParser:
             | definition ';'
             | expression ';'
         """
-        print("statement", p[1])
     
     def p_block(self, p):
         """
@@ -70,23 +69,70 @@ class AJSParser:
         """
         declaration : LET declaration_content
         """
+        p[0] = p[2]
     
     def p_declaration_content(self, p):
         """
         declaration_content : item ',' declaration_content
             | item
         """
+        if len(p) == 4:
+            p[0] = [p[1]] + p[3]
+        else:
+            p[0] = [p[1]]
     
     def p_item(self, p):
         """
         item : STRING_IMPLICIT ':' STRING_IMPLICIT
             | STRING_IMPLICIT
         """
+        if p[1] in self.__registers:
+            raise ValueError(f"[ERROR][SEMANTIC]: Variable already declared: {p[1]}")
+        elif p[1] in self.__symbols:
+            raise ValueError(f"[ERROR][SEMANTIC]: Variable name can not be a type name: {p[1]}")
+        if len(p) == 4:
+            if p[3] not in self.__symbols:
+                raise ValueError(f"[ERROR][SEMANTIC]: Type not declared: {p[3]}")
+            self.__registers[p[1]] = AJSObject(p[3], None)
+        else:
+            self.__registers[p[1]] = AJSObject("NULL", None)
+        p[0] = p[1]
+    
+    def p_declaration_assignment(self, p):
+        """
+        assignment : declaration ASSIGN assignment_content
+        """
+        for item in p[1]:
+            if p[3].type == "OBJECT":
+                if self.__registers[p[1]].type not in self.__symbols:
+                    raise ValueError(f"[ERROR][SEMANTIC]: Variable is not declared as an object: {p[1]}")
+            self.__registers[item] = p[3]
     
     def p_assignment(self, p):
         """
-        assignment : declaration ASSIGN assignment_content
-            | STRING_IMPLICIT ASSIGN assignment_content
+        assignment : STRING_IMPLICIT ASSIGN assignment_content
+        """
+        if p[1] not in self.__registers:
+            raise ValueError(f"[ERROR][SEMANTIC]: Variable not declared: {p[1]}")
+        if p[3].type == "NULL":  # null assignment
+            if self.__registers[p[1]].type in self.__symbols:
+                p[3].type = self.__registers[p[1]].type  # preserve type
+        elif p[3].type == "OBJECT":  # object assignment
+            if self.__registers[p[1]].type not in self.__symbols:
+                raise ValueError(f"[ERROR][SEMANTIC]: Variable is not declared as an object: {p[1]}")
+            # check object compatibility
+            p[3].type = self.__registers[p[1]].type  # assign object type
+        elif p[3].type in self.__symbols:  # object variable assignment
+            if self.__registers[p[1]].type != p[3].type:
+                raise ValueError(f"[ERROR][SEMANTIC]: Variable must be a compatible object: {p[1]}")
+        else:  # other expressions
+            if self.__registers[p[1]].type in self.__symbols:
+                raise ValueError(f"[ERROR][SEMANTIC]: Variable value must be an object: {p[1]}")
+        self.__registers[p[1]] = p[3]
+    
+    def p_object_call_assignment(self, p):
+        """
+        assignment : object_call ASSIGN assignment_content
         """
     
     def p_assignment_content(self, p):
@@ -94,11 +140,15 @@ class AJSParser:
         assignment_content : expression
             | object
         """
+        p[0] = p[1]
     
     def p_definition(self, p):
         """
         definition : TYPE STRING_IMPLICIT ASSIGN definition_object
         """
+        if p[2] in self.__symbols:
+            raise ValueError(f"[ERROR][SEMANTIC]: Type already declared: {p[2]}")
+        self.__symbols[p[2]] = AJSObject(p[2], p[4])
     
     def p_definition_object(self, p):
         """
@@ -139,6 +189,7 @@ class AJSParser:
         key : STRING_EXPLICIT
             | STRING_IMPLICIT
         """
+        p[0] = p[1]
     
     def p_type(self, p):
         """
@@ -148,6 +199,7 @@ class AJSParser:
             | BOOLEAN
             | STRING_IMPLICIT
         """
+        p[0] = p[1]
     
     def p_if_conditional(self, p):
         """
@@ -223,14 +275,10 @@ class AJSParser:
         """
         expression : STRING_IMPLICIT
         """
-        """
-        if p[1] in self.__symbols:
-            p[0] = p[1]
-        elif p[1] in self.__registers:
-            p[0] = p[1]
+        if p[1] in self.__registers:
+            p[0] = self.__registers[p[1]]
         else:
-            print("ERROR")
-        """
+            raise ValueError(f"[ERROR][SEMANTIC]: Variable not declared: {p[1]}")
     
     def p_plus(self, p):
         """
@@ -385,4 +433,10 @@ class AJSParser:
         if not os.path.exists("./output/"):
             os.makedirs("./output/")
         
-        # output file
+        # symbols output file
+        with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".symbol", 'w', encoding="UTF-8") as file:
+            file.write("\n".join([f"{s}: {self.__symbols[s]}" for s in self.__symbols]))
+        
+        # registers output file
+        with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".register", 'w', encoding="UTF-8") as file:
+            file.write("\n".join([f"{r}: {self.__registers[r]}" for r in self.__registers]))

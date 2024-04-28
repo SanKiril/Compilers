@@ -1,3 +1,6 @@
+// DEFINITIONS
+type Obj1 = {attr1: int, "attr2": Obj2};
+
 // SINGLE DECLARATIONS
 let a;
 
@@ -18,6 +21,8 @@ a = 12;
 a = {attr1: 12};
 a = {attr1: {attr2: 12}};
 a = a;
+a.attr1 = 1e-1;
+a.attr1["attr2"] = a.attr1;
 
 // SINGLE DECLARATIONS & ASSIGNMENTS
 let a = 12;
@@ -34,6 +39,3 @@ let a: Obj1, b: Obj2, c: Obj3 = 12;
 // MIXED DECLARATIONS & ASSIGNMENTS
 let a, b: Obj1, c, d: Obj2 = 12;
 let a, b: Obj1, c, d: Obj2 = {attr1: 12};
-
-// DEFINITIONS
-type Obj1 = {attr1: int, "attr2": Obj2};

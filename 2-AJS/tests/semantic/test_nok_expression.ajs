@@ -1,0 +1,68 @@
+// SIMPLE UNARY EXPRESSIONS
+// PLUS
++tr;  // BOOLEAN [NOK]
++null;  // NULL [NOK]
+
+// MINUS
+-tr;  // BOOLEAN [NOK]
+-null;  // NULL [NOK]
+
+// NOT
+!12;  // INT [NOK]
+!12.34;  // FLOAT [NOK]
+!'a';  // CHARACTER [NOK]
+
+// SIMPLE BINARY EXPRESSIONS
+// PLUS
+12 + tr;  // INT [OK], BOOLEAN [NOK]
+12 + null;  // INT [OK], NULL [NOK]
+
+// MINUS
+12 - tr;  // INT [OK], BOOLEAN [NOK]
+12 - null;  // INT [OK], NULL [NOK]
+
+// TIMES
+12 * 'a';  // INT [OK], CHARACTER [NOK]
+12 * tr;  // INT [OK], BOOLEAN [NOK]
+12 * null;  // INT [OK], NULL [NOK]
+
+// DIVIDE
+12 / 'a';  // INT [OK], CHARACTER [NOK]
+12 / tr;  // INT [OK], BOOLEAN [NOK]
+12 / null;  // INT [OK], NULL [NOK]
+
+// LE
+12 <= tr;  // INT [OK], BOOLEAN [NOK]
+12 <= null;  // INT [OK], NULL [NOK]
+
+// LT
+12 < tr;  // INT [OK], BOOLEAN [NOK]
+12 < null;  // INT [OK], NULL [NOK]
+
+// GE
+12 >= tr;  // INT [OK], BOOLEAN [NOK]
+12 >= null;  // INT [OK], NULL [NOK]
+
+// GT
+12 > tr;  // INT [OK], BOOLEAN [NOK]
+12 > null;  // INT [OK], NULL [NOK]
+
+// EQ
+// ALL [OK]
+
+// AND
+tr && 12;  // BOOLEAN [OK], INT [NOK]
+tr && 12.34;  // BOOLEAN [OK], FLOAT [NOK]
+tr && 'a';  // BOOLEAN [OK], CHARACTER [NOK]
+tr && null;  // BOOLEAN [OK], NULL [NOK]
+
+// OR
+tr || 12;  // BOOLEAN [OK], INT [NOK]
+tr || 12.34;  // BOOLEAN [OK], FLOAT [NOK]
+tr || 'a';  // BOOLEAN [OK], CHARACTER [NOK]
+tr || null;  // BOOLEAN [OK], NULL [NOK]
+
+// COMPLEX EXPRESSIONS
+20 < 15 > 10;
+20 < 15 == 10;
+-(!20 > +null);

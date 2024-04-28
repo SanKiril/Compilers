@@ -13,4 +13,4 @@ class AJSObject:
         self.value = value
     
     def __str__(self) -> str:
-        return f"({self.type}: {self.value})"
+        return f"({self.type}, {self.value})"
