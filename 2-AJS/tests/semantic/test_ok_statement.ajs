@@ -11,12 +11,12 @@ let a;
 let b, c, d;
 
 // SINGLE TYPED DECLARATIONS
-let e: Obj;
+let e: Object;
 
 // MULTIPLE TYPED DECLARATIONS
-let f: Object, g: Object, h;
+let f: Obj, g: Obj, h;
 
-// EXPRESSION ASSIGNMENT
+// EXPRESSION ASSIGNMENTS
 a = 1;
 
 // EXPRESSION REASSIGNMENTS
@@ -25,16 +25,24 @@ a = tr;
 a = null;
 a = 6 * 10 / 2;
 
-// OBJECT ASSIGNMENT
-f = {attr1: 12};
+// OBJECT ASSIGNMENTS
+f = {attr1: {attr1: 12}, attr2: tr};
 g = null;
 g = f;
 
-// SINGLE DECLARATION & ASSIGNMENT
+// OBJECT ATTRIBUTE ASSIGNEMENTS
+f.attr2 = 2 < 4;
+a = fl;
+f.attr2 = a;
+f.attr1 = {attr1: 3 + -2};
+e = {attr1: ''' + ''' -1};
+f.attr1 = e;
+
+// SINGLE DECLARATIONS & ASSIGNMENTS
 let i = 1;
 
 // MULTIPLE DECLARATIONS & ASSIGNMENTS
 let j, k, l = 0xfF;
 
-// MULTI-OBJECT ASSIGNMENT
+// MULTI-OBJECT ASSIGNMENTS
 let m: Object, n: Object, o: Object = {attr1: 12};

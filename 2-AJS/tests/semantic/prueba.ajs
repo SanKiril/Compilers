@@ -1,1 +1,32 @@
-30 > (20 > (10 / 10));
+type CARACA = {"hello": int, "bye": boolean};
+type Obj = {"avala": int, a: CARACA};
+
+let a: Obj;
+a = {"avala": 12--7, a: {"hello": -9, bye: 2 < 4}};
+
+let b;
+b = a.a.hello;
+
+a.a.hello = 12;
+
+let c;
+c = a.a.hello;
+
+a = null;
+
+c = 'a';
+
+let d: Obj;
+d = {"avala": 12--7, a: {"hello": -9, bye: 2 < 4}};
+d.a = {bye: tr, hello: 30};
+d.a.hello = 1-1;
+d = {"avala": 12--7, a: {"hello": -9, bye: 4 < 4}};
+
+let v1, v2 = 0;
+/*
+while (v1 < 100) {
+	v2 = v2 + 1;
+	v2 = v2 * 2;
+	v1 = v1 + 1;
+}
+*/

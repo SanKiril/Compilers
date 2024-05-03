@@ -3,7 +3,7 @@ from ajs_object import AJSObject
 
 
 class AJSOperator(AJSObject):
-    type_map = {
+    _type_map = {
         "PLUS": {
             "INT": "INT",
             "FLOAT": "FLOAT",
@@ -60,7 +60,7 @@ class AJSOperator(AJSObject):
         }
     }
 
-    type_conversions = ["CHARACTER", "INT", "FLOAT"]
+    _type_conversions = ["CHARACTER", "INT", "FLOAT"]
 
     def __init__(self, type: str, value: Any):
         super().__init__(type, value)
@@ -81,21 +81,27 @@ class AJSOperator(AJSObject):
         # unary operators
         if len(operands) == 1:
             try:
-                return AJSObject(self.type_map[self.type][operands[0].type], eval(f"{self.value} {operands[0].value}"))
+                type = self._type_map[self.type][operands[0].type]
+                return AJSObject(type, eval(f"{self.value} {operands[0].value}"))
             except KeyError:
                 raise ValueError(f"[ERROR][SEMANTIC]: Operaion not supported: {self.value} {operands[0].value}")
+            except TypeError:  # cannot calculate value
+                return AJSObject(type, None)
         # binary operators
         else:
             try:
-                return AJSObject(self.__common_type(operands), eval(f"{operands[0].value} {self.value} {operands[1].value}"))
+                type = self.__common_type(operands)
+                return AJSObject(type, eval(f"{operands[0].value} {self.value} {operands[1].value}"))
             except KeyError:
                 raise ValueError(f"[ERROR][SEMANTIC]: Operaion not supported: {operands[0].value} {self.value} {operands[1].value}")
+            except TypeError:  # cannot calculate value
+                return AJSObject(type, None)
     
     def __common_type(self, operands: List[AJSObject]) -> str:
         try:
-            first_retype = self.type_map[self.type][operands[0].type]
-            second_retype = self.type_map[self.type][operands[1].type]
-            if self.type_conversions.index(first_retype) >= self.type_conversions.index(second_retype):
+            first_retype = self._type_map[self.type][operands[0].type]
+            second_retype = self._type_map[self.type][operands[1].type]
+            if self._type_conversions.index(first_retype) >= self._type_conversions.index(second_retype):
                 self.__type_cast(operands[0].type, operands[1])
                 return operands[0].type
             else:

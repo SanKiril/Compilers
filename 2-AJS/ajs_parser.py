@@ -9,6 +9,7 @@ class AJSParser:
     def __init__(self):
         self.parser = yacc(module=self)
         self.__symbols = {}
+        self.__functions = {}
         self.__registers = {}
 
     tokens = AJSLexer().tokens
@@ -120,8 +121,8 @@ class AJSParser:
         elif p[3].type == "OBJECT":  # object assignment
             if self.__registers[p[1]].type not in self.__symbols:
                 raise ValueError(f"[ERROR][SEMANTIC]: Variable is not declared as an object: {p[1]}")
-            # check object compatibility
             p[3].type = self.__registers[p[1]].type  # assign object type
+            self.__type_structure(p[3])  # check object type compatibility
         elif p[3].type in self.__symbols:  # object variable assignment
             if self.__registers[p[1]].type != p[3].type:
                 raise ValueError(f"[ERROR][SEMANTIC]: Variable must be a compatible object: {p[1]}")
@@ -134,6 +135,15 @@ class AJSParser:
         """
         assignment : object_call ASSIGN assignment_content
         """
+        if p[3].type == "OBJECT":  # object assignment
+            if p[1].type not in self.__symbols:
+                raise ValueError(f"[ERROR][SEMANTIC]: Object attribute is not declared as an object: {p[1].type}")
+            p[3].type = p[1].type  # assign object type
+            self.__type_structure(p[3])  # check object type compatibility
+        else:  # other expressions
+            if p[3].type != p[1].type:  # object attribute type can not be changed
+                raise ValueError(f"[ERROR][SEMANTIC]: Invalid type for object attribute: {p[3].type} != {p[1].type}")
+        p[1].value = p[3].value
     
     def p_assignment_content(self, p):
         """
@@ -147,13 +157,14 @@ class AJSParser:
         definition : TYPE STRING_IMPLICIT ASSIGN definition_object
         """
         if p[2] in self.__symbols:
-            raise ValueError(f"[ERROR][SEMANTIC]: Type already declared: {p[2]}")
+            raise ValueError(f"[ERROR][SEMANTIC]: Type already defined: {p[2]}")
         self.__symbols[p[2]] = AJSObject(p[2], p[4])
     
     def p_definition_object(self, p):
         """
         definition_object : '{' definition_object_content '}'
         """
+        p[0] = p[2]
     
     def p_definition_object_content(self, p):
         """
@@ -161,16 +172,21 @@ class AJSParser:
             | definition_object_item
             | definition_object_item ','
         """
+        p[0] = p[1]
+        if len(p) == 4:
+            p[0].update(p[3])
     
     def p_definition_object_item(self, p):
         """
         definition_object_item : key ':' type
         """
+        p[0] = {p[1]: p[3]}
     
     def p_object(self, p):
         """
         object : '{' object_content '}'
         """
+        p[0] = AJSObject("OBJECT", p[2])
     
     def p_object_content(self, p):
         """
@@ -178,11 +194,15 @@ class AJSParser:
             | object_item
             | object_item ','
         """
+        p[0] = p[1]
+        if len(p) == 4:
+            p[0].update(p[3])
 
     def p_object_item(self, p):
         """
         object_item : key ':' assignment_content
         """
+        p[0] = {p[1]: p[3]}
     
     def p_key(self, p):
         """
@@ -197,8 +217,15 @@ class AJSParser:
             | FLOAT
             | CHARACTER
             | BOOLEAN
-            | STRING_IMPLICIT
         """
+        p[0] = p[1].upper()
+    
+    def p_object_type(self, p):
+        """
+        type : STRING_IMPLICIT
+        """
+        if p[1] not in self.__symbols:
+            raise ValueError(f"[ERROR][SEMANTIC]: Type not defined: {p[1]}")
         p[0] = p[1]
     
     def p_if_conditional(self, p):
@@ -214,20 +241,44 @@ class AJSParser:
     
     def p_function(self, p):
         """
-        function : FUNCTION STRING_IMPLICIT '(' argument_list ')' ':' type '{' block_body RETURN expression ';' '}'
+        function : FUNCTION function_head '{' block_body RETURN expression ';' '}'
         """
+        if p[6].type != self.__functions[p[2][0]].type:
+            raise ValueError(f"[ERROR][SEMANTIC]: Function return type mismatch: {p[6].type} != {self.__functions[p[2][0]].type}")
+            del self.__functions[p[2][0]]
+        for key in self.__functions[p[2][0]].value:
+            if key in p[2][1]:
+                self.__registers[key] = p[2][1][key]  # restore conflicting global variables
+            else:
+                del self.__registers[key]  # delete local variables
+    
+    def p_function_head(self, p):
+        """
+        function_head : STRING_IMPLICIT '(' argument_list ')' ':' type
+        """
+        p[0] = (p[1], p[3][1])  # (name, conflicting global variables)
+        self.__functions[p[1]] = AJSObject(p[6], p[3][0])
     
     def p_argument_list(self, p):
         """
         argument_list : argument_list_nonempty
             | empty
         """
+        p[0] = ({},{}) if p[1] is None else (p[1],{})  # (local variables, conflicting global variables)
+        for key in p[0][0]:
+            if key in p[0][1]:
+                p[0][1].update({key: self.__registers[key]})  # save conflicting global variable
+            else:
+                self.__registers[key] = AJSObject(p[0][0][key], None)  # use local variable
     
     def p_argument_list_nonempty(self, p):
         """
         argument_list_nonempty : STRING_IMPLICIT ':' type ',' argument_list_nonempty
             | STRING_IMPLICIT ':' type
         """
+        p[0] = {p[1]: p[3]}
+        if len(p) == 6:
+            p[0].update(p[5])
     
     def p_expression(self, p):
         """
@@ -378,37 +429,88 @@ class AJSParser:
         """
         function_call : STRING_IMPLICIT '(' function_call_list ')'
         """
+        if p[1] not in self.__functions:
+            raise ValueError(f"[ERROR][SEMANTIC]: Function not declared: {p[1]}")
+        if len(p[3]) != len(self.__functions[p[1]].value.keys()):
+            raise ValueError(f"[ERROR][SEMANTIC]: Incorrect number of arguments for function: {p[1]}")
+        for argument in self.__functions[p[1]].value:
+            if p[3][0].type != self.__functions[p[1]].value[argument]:
+                raise ValueError(f"[ERROR][SEMANTIC]: Incorrect argument type for function: {p[3][0].type} is not the correct type for {argument}")
+            del p[3][0]
+        p[0] = AJSObject(self.__functions[p[1]].type, None)
     
     def p_function_call_list(self, p):
         """
         function_call_list : function_call_list_nonempty
             | empty
         """
+        p[0] = [] if p[1] is None else p[1]
     
     def p_function_call_list_nonempty(self, p):
         """
         function_call_list_nonempty : expression ',' function_call_list_nonempty
             | expression
         """
+        if len(p) == 4:
+            p[0] = [p[1]] + p[3]
+        else:
+            p[0] = [p[1]]
     
     def p_object_call(self, p):
         """
         object_call : STRING_IMPLICIT object_attribute_list
         """
+        if p[1] not in self.__registers:
+            raise ValueError(f"[ERROR][SEMANTIC]: Variable not declared: {p[1]}")
+        try:
+            attribute = self.__registers[p[1]]
+            for key in p[2]:
+                if isinstance(attribute.value, dict):
+                    attribute = attribute.value
+                attribute = attribute[key]
+            p[0] = attribute
+        except (KeyError, TypeError):
+            raise ValueError(f"[ERROR][SEMANTIC]: Incorrect object structure: {p[1]}")
     
     def p_object_attribute_list(self, p):
         """
         object_attribute_list : '[' STRING_EXPLICIT ']' object_attribute_list
             | '.' STRING_IMPLICIT object_attribute_list
-            | '[' STRING_EXPLICIT ']'
+        """
+        if len(p) == 5:
+            p[0] = [p[2]] + p[4]
+        else:
+            p[0] = [p[2]] + p[3]
+    
+    def p_object_attribute(self, p):
+        """
+        object_attribute_list : '[' STRING_EXPLICIT ']'
             | '.' STRING_IMPLICIT
         """
+        p[0] = [p[2]]
 
     def p_empty(self, p):
         """
         empty :
         """
         pass
+    
+    # AUXILAR METHODS
+    def __type_structure(self, object: AJSObject):
+        # length
+        if len(self.__symbols[object.type].value.keys()) != len(object.value.keys()):
+            raise ValueError(f"[ERROR][SEMANTIC]: Incorrect object structure: {object.type}")
+        # object items
+        for key in object.value:
+            try:
+                # object item type
+                if object.value[key].type == "OBJECT":
+                    object.value[key].type = self.__symbols[object.type].value[key]
+                    self.__type_structure(object.value[key])
+                elif self.__symbols[object.type].value[key] != object.value[key].type:
+                    raise ValueError(f"[ERROR][SEMANTIC]: Incorrect object structure: {object.type}")
+            except KeyError:
+                raise ValueError(f"[ERROR][SEMANTIC]: Incorrect object structure: {object.type}")
 
     # ERROR HANDLING
     def p_error(self, p):
@@ -436,6 +538,7 @@ class AJSParser:
         # symbols output file
         with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".symbol", 'w', encoding="UTF-8") as file:
             file.write("\n".join([f"{s}: {self.__symbols[s]}" for s in self.__symbols]))
+            file.write("\n".join([f"{f}: {self.__functions[f]}" for f in self.__functions]))
         
         # registers output file
         with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".register", 'w', encoding="UTF-8") as file:

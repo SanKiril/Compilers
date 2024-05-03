@@ -1,0 +1,45 @@
+// EMPTY ARGUMENT LIST FUNCTION DEFINITION
+function fun1(): int {return 12;}
+
+// 1 ARGUMENT FUNCTION DEFINITION
+function fun2(a: int): int {return 12;}
+
+// MULTIPLE ARGUMENTS FUNCTION DEFINITION
+function fun3(a: int, b: character, fun: boolean): int {return 12;}
+
+// FUNCTION REDEFINITION
+function fun1(a: int, b: character, fun: boolean): character {return 'r';}
+
+// NON-EMPTY BODY FUNCTION DEFINITION
+function fun4(): character {
+	let a = 'r';
+	return a;
+}
+function fun5(a: character): character {
+	return a;
+}
+function fun6(b: character): character {
+	b = 'a';
+	return b;
+}
+function fun7(a: character): character {
+	return a - 'a';
+}
+function fun8(b: character): character {
+	return fun7('a');
+}
+function fun9(a: character): character {
+	return fun8(a);
+}
+
+// RECURSIVE FUNCTIONS
+function fun10(b: character): character {
+	return fun10(b);
+}
+
+// EMPTY FUNCTION CALL
+let arg = ',';
+fun1(12, arg, tr == null);
+
+// NON-EMPTY FUNCTION CALL
+fun7('a');

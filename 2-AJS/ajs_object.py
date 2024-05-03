@@ -14,3 +14,6 @@ class AJSObject:
     
     def __str__(self) -> str:
         return f"({self.type}, {self.value})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()

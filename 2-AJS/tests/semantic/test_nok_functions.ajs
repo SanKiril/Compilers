@@ -1,0 +1,21 @@
+// RETURN TYPE MISMATCH FUNCTION DEFINITION
+function fun(): int {return 'a';}
+function fun(): int {
+	let a;  // type is NULL
+	return a;  // NULL != INT
+}
+function fun(a: boolean): int {
+	return a;  // BOOLEAN != INT
+}
+
+// NON-DEFINED RETURN TYPE FUNCTION DEFINITION
+function fun(): Object {return 12;}
+
+// NON-DEFINED ARGUMENT TYPE FUNCTION DEFINITION
+function fun(a: Object): int {return 12;}
+
+// INCORRECT ARGUMENT TYPES FUNCTION CALL
+fun(12);
+
+// INCORRECT NUMBER OF ARGUMENT FUNCTION CALL
+fun('a', 'b');

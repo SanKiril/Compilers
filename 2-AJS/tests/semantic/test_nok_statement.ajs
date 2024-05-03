@@ -1,35 +1,42 @@
 // NOT DEFINED TYPE USED IN DEFINITIONS
 type CustomObject = {attr1: Object};
+type CustomObject = {attr1: CustomObject};
 
-// REDEFINITION
+// REDEFINITIONS
 type Object = {attr1: int};
 type Object = {attr1: int, attr2: character};
 
 // NOT DEFINED TYPE USED IN DECLARATIONS
 let b: Obj;
 
-// DECLARATION OF A TYPE
+// DECLARATIONS OF A TYPE
 let Object;
 let Object: Object;
 
-// REDECLARATION
+// REDECLARATIONS
 let a;
 let a;
 
-// NON-OBJECT ASSIGNMENT
-let obj: Obj;
+// NON-OBJECT ASSIGNMENTS
+let obj: Object;
 obj = 1;
 
-// INVALID TYPE ASSIGNEMENT 
-let object: Obj;
+// INVALID OBJECT ASSIGNEMENTS
+let object: Object;
 object = {attr2: 12};
 object = {attr1: tr};
 object = {attr1: 12, attr2: tr};
 
-// ASSIGNMENT BEFORE DECLARATION
+// INVALID OBJECT ATTRIBUTE ASSIGNMENTS
+object.attr1 = -23e-1;
+object.attr1 = null;
+object.attr1 = {attr: 10};
+object.attr1["attr3"].attr4 = 7 == 4;
+
+// ASSIGNMENTS BEFORE DECLARATION
 c = 1;
 
-// INVALID TYPE MULTI-OBJECT ASSIGNEMENT
+// INVALID TYPE MULTI-OBJECT ASSIGNEMENTS
 let d = {attr1: 12};
 let e, f, g = {attr1: 12};
 let h, i: Object, j: Object = {attr1: 12};
