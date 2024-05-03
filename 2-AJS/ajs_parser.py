@@ -104,9 +104,22 @@ class AJSParser:
         assignment : declaration ASSIGN assignment_content
         """
         for item in p[1]:
-            if p[3].type == "OBJECT":
-                if self.__registers[p[1]].type not in self.__symbols:
-                    raise ValueError(f"[ERROR][SEMANTIC]: Variable is not declared as an object: {p[1]}")
+            if p[3].type == "NULL":  # null assignment
+                if self.__registers[item].type in self.__symbols:
+                    p[3].type = self.__registers[item].type  # preserve type
+                else:
+                    p[3].type = "NULL"
+            elif p[3].type == "OBJECT":  # object assignment
+                if self.__registers[item].type not in self.__symbols:
+                    raise ValueError(f"[ERROR][SEMANTIC]: Variable is not declared as an object: {item}")
+                p[3].type = self.__registers[item].type  # assign object type
+                self.__type_structure(p[3])  # check object type compatibility
+            elif p[3].type in self.__symbols:  # object variable assignment
+                if self.__registers[item].type != p[3].type:
+                    raise ValueError(f"[ERROR][SEMANTIC]: Variable must be a compatible object: {item}")
+            else:  # other expressions
+                if self.__registers[item].type in self.__symbols:
+                    raise ValueError(f"[ERROR][SEMANTIC]: Variable value must be an object: {item}")
             self.__registers[item] = p[3]
     
     def p_assignment(self, p):

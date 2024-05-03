@@ -43,6 +43,7 @@ let i = 1;
 
 // MULTIPLE DECLARATIONS & ASSIGNMENTS
 let j, k, l = 0xfF;
+let m, n, o = null;
 
 // MULTI-OBJECT ASSIGNMENTS
-let m: Object, n: Object, o: Object = {attr1: 12};
+let p: Object, q: Object, r: Object = {attr1: 12};

@@ -16,6 +16,7 @@ let Object: Object;
 // REDECLARATIONS
 let a;
 let a;
+let b, b;
 
 // NON-OBJECT ASSIGNMENTS
 let obj: Object;
