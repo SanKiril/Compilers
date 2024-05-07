@@ -257,8 +257,8 @@ class AJSParser:
         function : FUNCTION function_head '{' block_body RETURN expression ';' '}'
         """
         if p[6].type != self.__functions[p[2][0]].type:
-            raise ValueError(f"[ERROR][SEMANTIC]: Function return type mismatch: {p[6].type} != {self.__functions[p[2][0]].type}")
             del self.__functions[p[2][0]]
+            raise ValueError(f"[ERROR][SEMANTIC]: Function return type mismatch: {p[6].type} != {self.__functions[p[2][0]].type}")
         for key in self.__functions[p[2][0]].value:
             if key in p[2][1]:
                 self.__registers[key] = p[2][1][key]  # restore conflicting global variables
@@ -449,7 +449,7 @@ class AJSParser:
         for argument in self.__functions[p[1]].value:
             if p[3][0].type != self.__functions[p[1]].value[argument]:
                 raise ValueError(f"[ERROR][SEMANTIC]: Incorrect argument type for function: {p[3][0].type} is not the correct type for {argument}")
-            del p[3][0]
+            del p[3][0]  # remove processed argument
         p[0] = AJSObject(self.__functions[p[1]].type, None)
     
     def p_function_call_list(self, p):
@@ -548,7 +548,7 @@ class AJSParser:
         if not os.path.exists("./output/"):
             os.makedirs("./output/")
         
-        # symbols output file
+        # symbols & functions output file
         with open("./output/" + os.path.splitext(os.path.basename(file_path))[0] + ".symbol", 'w', encoding="UTF-8") as file:
             file.write("\n".join([f"{s}: {self.__symbols[s]}" for s in self.__symbols]))
             file.write("\n".join([f"{f}: {self.__functions[f]}" for f in self.__functions]))
